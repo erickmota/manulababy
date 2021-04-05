@@ -10,53 +10,6 @@ body{
 
 }
 
-#logo{
-
-    max-width: 270px;
-
-}
-
-#menuPrincipal{
-
-    list-style: none;
-    margin-top: 60px;
-
-}
-
-#menuPrincipal li{
-
-    display: inline;
-    padding-right: 3px;
-    padding-left: 3px;
-
-}
-
-#menuPrincipal li:hover{
-
-    border-bottom: 3px solid #ca918a;
-    cursor: pointer;
-    padding-bottom: 5px;
-
-}
-
-#iconeUser, #iconeBag, #iconeBusca{
-
-    width: 45px;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-top: 45px;
-
-}
-
-#iconeUserMobile, #iconeBagMobile, #iconeBuscaMobile{
-
-    width: 35px;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-top: 20px;
-
-}
-
 #imgSlide{
 
     height: 350px;

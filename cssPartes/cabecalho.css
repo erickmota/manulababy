@@ -1,0 +1,147 @@
+#logo{
+
+    max-width: 270px;
+
+}
+
+#iconeUser, #iconeBag, #iconeBusca{
+
+    width: 45px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 45px;
+    cursor: pointer;
+
+}
+
+#iconeUserMobile, #iconeBagMobile, #iconeBuscaMobile{
+
+    width: 35px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+
+}
+
+#campoBusca{
+
+    margin-top: 50px;
+    width: 70%;
+    height: 40px;
+    border: none;
+    border-bottom: 2px solid #ca918a;
+    background-image: url("../img/iconeLupa.png");
+    background-position: right;
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position-x: 98%;
+    background-position-y: 5px;
+
+}
+
+#campoBusca:focus{
+
+    box-shadow: 0 0 0 0;
+    outline: 0;
+    border-bottom: 2px solid #ca918a;
+
+}
+
+/* Menu */
+
+#menuPrincipal{
+
+    margin-top: 60px;
+
+}
+
+#menuPricipal ul{
+
+    list-style: none;
+
+}
+
+#menuPrincipal ul li{
+
+    
+    display: inline-block;
+    list-style: none;
+    padding-bottom: 5px;
+
+}
+
+#menuPrincipal a{
+
+    display: block;
+    float: none;
+    padding: 0px 3px;
+
+}
+
+#menuPrincipal li:hover{
+
+    border-bottom: 3px solid #ca918a;
+    cursor: pointer;
+
+}
+
+#menuPrincipal ul ul{
+
+    position: absolute;
+    z-index: 99;
+    list-style: none;
+    background-color: rgb(255, 255, 255);
+    margin-left: -60px;
+    margin-top: 8px;
+    visibility: hidden;
+    border-bottom: 5px solid #ca918a;
+    border-top: 1px solid #f5f5f5;
+    border-left: 1px solid #f5f5f5;
+    border-right: 1px solid #f5f5f5;
+
+}
+
+#menuPrincipal ul li:hover ul{
+
+    visibility: visible;
+
+}
+
+#menuPrincipal ul ul li{
+
+    display: block;
+    width: 200px;
+    margin-left: -32px;
+    padding: 10px 0px;
+    border-bottom: 1px solid #f5f5f5;
+
+}
+
+#menuPrincipal ul ul li:hover{
+
+    border: none;
+    background-color: #f3f3f3;
+    border-bottom: 1px solid #f5f5f5;
+
+}
+
+#subLista{
+
+    z-index: 99;
+    list-style: none;
+    background-color: rgb(255, 255, 255);
+    display: none;
+    border-bottom: 5px solid #ca918a;
+    border-top: 1px solid #f5f5f5;
+    border-left: 1px solid #f5f5f5;
+    border-right: 1px solid #f5f5f5;
+    left: 230px;
+
+}
+
+#menuPrincipal ul ul li:hover #subLista{
+
+    display: inline-block;
+
+}
