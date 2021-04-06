@@ -45,8 +45,8 @@
 
                         <ul class="text-secondary">
 
-                            <li><a>Inicio</a></li>
-                            <li><a>Loja</a></li>
+                            <li><a href="./" class="text-secondary text-decoration-none">Inicio</a></li>
+                            <li><a href="loja" class="text-secondary text-decoration-none">Loja</a></li>
                             <li id="liCategorias"><a>Categorias</a>
 
                                 <ul>
