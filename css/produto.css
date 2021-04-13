@@ -1,0 +1,50 @@
+#imgSlide{
+
+    max-width: 640px;
+
+}
+
+#selectQtd{
+
+    width: auto;
+    height: 35px;
+    border: 1px solid #e4e4e4;
+    border-radius: 5px;
+
+}
+
+#selectQtd:focus{
+
+    box-shadow: 0 0 0 0;
+    outline: 0;
+
+}
+
+#etiquetaPromocao{
+
+    background-color: #9dc8ad;
+    padding: 1px 5px;
+    color: white;
+    border: 1px solid #63cf8b;
+
+}
+
+#boxTamanho{
+
+    width: 50px;
+    height: 50px;
+    border: 1px solid #63cf8b;
+    line-height:40px;
+    display: inline-block;
+    margin: 0px 3px;
+    color: rgb(148, 148, 148);
+
+}
+
+.desativado{
+
+    background-color: whitesmoke;
+    border: 1px solid #CCC!important;
+    color: #CCC!important;
+
+}
