@@ -43,6 +43,55 @@
         });  
     });
 
+    $(document).ready(function() {
+        $('#espacoItem').lightSlider({
+            item:5,
+            slideMove:1,
+            pager: false,
+            controls:false,
+            easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+
+            speed: 700, //ms'
+            auto: true,
+            loop: false,
+            slideEndAnimation: true,
+            pause: 4000,
+            responsive : [
+                {
+                    breakpoint:980,
+                    settings: {
+                        item:4,
+                        slideMove:1,
+                    }
+                },
+
+                {
+                    breakpoint:900,
+                    settings: {
+                        item:3,
+                        slideMove:1,
+                    }
+                },
+
+                {
+                    breakpoint:550,
+                    settings: {
+                        item:2,
+                        slideMove:1
+                    }
+                },
+
+                {
+                    breakpoint:400,
+                    settings: {
+                        item:1,
+                        slideMove:1
+                    }
+                }
+            ]
+        });  
+    });
+
     </script>
 
 </head>
@@ -75,7 +124,7 @@
 
             </div>
 
-            <div class="col-12 col-md-5 col-lg-4 pt-3">
+            <div class="col-12 col-md-5 col-lg-4 pt-3" id="espacoConteudos">
 
                 <h1 class="fs-2 fw-light text-secondary">Produto Teste</h1>
 
@@ -121,7 +170,7 @@
 
                         </div>
 
-                        <div id="boxTamanho" class="text-center mt-2">
+                        <div id="boxTamanho" class="text-center mt-2 ativado">
 
                             <span class="align-middle fs-3">M</span>
 
@@ -185,9 +234,288 @@
 
                 </div>
 
+                <div class="row justify-content-center mt-4">
+
+                    <div id="boxVariacaoAdicional" class="boxAro col-12 col-lg-10">
+
+                        <div class="row mt-2">
+
+                            <div>
+
+                                <span class="text-secondary">Teste</span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row justify-content-center mt-2 mb-3">
+
+                            <div>
+
+                                <select class="text-secondary" id="selectVariacao" onchange="mudarResultadoVariacaoAdicional(this.value)">
+
+                                    <option disabled selected hidden>Escolher</option>
+
+                                        <option value="<?php echo $arrVar ?>">Teste</option>
+        
+                                </select>
+
+                                <input type="hidden" id="hiddenVariacaoAdicional">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Calculo do frete -->
+                <div class="row justify-content-center mt-4 pt-3">
+
+                    <div class="col-12 col-lg-10">
+
+                        <label class="text-secondary" for="inputCalculaFrete">Digite seu CEP e pressione enter</label><br>
+                        <input type="text" id="inputCalculaFrete" autocomplete="off" class="maskCep">
+
+                    </div>
+
+                </div>
+
+                <!-- Botao Add a sacola -->
+                <div class="row justify-content-center mt-4 pt-4 pb-4">
+
+                    <div class="col-12 col-lg-10 text-center">
+
+                        <button onclick="cadastrarProdutoCarrinho()" id="botaoAddCarrinho">ADICIONAR À SACOLA</button>
+
+                    </div>
+
+                </div>
+                <!-- //Botao Add a sacola -->
+
             </div>
 
         </div>
+
+        <!-- Caracteristicas -->
+        <div class="row justify-content-center">
+
+            <div class="col-lg-10 border-top pt-4">
+
+                <h2 class="fs-2 fw-light text-secondary">Características gerais</h2>
+
+                <pre id="caracteristicasGerais" class="text-secondary">Mais uma noite como todas as anteriores. Pego minha caneca de café cheia, acendo meu ultimo cigarro e corro pra velha janela do quarto. Observo a noite fria e chuvosa, até parece confortável por um momento, se não fossem as dezenas de preocupações que me desmotivam a cada dia. Penso em você, mesmo sabendo o quão longe está de mim, sinto aquele amor que continua a me desgraçar intensamente a cada dia, e penso quando enfim poderei te ter comigo. Sei lá, o café chega ao fim e trago a ultima ponta, nada muda. É como se eu fosse passar por isso mais uns longos anos a frente.</pre>
+
+            </div>
+
+        </div>
+        <!-- //Caracteristicas -->
+
+        <div class="row mt-5 justify-content-center">
+
+            <div class="col-lg-10 pt-3 border-top">
+  
+                <p class="pb-2"><span class="text-secondary fs-4">Produtos relacionados</span></p>
+  
+            </div>
+  
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div class="col-12 col-lg-10">
+    
+              <ul class="col-12 col-lg-10" id="espacoItem">
+
+              <?php
+
+              /* $id_categoria =  $classeProdutos->retorna_nome_categoria_produto($id_produto);
+              
+              foreach($classeProdutos->retorna_produtos_relacionados($id_categoria, $id_produto) as $arrRelacionados){
+
+                $nomeComTraco = str_replace(" ", "-", $arrRelacionados["nome"]);
+                $transformarEmMinuscula = mb_strtolower($nomeComTraco, "UTF-8");
+                $trataInjection = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", $transformarEmMinuscula);
+                $str1 = preg_replace('/[áàãâä]/ui', 'a', $trataInjection);
+                $str2 = preg_replace('/[éèêë]/ui', 'e', $str1);
+                $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
+                $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
+                $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
+                $str6 = preg_replace('/[ç]/ui', 'c', $str5); */
+              
+              ?>
+    
+                <li class="text-center" id="espacoProdutoMaisVendidos">
+    
+                  <div onclick="window.location='produto/<?php /* echo $str6; */ ?>'" class="box">
+    
+                    <img src="img/produtos/exemplo1.jpg" id="fotoAnel">
+    
+                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
+    
+                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
+                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
+    
+                  </div>
+    
+                </li>
+
+                <li class="text-center" id="espacoProdutoMaisVendidos">
+    
+                  <div onclick="window.location='produto/<?php /* echo $str6; */ ?>'" class="box">
+    
+                    <img src="img/produtos/exemplo2.jpg" id="fotoAnel">
+    
+                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
+    
+                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
+                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
+    
+                  </div>
+    
+                </li>
+
+                <li class="text-center" id="espacoProdutoMaisVendidos">
+    
+                  <div onclick="window.location='produto/<?php /* echo $str6; */ ?>'" class="box">
+    
+                    <img src="img/produtos/exemplo3.jpg" id="fotoAnel">
+    
+                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
+    
+                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
+                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
+    
+                  </div>
+    
+                </li>
+
+                <li class="text-center" id="espacoProdutoMaisVendidos">
+    
+                  <div onclick="window.location='produto/<?php /* echo $str6; */ ?>'" class="box">
+    
+                    <img src="img/produtos/exemplo4.jpg" id="fotoAnel">
+    
+                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
+    
+                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
+                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
+    
+                  </div>
+    
+                </li>
+
+                <li class="text-center" id="espacoProdutoMaisVendidos">
+    
+                  <div onclick="window.location='produto/<?php /* echo $str6; */ ?>'" class="box">
+    
+                    <img src="img/produtos/exemplo5.jpg" id="fotoAnel">
+    
+                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
+    
+                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
+                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
+    
+                  </div>
+    
+                </li>
+
+                <?php
+                
+                /* } */
+                
+                ?>
+
+                <?php
+
+                /* $id_categoria =  $classeProdutos->retorna_nome_categoria_produto(0);
+
+                foreach($classeProdutos->retorna_produtos_relacionados($id_categoria, $id_produto) as $arrRelacionados){
+
+                    $nomeComTraco = str_replace(" ", "-", $arrRelacionados["nome"]);
+                    $transformarEmMinuscula = mb_strtolower($nomeComTraco, "UTF-8");
+                    $trataInjection = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", $transformarEmMinuscula);
+                    $str1 = preg_replace('/[áàãâä]/ui', 'a', $trataInjection);
+                    $str2 = preg_replace('/[éèêë]/ui', 'e', $str1);
+                    $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
+                    $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
+                    $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
+                    $str6 = preg_replace('/[ç]/ui', 'c', $str5); */
+
+                ?>
+
+                <!-- <li class="text-center" id="espacoProdutoMaisVendidos">
+
+                    <div onclick="window.location='produto/<?php echo $str6; ?>'" class="box">
+
+                    <img src="img/produtos/<?php echo $arrRelacionados["foto"]; ?>" id="fotoAnel">
+
+                    <p class="card-text mt-1 pt-2 border-top"><?php echo $arrRelacionados["nome"]; ?></p>
+
+                    <small class="text-decoration-line-through <?php if($arrRelacionados["preco_promocao"] == ""){ echo "d-none"; } ?>">R$<?php echo number_format($arrRelacionados["preco_promocao"], 2, ",", "."); ?></small>
+                    <h5 class="card-title">R$<?php echo number_format($arrRelacionados["preco"], 2, ",", "."); ?></h5>
+
+                    </div>
+
+                </li> -->
+
+                <?php
+                
+                /* } */
+                
+                ?>
+
+                <?php
+
+                /* $id_categoria =  $classeProdutos->retorna_nome_categoria_produto(0);
+
+                foreach($classeProdutos->retorna_produtos_relacionados($id_categoria, $id_produto) as $arrRelacionados){
+
+                    $nomeComTraco = str_replace(" ", "-", $arrRelacionados["nome"]);
+                    $transformarEmMinuscula = mb_strtolower($nomeComTraco, "UTF-8");
+                    $trataInjection = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", $transformarEmMinuscula);
+                    $str1 = preg_replace('/[áàãâä]/ui', 'a', $trataInjection);
+                    $str2 = preg_replace('/[éèêë]/ui', 'e', $str1);
+                    $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
+                    $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
+                    $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
+                    $str6 = preg_replace('/[ç]/ui', 'c', $str5); */
+
+                ?>
+
+                <!-- <li class="text-center" id="espacoProdutoMaisVendidos">
+
+                    <div onclick="window.location='produto/<?php echo $str6; ?>'" class="box">
+
+                    <img src="img/produtos/<?php echo $arrRelacionados["foto"]; ?>" id="fotoAnel">
+
+                    <p class="card-text mt-1 pt-2 border-top"><?php echo $arrRelacionados["nome"]; ?></p>
+
+                    <small class="text-decoration-line-through <?php if($arrRelacionados["preco_promocao"] == ""){ echo "d-none"; } ?>">R$<?php echo number_format($arrRelacionados["preco_promocao"], 2, ",", "."); ?></small>
+                    <h5 class="card-title">R$<?php echo number_format($arrRelacionados["preco"], 2, ",", "."); ?></h5>
+
+                    </div>
+
+                </li> -->
+
+                <?php
+
+                /* } */
+
+                ?>
+    
+              </ul>
+    
+            </div>
+    
+        </div>
+
+        <?php
+                
+        include "phpPartes/rodape.php";
+        
+        ?>
 
     </div>
 

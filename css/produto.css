@@ -38,6 +38,7 @@
     display: inline-block;
     margin: 0px 3px;
     color: rgb(148, 148, 148);
+    cursor: pointer;
 
 }
 
@@ -46,5 +47,105 @@
     background-color: whitesmoke;
     border: 1px solid #CCC!important;
     color: #CCC!important;
+    cursor: default!important;
+
+}
+
+.ativado{
+
+    background-color: #9dc8ad;
+    color: white!important;
+
+}
+
+#selectVariacao{
+
+    width: 100%;
+    height: 35px;
+    border: 1px solid #e4e4e4;
+    border-radius: 5px;
+
+}
+
+#selectVariacao:focus{
+
+    box-shadow: 0 0 0 0;
+    outline: 0;
+
+}
+
+#inputCalculaFrete{
+
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid rgb(180, 180, 180);
+    height: 40px;
+
+}
+
+#inputCalculaFrete:focus{
+
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+    border-bottom: 1px solid #ca918a;
+
+}
+
+#botaoAddCarrinho{
+
+    width: 100%;
+    height: 40px;
+    border: 1px solid #65aa7d;
+    border-radius: 5px;
+    background-color: #9dc8ad;
+    color: white;
+
+}
+
+#espacoConteudos{
+
+    border: 1px solid #f5f5f5;
+
+}
+
+#caracteristicasGerais{
+
+    white-space: pre-wrap;
+    word-break: keep-all;
+    font-size: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+}
+
+.box{
+
+    margin-top: 20px;
+    height: 520px;
+    width: 100%;
+    display: inline-block;
+    cursor: pointer;
+
+}
+
+.box:hover{
+
+    border-bottom: 3px solid #9dc8ad;
+
+}
+
+#fotoAnel{
+
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    object-position: center;
+    padding: 1px;
+
+}
+
+#precoPromocao{
+
+    color: #76c793;
 
 }

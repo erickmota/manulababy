@@ -3,6 +3,13 @@
 
 <head>
 
+    <?php
+    
+    include "classes/produtos.class.php";
+    $classesProdutos = new produtos();
+    
+    ?>
+
     <title>Loja - Manulá Baby</title>
 
     <meta charset="UTF-8">
@@ -344,15 +351,27 @@
 
                                     <td>
 
-                                        <input type="number" class="form-control" id="vMin">
+                                        <!-- <input type="number" class="form-control" id="vMin"> -->
+
+                                        <div class="input-group">
+                                            <span class="input-group-text">R$</span>
+                                            <input type="number" id="vMin" autocomplete="off" class="form-control" name="porcentagem" required>
+                                        </div>
 
                                     </td>
 
-                                    <td width="30px">à</td>
+                                </tr>
 
-                                    <td>
+                                <tr>
 
-                                        <input type="number" class="form-control" id="vMax">
+                                    <td class="pt-3">
+
+                                        <!-- <input type="number" class="form-control" id="vMax"> -->
+
+                                        <div class="input-group">
+                                            <span class="input-group-text">R$</span>
+                                            <input type="number" id="vMax" autocomplete="off" class="form-control" name="porcentagem" required>
+                                        </div>
 
                                     </td>
 
@@ -464,96 +483,6 @@
 
                         </div>
 
-                        <span>Marca</span>
-
-                        <div id="filtroValores" class="caixaFiltroMarca" align="center">
-
-                            <table border="0" cellspacing="0" id="tabelaMarca">
-
-                                <tr>
-
-                                    <td>
-
-                                        <input type="checkbox"> Marca 1
-
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-
-                                    <td>
-
-                                        <input type="checkbox"> Marca 2
-
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-
-                                    <td>
-
-                                        <input type="checkbox"> Marca 3
-
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-
-                                    <td>
-
-                                        <input type="checkbox"> Marca 4
-
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-
-                                    <td>
-
-                                        <input type="checkbox"> Marca 5
-
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-
-                                    <td>
-
-                                        <input type="checkbox"> Marca 5
-
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-
-                                    <td>
-
-                                        <input type="checkbox"> Marca 5
-
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-
-                                    <td>
-
-                                        <input type="checkbox"> Marca 5
-
-                                    </td>
-
-                                </tr>
-
-                            </table>
-
-                        </div>
-
                     </div>
 
                     <div class="col-12 col-lg-9" id="espacoItens">
@@ -631,104 +560,9 @@
                     
                         </script>
 
-                        <div class="row">
+                        <div class="row" id="espacoProdutos">
 
-                            <div class="col-12 col-sm-6 col-md-4">
-        
-                                <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-                    
-                                    <img src="img/produtos/exemplo1.jpg" id="fotoAnelProdutos">
-                    
-                                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-                    
-                                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-                    
-                                    <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-                    
-                                    <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-                    
-                                </div>
-                
-                            </div>
-        
-                            <div class="col-12 col-sm-6 col-md-4">
-                
-                                <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-                    
-                                    <img src="img/produtos/exemplo2.jpg" id="fotoAnelProdutos">
-                    
-                                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-                    
-                                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-                    
-                                    <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-                    
-                                    <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-                    
-                                </div>
-                
-                            </div>
-        
-                            <div class="col-12 col-sm-6 col-md-4">
-                
-                                <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-                    
-                                    <img src="img/produtos/exemplo3.jpg" id="fotoAnelProdutos">
-                    
-                                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-                    
-                                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-                    
-                                    <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-                    
-                                    <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-                    
-                                </div>
-
-                            </div>
-
-                            <div class="col-12 col-sm-6 col-md-4">
-        
-                                <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-                    
-                                    <img src="img/produtos/exemplo4.jpg" id="fotoAnelProdutos">
-                    
-                                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-                    
-                                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-                    
-                                    <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-                    
-                                    <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-                    
-                                </div>
-                
-                            </div>
-        
-                            <div class="col-12 col-sm-6 col-md-4">
-                
-                                <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-                    
-                                    <img src="img/produtos/exemplo5.jpg" id="fotoAnelProdutos">
-                    
-                                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-                    
-                                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-                    
-                                    <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-                    
-                                    <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-                    
-                                </div>
-                
-                            </div>
-        
-                            <div class="col-12 col-sm-6 col-md-4">
+                            <!-- <div class="col-12 col-sm-6 col-md-4">
                 
                                 <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
                     
@@ -745,123 +579,103 @@
                     
                                 </div>
                 
-                            </div>
+                            </div> -->
+
+                            <?php
+                            
+                            foreach($classesProdutos->retorna_lista_produtos(1)[0] as $arrProdutos){
+                            
+                            ?>
 
                             <div class="col-12 col-sm-6 col-md-4">
-                
+
                                 <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-                    
-                                    <img src="img/produtos/exemplo6.jpg" id="fotoAnelProdutos">
-                    
-                                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-                    
-                                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-                    
-                                    <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-                    
-                                    <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-                    
+
+                                    <img src="img/produtos/<?php echo $arrProdutos["foto"]; ?>" id="fotoAnelProdutos">
+
+                                    <p id="nomeItem" class="card-text mt-1 pt-2"><?php echo $arrProdutos["nome"]; ?></p>
+
+                                    <span id="precoAntigo" class="text-decoration-line-through text-secondary "><?php echo $arrProdutos["preco_promocao"]; ?></span>
+                                    <h5 class="card-title fs-4"  id="precoPromocao"><?php echo $arrProdutos["preco"]; ?></h5>
+
                                 </div>
-                
+
                             </div>
 
-                            <div class="col-12 col-sm-6 col-md-4">
-                
-                                <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-                    
-                                    <img src="img/produtos/exemplo6.jpg" id="fotoAnelProdutos">
-                    
-                                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-                    
-                                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-                    
-                                    <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-                    
-                                    <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-                    
-                                </div>
-                
-                            </div>
+                            <?php
 
-                            <div class="col-12 col-sm-6 col-md-4">
-                
-                                <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-                    
-                                    <img src="img/produtos/exemplo6.jpg" id="fotoAnelProdutos">
-                    
-                                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-                    
-                                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-                    
-                                    <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-                    
-                                    <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-                    
-                                </div>
-                
-                            </div>
+                            }
 
-                            <div class="col-12 col-sm-6 col-md-4">
-                
-                                <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-                    
-                                    <img src="img/produtos/exemplo6.jpg" id="fotoAnelProdutos">
-                    
-                                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-                    
-                                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-                    
-                                    <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-                    
-                                    <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-                    
-                                </div>
-                
-                            </div>
+                            ?>
 
-                            <div class="col-12 col-sm-6 col-md-4">
-                
-                                <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-                    
-                                    <img src="img/produtos/exemplo6.jpg" id="fotoAnelProdutos">
-                    
-                                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-                    
-                                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-                    
-                                    <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-                    
-                                    <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-                    
-                                </div>
-                
-                            </div>
+                        </div>
 
-                            <div class="col-12 col-sm-6 col-md-4">
-                
-                                <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-                    
-                                    <img src="img/produtos/exemplo6.jpg" id="fotoAnelProdutos">
-                    
-                                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-                    
-                                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-                    
-                                    <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-                    
-                                    <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-                    
-                                </div>
-                
+                        <div class="row mt-3">
+
+                            <div class="col text-center">
+
+                                <input type="hidden" id="hiddenPg" value="2">
+
+                                <button id="botaoMostrar">Carregar mais</button>
+
+                                <img id="imgLoading" src='img/carregando.gif' class="d-none" width='80px'>
+
                             </div>
 
                         </div>
+
+                        <script>
+
+                        function retornaProdutos(pg) {
+                            
+                            $.ajax({
+
+                                type: "POST",
+                                dataType: "html",
+
+                                url: "ajax/listarProdutosLoja.php",
+
+                                /* beforeSend: function () {
+
+                                    var pgMenosUm = parseInt(pg) - 1;
+
+                                    $("#espacoProdutos"+pg).html("<img src='img/carregando.gif' width='60px'>");
+
+                                }, */
+
+                                data: {pg: pg},
+
+                                success: function (msg) {
+
+                                    $("#espacoProdutos").append(msg);
+
+                                    $("#botaoMostrar").removeClass("d-none");
+                                    $("#imgLoading").addClass("d-none");
+
+                                }
+
+                            });
+
+                        }
+
+                        $("#botaoMostrar").click(function(){
+
+                            $("#botaoMostrar").addClass("d-none");
+                            $("#imgLoading").removeClass("d-none");
+
+                            var pg = document.getElementById("hiddenPg").value;
+
+                            retornaProdutos(pg);
+
+                            $("#hiddenPg").val(parseInt(pg) + 1);
+
+                            var pgMenosUm = parseInt(pg) - 1;
+
+                            /* $("<div class='row' id='espacoProdutos"+pg+"'></div>").insertAfter("#espacoProdutos"+pgMenosUm); */
+
+                        });
+
+                        </script>
 
                     </div>
 

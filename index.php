@@ -12,6 +12,10 @@ if(isset($_GET["url"])){
 
         include "paginas/produto.php";
 
+    }else if($explode[0] == "postagem"){
+
+        include "paginas/postagem.php";
+
     }
 
 }else{
