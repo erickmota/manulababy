@@ -29,16 +29,23 @@
 
 }
 
-#boxTamanho{
+.boxTamanho{
 
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     border: 1px solid #63cf8b;
     line-height:40px;
     display: inline-block;
     margin: 0px 3px;
     color: rgb(148, 148, 148);
     cursor: pointer;
+    border-radius: 10px;
+
+}
+
+.boxTamanho:hover:not(.desativado, .ativado){
+
+    box-shadow: 2px 2px 3px #CCC;
 
 }
 
@@ -88,7 +95,7 @@
     box-shadow: 0 0 0 0;
     border: 0 none;
     outline: 0;
-    border-bottom: 1px solid #ca918a;
+    border-bottom: 1px solid #65aa7d;
 
 }
 
@@ -125,6 +132,7 @@
     width: 100%;
     display: inline-block;
     cursor: pointer;
+    border: 1px solid #f5f5f5;
 
 }
 
@@ -147,5 +155,11 @@
 #precoPromocao{
 
     color: #76c793;
+
+}
+
+.imgLoading{
+
+    width: 100px;
 
 }

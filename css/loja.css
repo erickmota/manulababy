@@ -109,13 +109,42 @@
 
 }
 
+#selectOrganizar:focus{
+
+    box-shadow: 0 0 0 0;
+    outline: 0;
+
+}
+
 #bFeminino{
 
     margin-top: 38px;
-    width: 40px;
+    min-width: 40px;
+    padding: 0px 8px;
     height: 40px;
     border: 1px solid #f5f5f5;
     display: table-cell;
+    cursor: pointer;
+    color: rgb(141, 141, 141);
+
+}
+
+#textoTipo{
+
+    line-height: 38px
+
+}
+
+#bFeminino:hover:not(.botaoTipoAtivo){
+
+    background-color: rgb(247, 247, 247);
+
+}
+
+.botaoTipoAtivo{
+
+    background-color: #76c793;
+    color: white!important;
 
 }
 
@@ -126,13 +155,7 @@
     height: 40px;
     border: 1px solid #76c793;
     display: table-cell;
-
-}
-
-.botaoTipoAtivo{
-
-    background-color: #76c793;
-    color: white;
+    cursor: pointer;
 
 }
 
@@ -185,5 +208,23 @@
 
     box-shadow: 0 0 0 0;
     outline: 0;
+
+}
+
+input[type="checkbox"]{
+
+    all: unset;
+    border: 1px solid rgb(131, 131, 131);
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    border-radius: 3px;
+
+}
+
+input[type="checkbox"]:checked{
+
+  background-color: #76c793;
+  border: 1px solid #76c793;
 
 }

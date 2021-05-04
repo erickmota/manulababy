@@ -3,7 +3,21 @@
 
 <head>
 
-    <title>Produto - Manulá Baby</title>
+    <?php
+
+    $explode = explode("/", $_GET["url"]);
+
+    $classeProdutos->nome = htmlentities($explode[1]);
+    
+    ?>
+
+    <title><?php
+    
+    foreach($classeProdutos->retorna_dados_pelo_nome() as $arrProduto){
+
+        echo $arrProduto["nome"]." - Oscar Jóias";
+    
+    ?></title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +25,21 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="lightslider/src/css/lightslider.css" />                  
+    <link type="text/css" rel="stylesheet" href="../lightslider/src/css/lightslider.css" />                  
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="lightslider/src/js/lightslider.js"></script>
+    <script src="../lightslider/src/js/lightslider.js"></script>
 
     <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+
+    <?php
+
+    /* Definindo a base para o site */
+    include "php/base_paginas.php";
+    
+    ?>
 
     <link rel="stylesheet" href="css/produto.css">
 
@@ -92,6 +113,88 @@
         });  
     });
 
+    function mudarTamanho(numero){
+
+        var fundoNumero = document.getElementById("boxTamanho-"+numero);
+        var hiddenTamanho = document.getElementById("hiddenTamanho");
+
+        hiddenTamanho.value = numero;
+        fundoNumero.classList.add("ativado");
+
+        if(numero == "p"){
+
+
+
+        }else{
+
+            document.getElementById("boxTamanho-p").classList.remove("ativado");
+
+        }
+
+        if(numero == "m"){
+
+
+
+        }else{
+
+            document.getElementById("boxTamanho-m").classList.remove("ativado");
+
+        }
+
+        if(numero == "g"){
+
+
+
+        }else{
+
+            document.getElementById("boxTamanho-g").classList.remove("ativado");
+
+        }
+
+        var i = 1;
+
+        while(i <= 8){
+
+            if(i == numero){
+
+
+
+            }else{
+
+                document.getElementById("boxTamanho-"+i).classList.remove("ativado");
+
+            }
+
+            i++;
+
+        }
+
+    }
+
+    function mudarResultadoVariacaoAdicional(op){
+
+        var hiddenVariacaoAdicional = document.getElementById("hiddenVariacaoAdicional");
+
+        hiddenVariacaoAdicional.value = op;
+
+    }
+
+    function mudarResultadoVariacaoAdicional2(op){
+
+        var hiddenVariacaoAdicional2 = document.getElementById("hiddenVariacaoAdicional2");
+
+        hiddenVariacaoAdicional2.value = op;
+
+    }
+
+    function mudarResultadoVariacaoAdicional3(op){
+
+        var hiddenVariacaoAdicional3 = document.getElementById("hiddenVariacaoAdicional3");
+
+        hiddenVariacaoAdicional3.value = op;
+
+    }
+
     </script>
 
 </head>
@@ -112,13 +215,29 @@
 
                 <ul id="imageGallery">
 
-                    <li data-thumb="img/produtos/exemplo1.jpg" data-src="img/produtos/exemplo1.jpg">
-                      <img id="imgSlide" src="img/produtos/exemplo1.jpg" width="100%"/>
+                    <li data-thumb="img/produtos/<?php echo $arrProduto["foto"] ?>" data-src="img/produtos/<?php echo $arrProduto["foto"] ?>">
+                      <img id="imgSlide" src="img/produtos/<?php echo $arrProduto["foto"] ?>" width="100%"/>
                     </li>
+
+                    <?php
+
+                    if($classeProdutos->retorna_img_galeria($arrProduto["id"]) != false){
                     
-                    <li data-thumb="img/produtos/exemplo2.jpg" data-src="img/produtos/exemplo2.jpg">
-                      <img id="imgSlide" src="img/produtos/exemplo2.jpg" width="100%"/>
+                    foreach($classeProdutos->retorna_img_galeria($arrProduto["id"]) as $arrGaleria){
+                    
+                    ?>
+                    
+                    <li data-thumb="img/produtos/exemplo4.jpg" data-src="img/produtos/exemplo4.jpg">
+                      <img id="imgSlide" src="img/produtos/exemplo4.jpg" width="100%"/>
                     </li>
+
+                    <?php
+                    
+                    }
+
+                    }   
+                    
+                    ?>
 
                 </ul>
 
@@ -126,7 +245,7 @@
 
             <div class="col-12 col-md-5 col-lg-4 pt-3" id="espacoConteudos">
 
-                <h1 class="fs-2 fw-light text-secondary">Produto Teste</h1>
+                <h1 class="fs-2 fw-light text-secondary"><?php echo $arrProduto["nome"]; ?></h1>
 
                 <div class="row">
 
@@ -144,7 +263,23 @@
 
                         <select class="mt-2 text-secondary" id="selectQtd">
 
-                            <option value="5">Qtd: 5</option>
+                            <?php
+                                    
+                            $i_select = 1;
+
+                            while($i_select <= $arrProduto["qtd_estoque"]){
+                            
+                            ?>
+
+                            <option value="<?php echo $i_select; ?>">Qtd: <?php echo $i_select; ?></option>
+
+                            <?php
+
+                            $i_select++;
+                            
+                            }
+
+                            ?>
 
                         </select>
 
@@ -152,89 +287,280 @@
 
                     <div class="col-8 text-end">
 
-                        <span class="text-black-50 text-decoration-line-through">R$45,50</span><br>
+                        <?php
+                        
+                        if($arrProduto["preco_promocao"] != ""){
 
-                        <span class="fs-1 text-secondary">R$45,50</span>
+                        ?>
 
-                    </div>
+                        <span class="text-black-50 text-decoration-line-through">R$<?php echo number_format($arrProduto["preco_promocao"], 2, ",", "."); ?></span><br>
 
-                </div>
+                        <?php
 
-                <div class="row">
+                        }
+                        
+                        ?>
 
-                    <div class="col text-center">
-
-                        <div id="boxTamanho" class="text-center mt-2">
-
-                            <span class="align-middle fs-3">P</span>
-
-                        </div>
-
-                        <div id="boxTamanho" class="text-center mt-2 ativado">
-
-                            <span class="align-middle fs-3">M</span>
-
-                        </div>
-
-                        <div id="boxTamanho" class="text-center mt-2">
-
-                            <span class="align-middle fs-3">G</span>
-
-                        </div>
-
-                        <div id="boxTamanho" class="text-center mt-2 desativado">
-
-                            <span class="align-middle fs-3">1</span>
-
-                        </div>
-
-                        <div id="boxTamanho" class="text-center mt-2 desativado">
-
-                            <span class="align-middle fs-3">2</span>
-
-                        </div>
-
-                        <div id="boxTamanho" class="text-center mt-2 desativado">
-
-                            <span class="align-middle fs-3">3</span>
-
-                        </div>
-
-                        <div id="boxTamanho" class="text-center mt-2 desativado">
-
-                            <span class="align-middle fs-3">4</span>
-
-                        </div>
-
-                        <div id="boxTamanho" class="text-center mt-2 desativado">
-
-                            <span class="align-middle fs-3">5</span>
-
-                        </div>
-
-                        <div id="boxTamanho" class="text-center mt-2 desativado">
-
-                            <span class="align-middle fs-3">6</span>
-
-                        </div>
-
-                        <div id="boxTamanho" class="text-center mt-2 desativado">
-
-                            <span class="align-middle fs-3">7</span>
-
-                        </div>
-
-                        <div id="boxTamanho" class="text-center mt-2 desativado">
-
-                            <span class="align-middle fs-3">8</span>
-
-                        </div>
+                        <span class="fs-1 text-secondary">R$<?php echo number_format($arrProduto["preco"], 2, ",", "."); ?></span>
 
                     </div>
 
                 </div>
 
-                <div class="row justify-content-center mt-4">
+                <?php
+                
+                if($arrProduto["id_variacao_produto"] == 0){
+
+                    $variacaoAdd = "d-none";
+
+                }else{
+
+                    $variacaoAdd = "";
+
+                }
+
+                if($arrProduto["id_variacao_produto2"] == 0){
+
+                    $variacaoAdd2 = "d-none";
+
+                }else{
+
+                    $variacaoAdd2 = "";
+
+                }
+
+                if($arrProduto["id_variacao_produto3"] == 0){
+
+                    $variacaoAdd3 = "d-none";
+
+                }else{
+
+                    $variacaoAdd3 = "";
+
+                }
+
+                /* Organização tamanhos */
+                $arrTamaho = explode(",", $arrProduto["tamanho"]);
+
+                $verTamanho = [];
+
+                if(in_array("p", $arrTamaho)){
+
+                    $verTamanho[0] = "";
+
+                }else{
+
+                    $verTamanho[0] = "desativado";
+
+                }
+
+                if(in_array("m", $arrTamaho)){
+
+                    $verTamanho[1] = "";
+
+                }else{
+
+                    $verTamanho[1] = "desativado";
+
+                }
+
+                if(in_array("g", $arrTamaho)){
+
+                    $verTamanho[2] = "";
+
+                }else{
+
+                    $verTamanho[2] = "desativado";
+
+                }
+
+                $iTamanho = 3;
+
+                while($iTamanho <= 10){
+
+                    if(in_array($iTamanho - 2, $arrTamaho)){
+
+                        $verTamanho[$iTamanho] = "";
+    
+                    }else{
+    
+                        $verTamanho[$iTamanho] = "desativado";
+    
+                    }
+
+                    $iTamanho++;
+
+                }
+                
+                ?>
+
+                <!-- Tamanhos -->
+                <div class="row justify-content-center mt-2">
+
+                    <div class="col-12 col-lg-11 text-center">
+
+                        <div onclick="<?php
+                        
+                        if($verTamanho[0] != "desativado"){
+
+                            echo "mudarTamanho('p')";
+
+                        }
+                        
+                        ?>" id="boxTamanho-p" class="boxTamanho text-center mt-2 <?php echo $verTamanho[0] ?>">
+
+                            <span class="fs-4">P</span>
+
+                        </div>
+
+                        <div onclick="<?php
+                        
+                        if($verTamanho[1] != "desativado"){
+
+                            echo "mudarTamanho('m')";
+
+                        }
+                        
+                        ?>" id="boxTamanho-m" class="boxTamanho text-center mt-2 <?php echo $verTamanho[1] ?>">
+
+                            <span class="fs-3">M</span>
+
+                        </div>
+
+                        <div onclick="<?php
+                        
+                        if($verTamanho[2] != "desativado"){
+
+                            echo "mudarTamanho('g')";
+
+                        }
+                        
+                        ?>" id="boxTamanho-g" class="boxTamanho text-center mt-2 <?php echo $verTamanho[2] ?>">
+
+                            <span class="fs-3">G</span>
+
+                        </div>
+
+                        <div onclick="<?php
+                        
+                        if($verTamanho[3] != "desativado"){
+
+                            echo "mudarTamanho(3)";
+
+                        }
+                        
+                        ?>" id="boxTamanho-1" class="boxTamanho text-center mt-2 <?php echo $verTamanho[3] ?>">
+
+                            <span class="fs-3">1</span>
+
+                        </div>
+
+                        <div onclick="<?php
+                        
+                        if($verTamanho[4] != "desativado"){
+
+                            echo "mudarTamanho(2)";
+
+                        }
+                        
+                        ?>" id="boxTamanho-2" class="boxTamanho text-center mt-2 <?php echo $verTamanho[4] ?>">
+
+                            <span class="fs-3">2</span>
+
+                        </div>
+
+                        <div onclick="<?php
+                        
+                        if($verTamanho[5] != "desativado"){
+
+                            echo "mudarTamanho(3)";
+
+                        }
+                        
+                        ?>" id="boxTamanho-3" class="boxTamanho text-center mt-2 <?php echo $verTamanho[5] ?>">
+
+                            <span class="fs-3">3</span>
+
+                        </div>
+
+                        <div onclick="<?php
+                        
+                        if($verTamanho[6] != "desativado"){
+
+                            echo "mudarTamanho(4)";
+
+                        }
+                        
+                        ?>" id="boxTamanho-4" class="boxTamanho text-center mt-2 <?php echo $verTamanho[6] ?>">
+
+                            <span class="fs-3">4</span>
+
+                        </div>
+
+                        <div onclick="<?php
+                        
+                        if($verTamanho[7] != "desativado"){
+
+                            echo "mudarTamanho(5)";
+
+                        }
+                        
+                        ?>" id="boxTamanho-5" class="boxTamanho text-center mt-2 <?php echo $verTamanho[7] ?>">
+
+                            <span class="fs-3">5</span>
+
+                        </div>
+
+                        <div onclick="<?php
+                        
+                        if($verTamanho[8] != "desativado"){
+
+                            echo "mudarTamanho(6)";
+
+                        }
+                        
+                        ?>" id="boxTamanho-6" class="boxTamanho text-center mt-2 <?php echo $verTamanho[8] ?>">
+
+                            <span class="fs-3">6</span>
+
+                        </div>
+
+                        <div onclick="<?php
+                        
+                        if($verTamanho[9] != "desativado"){
+
+                            echo "mudarTamanho(7)";
+
+                        }
+                        
+                        ?>" id="boxTamanho-7" class="boxTamanho text-center mt-2 <?php echo $verTamanho[9] ?>">
+
+                            <span class="fs-3">7</span>
+
+                        </div>
+
+                        <div onclick="<?php
+                        
+                        if($verTamanho[10] != "desativado"){
+
+                            echo "mudarTamanho(8)";
+
+                        }
+                        
+                        ?>" id="boxTamanho-8" class="boxTamanho text-center mt-2 <?php echo $verTamanho[10] ?>">
+
+                            <span class="fs-3">8</span>
+
+                        </div>
+
+                    </div>
+
+                    <input type="hidden" id="hiddenTamanho">
+
+                </div>
+
+                <!-- Variação Adicional -->
+                <div class="row justify-content-center mt-4 <?php echo $variacaoAdd; ?>">
 
                     <div id="boxVariacaoAdicional" class="boxAro col-12 col-lg-10">
 
@@ -242,7 +568,13 @@
 
                             <div>
 
-                                <span class="text-secondary">Teste</span>
+                                <?php
+                                
+                                foreach($classeProdutos->retorna_opcoes_variacoes($arrProduto["id_variacao_produto"]) as $arrVariacao){
+                                
+                                ?>
+
+                                <span class="text-secondary"><?php echo $arrVariacao["texto_cliente"]; ?></span>
 
                             </div>
 
@@ -256,13 +588,153 @@
 
                                     <option disabled selected hidden>Escolher</option>
 
-                                        <option value="<?php echo $arrVar ?>">Teste</option>
+                                        <?php
+
+                                        foreach($classeProdutos->formatar_op_variacoes($arrVariacao["opcoes"]) as $arrVar){
+
+                                        ?>
+
+                                        <option value="<?php echo $arrVar ?>"><?php echo $arrVar ?></option>
+
+                                        <?php
+
+                                        }
+                                        
+                                        ?>
         
                                 </select>
 
                                 <input type="hidden" id="hiddenVariacaoAdicional">
 
                             </div>
+
+                            <?php
+                                
+                            }
+                            
+                            ?>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Variação Adicional2 -->
+                <div class="row justify-content-center mt-2 <?php echo $variacaoAdd2; ?>">
+
+                    <div id="boxVariacaoAdicional" class="boxAro col-12 col-lg-10">
+
+                        <div class="row mt-2">
+
+                            <div>
+
+                                <?php
+                                
+                                foreach($classeProdutos->retorna_opcoes_variacoes($arrProduto["id_variacao_produto2"]) as $arrVariacao){
+                                
+                                ?>
+
+                                <span class="text-secondary"><?php echo $arrVariacao["texto_cliente"]; ?></span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row justify-content-center mt-2 mb-3">
+
+                            <div>
+
+                                <select class="text-secondary" id="selectVariacao" onchange="mudarResultadoVariacaoAdicional2(this.value)">
+
+                                    <option disabled selected hidden>Escolher</option>
+
+                                        <?php
+
+                                        foreach($classeProdutos->formatar_op_variacoes($arrVariacao["opcoes"]) as $arrVar){
+
+                                        ?>
+
+                                        <option value="<?php echo $arrVar ?>"><?php echo $arrVar ?></option>
+
+                                        <?php
+
+                                        }
+                                        
+                                        ?>
+        
+                                </select>
+
+                                <input type="hidden" id="hiddenVariacaoAdicional2">
+
+                            </div>
+
+                            <?php
+                                
+                            }
+                            
+                            ?>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Variação Adicional3 -->
+                <div class="row justify-content-center mt-2 <?php echo $variacaoAdd3; ?>">
+
+                    <div id="boxVariacaoAdicional" class="boxAro col-12 col-lg-10">
+
+                        <div class="row mt-2">
+
+                            <div>
+
+                                <?php
+                                
+                                foreach($classeProdutos->retorna_opcoes_variacoes($arrProduto["id_variacao_produto3"]) as $arrVariacao){
+                                
+                                ?>
+
+                                <span class="text-secondary"><?php echo $arrVariacao["texto_cliente"]; ?></span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row justify-content-center mt-2 mb-3">
+
+                            <div>
+
+                                <select class="text-secondary" id="selectVariacao" onchange="mudarResultadoVariacaoAdicional3(this.value)">
+
+                                    <option disabled selected hidden>Escolher</option>
+
+                                        <?php
+
+                                        foreach($classeProdutos->formatar_op_variacoes($arrVariacao["opcoes"]) as $arrVar){
+
+                                        ?>
+
+                                        <option value="<?php echo $arrVar ?>"><?php echo $arrVar ?></option>
+
+                                        <?php
+
+                                        }
+                                        
+                                        ?>
+        
+                                </select>
+
+                                <input type="hidden" id="hiddenVariacaoAdicional3">
+
+                            </div>
+
+                            <?php
+                                
+                            }
+                            
+                            ?>
 
                         </div>
 
@@ -281,6 +753,76 @@
                     </div>
 
                 </div>
+
+                <div class="row justify-content-center mt-5 d-none" id="areaFrete">
+
+                    <!-- <div class="col-10 text-center">
+
+                        <b>Sedex:</b> R$34,50 - 3 dias para entrega<br>
+                        <b>PAC:</b> R$34,50 - 3 dias para entrega
+
+                    </div> -->
+
+                </div>
+
+                <script type="text/javascript">
+                                                                                
+                    function calcular_frete(cep, peso, altura, largura, comprimento, dias_entrega) {
+
+                        $.ajax({
+
+                            type: "POST",
+                            dataType: "html",
+
+                            url: "ajax/frete.php",
+
+                            beforeSend: function () {
+
+                                $("#areaFrete").removeClass("d-none");
+                                $("#areaFrete").html("<img class='imgLoading' src='img/carregando2.gif'>");
+                                /* $("#areaFrete").html("Carregando"); */
+
+                            },
+
+                            data: {cep: cep, peso: peso, altura: altura, largura: largura, comprimento: comprimento, dias_entrega: dias_entrega},
+
+                            success: function (msg) {
+
+                                $("#areaFrete").html(msg);
+
+                            }
+
+                        });
+
+                    }
+
+                    $("#inputCalculaFrete").keypress(function(event){
+
+                        var cep = document.getElementById("inputCalculaFrete").value;
+                        var campoCep = document.getElementById("areaFrete");
+
+                        var peso = "<?php echo $arrProduto['peso']; ?>";
+                        var altura = "<?php echo $arrProduto['altura']; ?>";
+                        var largura = "<?php echo $arrProduto['largura']; ?>";
+                        var comprimento = "<?php echo $arrProduto['comprimento']; ?>";
+                        var dias_entrega = "<?php echo $arrProduto['dias_entrega']; ?>";
+
+                        if ( event.which == 13) {
+                            if(cep == ""){
+
+                                campoCep.classList.add("d-none");
+
+                            }else{
+
+                                calcular_frete(cep, peso, altura, largura, comprimento, dias_entrega);
+
+                            }
+                        }
+
+                    });
+
+                </script>
+                <!-- //Calculo do frete -->
 
                 <!-- Botao Add a sacola -->
                 <div class="row justify-content-center mt-4 pt-4 pb-4">
@@ -305,7 +847,7 @@
 
                 <h2 class="fs-2 fw-light text-secondary">Características gerais</h2>
 
-                <pre id="caracteristicasGerais" class="text-secondary">Mais uma noite como todas as anteriores. Pego minha caneca de café cheia, acendo meu ultimo cigarro e corro pra velha janela do quarto. Observo a noite fria e chuvosa, até parece confortável por um momento, se não fossem as dezenas de preocupações que me desmotivam a cada dia. Penso em você, mesmo sabendo o quão longe está de mim, sinto aquele amor que continua a me desgraçar intensamente a cada dia, e penso quando enfim poderei te ter comigo. Sei lá, o café chega ao fim e trago a ultima ponta, nada muda. É como se eu fosse passar por isso mais uns longos anos a frente.</pre>
+                <pre id="caracteristicasGerais" class="text-secondary"><?php echo $arrProduto["descricao"]; ?></pre>
 
             </div>
 
@@ -510,6 +1052,14 @@
             </div>
     
         </div>
+
+        <?php
+
+        /* $id_produto = $arrProduto["id"]; */
+        
+        }
+        
+        ?>
 
         <?php
                 

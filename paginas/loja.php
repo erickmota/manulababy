@@ -5,8 +5,8 @@
 
     <?php
     
-    include "classes/produtos.class.php";
-    $classesProdutos = new produtos();
+    /* include "classes/produtos.class.php";
+    $classesProdutos = new produtos(); */
     
     ?>
 
@@ -27,7 +27,88 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+    <?php
+
+    /* Definindo a base para o site */
+    include "php/base_paginas.php";
+
+    ?>
+
     <link rel="stylesheet" href="css/loja.css">
+
+    <?php
+                        
+    /* Recebendo dados GET */
+
+    /* Preços */
+    if(isset($_GET["vMin"])){
+
+        $vMin = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities($_GET["vMin"]));
+        $vMax = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities($_GET["vMax"]));
+
+    }else{
+
+        $vMin = "SE";
+        $vMax = "SE";
+
+    }
+    
+    /* Sexo */
+    if(isset($_GET["sexo"])){
+
+        $sexoUrl = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities($_GET["sexo"]));
+
+    }else{
+
+        $sexoUrl = "SE";
+
+    }
+
+    /* Ordenação */
+    if(isset($_GET["ord"])){
+
+        $ordenacao = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities($_GET["ord"]));
+
+    }else{
+
+        $ordenacao = "SE";
+
+    }
+
+    /* Tamanho */
+    if(isset($_GET["tamanho"])){
+
+        $tamanhoFiltro = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities($_GET["tamanho"]));
+
+    }else{
+
+        $tamanhoFiltro = "SE";
+
+    }
+
+    /* Categoria */
+    if(isset($_GET["cat"])){
+
+        $categoriaFiltro = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlspecialchars($_GET["cat"], ENT_QUOTES, "UTF-8"));
+
+    }else{
+
+        $categoriaFiltro = "SE";
+
+    }
+
+    /* Busca */
+    if(isset($_GET["q"])){
+
+        $buscaFiltro = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlspecialchars($_GET["q"], ENT_QUOTES, "UTF-8"));
+
+    }else{
+
+        $buscaFiltro = "SE";
+
+    }
+    
+    ?>
 
     <script>
 
@@ -59,12 +140,28 @@
 
         })
 
+        <?php
+        
+        if($vMin != "SE" && $vMax != "SE"){
+
+            $vMinFiltro = $vMin;
+            $vMaxFiltro = $vMax;
+
+        }else{
+
+            $vMinFiltro = 50;
+            $vMaxFiltro = 300;
+
+        }
+        
+        ?>
+
         $( function() {
             $( "#slider-range" ).slider({
             range: true,
             min: 0,
             max: 500,
-            values: [ 100, 300 ],
+            values: [ <?php echo $vMinFiltro; ?>, <?php echo $vMaxFiltro; ?> ],
             slide: function( event, ui ) {
                 $( "#vMin" ).val( ui.values[ 0 ]);
                 $( "#vMax" ).val( ui.values[ 1 ]);
@@ -79,7 +176,7 @@
             range: true,
             min: 0,
             max: 500,
-            values: [ 100, 300 ],
+            values: [ <?php echo $vMinFiltro; ?>, <?php echo $vMaxFiltro; ?> ],
             slide: function( event, ui ) {
                 $( "#vMin2" ).val( ui.values[ 0 ]);
                 $( "#vMax2" ).val( ui.values[ 1 ]);
@@ -88,6 +185,766 @@
             $( "#vMin2" ).val( $( "#slider-range" ).slider( "values", 0 ));
             $( "#vMax2" ).val( $( "#slider-range" ).slider( "values", 1 ));
         } );
+
+        function mudar_link_sexo(sexo){
+
+            <?php
+                
+            $paginaAtual = $_SERVER["REQUEST_URI"];
+                
+            ?>
+
+            if(sexo == "m"){
+
+                <?php
+                    
+                if(isset($_GET["sexo"])){
+
+                    $novaPagina = str_replace(htmlentities($_GET["sexo"]), "masc", $paginaAtual);
+
+                }else{
+
+                    if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["ord"]) || isset($_GET["tamanho"]) || isset($_GET["q"]) || isset($_GET["cat"])){
+
+                        $novaPagina = $paginaAtual."&sexo=masc";
+
+                    }else{
+
+                        $novaPagina = $paginaAtual."?sexo=masc";
+
+                    }
+
+                }    
+                    
+                ?>
+
+                window.location="<?php echo $novaPagina; ?>";
+
+            }else if(sexo == "f"){
+
+                <?php
+                    
+                if(isset($_GET["sexo"])){
+
+                    $novaPagina = str_replace(htmlentities($_GET["sexo"]), "fem", $paginaAtual);
+
+                }else{
+
+                    if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["ord"]) || isset($_GET["tamanho"]) || isset($_GET["q"]) || isset($_GET["cat"])){
+
+                        $novaPagina = $paginaAtual."&sexo=fem";
+
+                    }else{
+
+                        $novaPagina = $paginaAtual."?sexo=fem";
+
+                    }
+
+                }    
+                    
+                ?>
+
+                window.location="<?php echo $novaPagina; ?>";
+
+            }else if(sexo == "t"){
+
+                <?php
+                    
+                if(isset($_GET["sexo"])){
+
+                    $novaPagina = str_replace(htmlentities($_GET["sexo"]), "tud", $paginaAtual);
+
+                }else{
+
+                    if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["ord"]) || isset($_GET["tamanho"]) || isset($_GET["q"]) || isset($_GET["cat"])){
+
+                        $novaPagina = $paginaAtual."&sexo=tud";
+
+                    }else{
+
+                        $novaPagina = $paginaAtual."?sexo=tud";
+
+                    }
+
+                }    
+                    
+                ?>
+
+                window.location="<?php echo $novaPagina; ?>";
+
+            }
+
+        }
+
+        function alterar_ordenacao(ord){
+
+            if(ord == "nome"){
+
+                <?php
+                    
+                if(isset($_GET["ord"])){
+
+                    $novaPagina = str_replace(htmlentities($_GET["ord"]), "nome", $paginaAtual);
+
+                }else{
+
+                    if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["sexo"]) || isset($_GET["cat"]) || isset($_GET["q"]) || isset($_GET["tamanho"])){
+
+                        $novaPagina = $paginaAtual."&ord=nome";
+
+                    }else{
+
+                        $novaPagina = $paginaAtual."?ord=nome";
+
+                    }
+
+                }    
+                    
+                ?>
+
+                window.location="<?php echo $novaPagina; ?>";
+
+            }else if(ord == "ua"){
+
+                <?php
+                    
+                if(isset($_GET["ord"])){
+
+                    $novaPagina = str_replace(htmlentities($_GET["ord"]), "ua", $paginaAtual);
+
+                }else{
+
+                    if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["sexo"]) || isset($_GET["cat"]) || isset($_GET["q"]) || isset($_GET["tamanho"])){
+
+                        $novaPagina = $paginaAtual."&ord=ua";
+
+                    }else{
+
+                        $novaPagina = $paginaAtual."?ord=ua";
+
+                    }
+
+                }    
+                    
+                ?>
+
+                window.location="<?php echo $novaPagina; ?>";
+
+            }else if(ord == "pa"){
+
+                <?php
+                    
+                if(isset($_GET["ord"])){
+
+                    $novaPagina = str_replace(htmlentities($_GET["ord"]), "pa", $paginaAtual);
+
+                }else{
+
+                    if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["sexo"]) || isset($_GET["cat"]) || isset($_GET["q"]) || isset($_GET["tamanho"])){
+
+                        $novaPagina = $paginaAtual."&ord=pa";
+
+                    }else{
+
+                        $novaPagina = $paginaAtual."?ord=pa";
+
+                    }
+
+                }    
+                    
+                ?>
+
+                window.location="<?php echo $novaPagina; ?>";
+
+            }else if(ord == "menorp"){
+
+                <?php
+                    
+                if(isset($_GET["ord"])){
+
+                    $novaPagina = str_replace(htmlentities($_GET["ord"]), "menorp", $paginaAtual);
+
+                }else{
+
+                    if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["sexo"]) || isset($_GET["cat"]) || isset($_GET["q"]) || isset($_GET["tamanho"])){
+
+                        $novaPagina = $paginaAtual."&ord=menorp";
+
+                    }else{
+
+                        $novaPagina = $paginaAtual."?ord=menorp";
+
+                    }
+
+                }    
+                    
+                ?>
+
+                window.location="<?php echo $novaPagina; ?>";
+
+            }else if(ord == "maiorp"){
+
+                <?php
+                    
+                if(isset($_GET["ord"])){
+
+                    $novaPagina = str_replace(htmlentities($_GET["ord"]), "maiorp", $paginaAtual);
+
+                }else{
+
+                    if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["sexo"]) || isset($_GET["cat"]) || isset($_GET["q"]) || isset($_GET["tamanho"])){
+
+                        $novaPagina = $paginaAtual."&ord=maiorp";
+
+                    }else{
+
+                        $novaPagina = $paginaAtual."?ord=maiorp";
+
+                    }
+
+                }    
+                    
+                ?>
+
+                window.location="<?php echo $novaPagina; ?>";
+
+            }
+
+        }
+
+        function alterar_tamanho(tamanho){
+
+            if(tamanho == "p"){
+
+                <?php
+                    
+                if(isset($_GET["tamanho"])){
+
+                    $resultTamanho = explode(",", $tamanhoFiltro);
+
+                    if(in_array("p", $resultTamanho)){
+
+                        $key = array_search("p", $resultTamanho);
+
+                        unset($resultTamanho[$key]);
+
+                        $qtdArr = count($resultTamanho);
+
+                        if($qtdArr > 0){
+
+                            $novoTamanho = implode(",", $resultTamanho);
+
+                            $novaPagina = str_replace("tamanho=".htmlentities($_GET["tamanho"]), "tamanho=".$novoTamanho, $paginaAtual);
+
+                        }else{
+
+                            if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["ord"]) || isset($_GET["q"]) || isset($_GET["sexo"]) || isset($_GET["cat"])){
+
+                                $novaPaginaAnt = str_replace("?tamanho=".htmlentities($_GET["tamanho"]), "?filt=sim", $paginaAtual);
+
+                                $novaPagina = str_replace("&tamanho=".htmlentities($_GET["tamanho"]), "", $novaPaginaAnt);
+        
+                            }else{
+        
+                                $novaPagina = str_replace("?tamanho=".htmlentities($_GET["tamanho"]), "", $paginaAtual);
+        
+                            }
+
+                        }
+
+                    }else{
+
+                        $novoTamanho = "{$tamanhoFiltro},p";
+
+                        $novaPagina = str_replace("tamanho=".htmlentities($_GET["tamanho"]), "tamanho=".$novoTamanho, $paginaAtual);
+                    
+                    }
+
+                }else{
+
+                    if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["ord"]) || isset($_GET["tOrd"]) || isset($_GET["q"]) || isset($_GET["sexo"]) || isset($_GET["cat"])){
+
+                        $novaPagina = $paginaAtual."&tamanho=p";
+
+                    }else{
+
+                        $novaPagina = $paginaAtual."?tamanho=p";
+
+                    }
+
+                }    
+                    
+                ?>
+
+                window.location="<?php echo $novaPagina; ?>";
+
+            }else if(tamanho == "m"){
+
+                <?php
+                    
+                if(isset($_GET["tamanho"])){
+
+                    $resultTamanho = explode(",", $tamanhoFiltro);
+
+                    if(in_array("m", $resultTamanho)){
+
+                        $key = array_search("m", $resultTamanho);
+
+                        unset($resultTamanho[$key]);
+
+                        $qtdArr = count($resultTamanho);
+
+                        if($qtdArr > 0){
+
+                            $novoTamanho = implode(",", $resultTamanho);
+
+                            $novaPagina = str_replace("tamanho=".htmlentities($_GET["tamanho"]), "tamanho=".$novoTamanho, $paginaAtual);
+
+                        }else{
+
+                            if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["ord"]) || isset($_GET["q"]) || isset($_GET["sexo"]) || isset($_GET["cat"])){
+
+                                $novaPaginaAnt = str_replace("?tamanho=".htmlentities($_GET["tamanho"]), "?filt=sim", $paginaAtual);
+
+                                $novaPagina = str_replace("&tamanho=".htmlentities($_GET["tamanho"]), "", $novaPaginaAnt);
+        
+                            }else{
+        
+                                $novaPagina = str_replace("?tamanho=".htmlentities($_GET["tamanho"]), "", $paginaAtual);
+        
+                            }
+
+                        }
+
+                    }else{
+
+                        $novoTamanho = "{$tamanhoFiltro},m";
+
+                        $novaPagina = str_replace("tamanho=".htmlentities($_GET["tamanho"]), "tamanho=".$novoTamanho, $paginaAtual);
+                    
+                    }
+
+                }else{
+
+                    if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["ord"]) || isset($_GET["tOrd"]) || isset($_GET["q"]) || isset($_GET["sexo"]) || isset($_GET["cat"])){
+
+                        $novaPagina = $paginaAtual."&tamanho=m";
+
+                    }else{
+
+                        $novaPagina = $paginaAtual."?tamanho=m";
+
+                    }
+
+                }    
+                    
+                ?>
+
+                window.location="<?php echo $novaPagina; ?>";
+
+            }else if(tamanho == "g"){
+
+                <?php
+                    
+                if(isset($_GET["tamanho"])){
+
+                    $resultTamanho = explode(",", $tamanhoFiltro);
+
+                    if(in_array("g", $resultTamanho)){
+
+                        $key = array_search("g", $resultTamanho);
+
+                        unset($resultTamanho[$key]);
+
+                        $qtdArr = count($resultTamanho);
+
+                        if($qtdArr > 0){
+
+                            $novoTamanho = implode(",", $resultTamanho);
+
+                            $novaPagina = str_replace("tamanho=".htmlentities($_GET["tamanho"]), "tamanho=".$novoTamanho, $paginaAtual);
+
+                        }else{
+
+                            if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["ord"]) || isset($_GET["q"]) || isset($_GET["sexo"]) || isset($_GET["cat"])){
+
+                                $novaPaginaAnt = str_replace("?tamanho=".htmlentities($_GET["tamanho"]), "?filt=sim", $paginaAtual);
+
+                                $novaPagina = str_replace("&tamanho=".htmlentities($_GET["tamanho"]), "", $novaPaginaAnt);
+        
+                            }else{
+        
+                                $novaPagina = str_replace("?tamanho=".htmlentities($_GET["tamanho"]), "", $paginaAtual);
+        
+                            }
+
+                        }
+
+                    }else{
+
+                        $novoTamanho = "{$tamanhoFiltro},g";
+
+                        $novaPagina = str_replace("tamanho=".htmlentities($_GET["tamanho"]), "tamanho=".$novoTamanho, $paginaAtual);
+                    
+                    }
+
+                }else{
+
+                    if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["ord"]) || isset($_GET["tOrd"]) || isset($_GET["q"]) || isset($_GET["sexo"]) || isset($_GET["cat"])){
+
+                        $novaPagina = $paginaAtual."&tamanho=g";
+
+                    }else{
+
+                        $novaPagina = $paginaAtual."?tamanho=g";
+
+                    }
+
+                }    
+                    
+                ?>
+
+                window.location="<?php echo $novaPagina; ?>";
+
+            }
+
+            <?php
+            
+            $i = 1;
+
+            while($i <= 8){
+
+                ?>
+
+                else if(tamanho == "<?php echo $i; ?>"){
+
+                <?php
+                    
+                if(isset($_GET["tamanho"])){
+
+                    $resultTamanho = explode(",", $tamanhoFiltro);
+
+                    if(in_array("{$i}", $resultTamanho)){
+
+                        $key = array_search("{$i}", $resultTamanho);
+
+                        unset($resultTamanho[$key]);
+
+                        $qtdArr = count($resultTamanho);
+
+                        if($qtdArr > 0){
+
+                            $novoTamanho = implode(",", $resultTamanho);
+
+                            $novaPagina = str_replace("tamanho=".htmlentities($_GET["tamanho"]), "tamanho=".$novoTamanho, $paginaAtual);
+
+                        }else{
+
+                            if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["ord"]) || isset($_GET["q"]) || isset($_GET["sexo"]) || isset($_GET["cat"])){
+
+                                $novaPaginaAnt = str_replace("?tamanho=".htmlentities($_GET["tamanho"]), "?filt=sim", $paginaAtual);
+
+                                $novaPagina = str_replace("&tamanho=".htmlentities($_GET["tamanho"]), "", $novaPaginaAnt);
+
+                            }else{
+
+                                $novaPagina = str_replace("?tamanho=".htmlentities($_GET["tamanho"]), "", $paginaAtual);
+
+                            }
+
+                        }
+
+                    }else{
+
+                        $novoTamanho = "{$tamanhoFiltro},{$i}";
+
+                        $novaPagina = str_replace("tamanho=".htmlentities($_GET["tamanho"]), "tamanho=".$novoTamanho, $paginaAtual);
+                    
+                    }
+
+                }else{
+
+                    if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["ord"]) || isset($_GET["tOrd"]) || isset($_GET["q"]) || isset($_GET["sexo"]) || isset($_GET["cat"])){
+
+                        $novaPagina = $paginaAtual."&tamanho={$i}";
+
+                    }else{
+
+                        $novaPagina = $paginaAtual."?tamanho={$i}";
+
+                    }
+
+                }    
+                    
+                ?>
+
+                window.location="<?php echo $novaPagina; ?>";
+
+                }
+
+                <?php
+
+                $i++;
+
+            }
+            
+            ?>
+
+        }
+
+        function alterar_precos(){
+
+            var valorMinimo = document.getElementById("vMin").value;
+            var valorMaximo = document.getElementById("vMax").value;
+
+            <?php
+            
+            /* if(isset($_GET["vMin"]) || isset($_GET["vMax"]) || isset($_GET["sexo"]) || isset($_GET["cat"]) || isset($_GET["q"]) || isset($_GET["tamanho"]) || isset($_GET["ord"])) */
+
+            /* Apenas Sexo */
+            if(isset($_GET["sexo"]) && !isset($_GET["cat"]) && !isset($_GET["q"]) && !isset($_GET["tamanho"]) && !isset($_GET["ord"])){
+
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&sexo=<?php echo $sexoUrl; ?>";
+
+            <?php
+
+            }
+            /* Apenas categoria */
+            else if(!isset($_GET["sexo"]) && isset($_GET["cat"]) && !isset($_GET["q"]) && !isset($_GET["tamanho"]) && !isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&cat=<?php echo $categoriaFiltro; ?>";
+
+            <?php
+
+            }
+            /* Apenas busca */
+            else if(!isset($_GET["sexo"]) && !isset($_GET["cat"]) && isset($_GET["q"]) && !isset($_GET["tamanho"]) && !isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&q=<?php echo $buscaFiltro; ?>";
+
+            <?php
+
+            }
+            /* Apenas tamanho */
+            else if(!isset($_GET["sexo"]) && !isset($_GET["cat"]) && !isset($_GET["q"]) && isset($_GET["tamanho"]) && !isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&tamanho=<?php echo $tamanhoFiltro; ?>";
+
+            <?php
+
+            }
+            /* Apenas ordenação */
+            else if(!isset($_GET["sexo"]) && !isset($_GET["cat"]) && !isset($_GET["q"]) && !isset($_GET["tamanho"]) && isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&ord=<?php echo $ordenacao; ?>";
+
+            <?php
+
+            }
+            /* Sexo, categoria */
+            else if(isset($_GET["sexo"]) && isset($_GET["cat"]) && !isset($_GET["q"]) && !isset($_GET["tamanho"]) && !isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&sexo=<?php echo $sexoUrl; ?>&cat=<?php echo $categoriaFiltro; ?>";
+
+            <?php
+
+            }
+            /* Sexo, busca */
+            else if(isset($_GET["sexo"]) && !isset($_GET["cat"]) && isset($_GET["q"]) && !isset($_GET["tamanho"]) && !isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&sexo=<?php echo $sexoUrl; ?>&q=<?php echo $buscaFiltro; ?>";
+
+            <?php
+
+            }
+            /* Sexo, tamanho */
+            else if(isset($_GET["sexo"]) && !isset($_GET["cat"]) && !isset($_GET["q"]) && isset($_GET["tamanho"]) && !isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&sexo=<?php echo $sexoUrl; ?>&tamanho=<?php echo $tamanhoFiltro; ?>";
+
+            <?php
+
+            }
+            /* Sexo, ordenação */
+            else if(isset($_GET["sexo"]) && !isset($_GET["cat"]) && !isset($_GET["q"]) && !isset($_GET["tamanho"]) && isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&sexo=<?php echo $sexoUrl; ?>&ord=<?php echo $ordenacao; ?>";
+
+            <?php
+
+            }
+            /* Sexo, categoria, tamanho */
+            else if(isset($_GET["sexo"]) && isset($_GET["cat"]) && !isset($_GET["q"]) && isset($_GET["tamanho"]) && !isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&sexo=<?php echo $sexoUrl; ?>&cat=<?php echo $categoriaFiltro; ?>&tamanho=<?php echo $tamanhoFiltro; ?>";
+
+            <?php
+
+            }
+            /* Sexo, categoria, ordenação */
+            else if(isset($_GET["sexo"]) && isset($_GET["cat"]) && !isset($_GET["q"]) && !isset($_GET["tamanho"]) && isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&sexo=<?php echo $sexoUrl; ?>&cat=<?php echo $categoriaFiltro; ?>&ord=<?php echo $ordenacao; ?>";
+
+            <?php
+
+            }
+            /* Sexo, busca, tamanho */
+            else if(isset($_GET["sexo"]) && !isset($_GET["cat"]) && isset($_GET["q"]) && isset($_GET["tamanho"]) && !isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&sexo=<?php echo $sexoUrl; ?>&q=<?php echo $buscaFiltro; ?>&tamanho=<?php echo $tamanhoFiltro; ?>";
+
+            <?php
+
+            }
+            /* Sexo, busca, ordenacao */
+            else if(isset($_GET["sexo"]) && !isset($_GET["cat"]) && isset($_GET["q"]) && !isset($_GET["tamanho"]) && isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&sexo=<?php echo $sexoUrl; ?>&q=<?php echo $buscaFiltro; ?>&ord=<?php echo $ordenacao; ?>";
+
+            <?php
+
+            }
+            /* Sexo, tamanho, ordenacao */
+            else if(isset($_GET["sexo"]) && !isset($_GET["cat"]) && !isset($_GET["q"]) && isset($_GET["tamanho"]) && isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&sexo=<?php echo $sexoUrl; ?>&tamanho=<?php echo $tamanhoFiltro; ?>&ord=<?php echo $ordenacao; ?>";
+
+            <?php
+
+            }
+            /* Sexo, categoria, tamanho, ordenação */
+            else if(isset($_GET["sexo"]) && isset($_GET["cat"]) && !isset($_GET["q"]) && isset($_GET["tamanho"]) && isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&sexo=<?php echo $sexoUrl; ?>&cat=<?php echo $categoriaFiltro; ?>&tamanho=<?php echo $tamanhoFiltro; ?>&ord=<?php echo $ordenacao; ?>";
+
+            <?php
+
+            }
+            /* Sexo, busca, tamanho, ordenação */
+            else if(isset($_GET["sexo"]) && !isset($_GET["cat"]) && isset($_GET["q"]) && isset($_GET["tamanho"]) && isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&sexo=<?php echo $sexoUrl; ?>&q=<?php echo $buscaFiltro; ?>&tamanho=<?php echo $tamanhoFiltro; ?>&ord=<?php echo $ordenacao; ?>";
+
+            <?php
+
+            }
+            /* categoria, tamanho */
+            else if(!isset($_GET["sexo"]) && isset($_GET["cat"]) && !isset($_GET["q"]) && isset($_GET["tamanho"]) && !isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&cat=<?php echo $categoriaFiltro; ?>&tamanho=<?php echo $tamanhoFiltro; ?>";
+
+            <?php
+
+            }
+            /* categoria, ordenação */
+            else if(!isset($_GET["sexo"]) && isset($_GET["cat"]) && !isset($_GET["q"]) && !isset($_GET["tamanho"]) && isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&cat=<?php echo $categoriaFiltro; ?>&ord=<?php echo $ordenacao; ?>";
+
+            <?php
+
+            }
+            /* categoria, tamanho, ordenação */
+            else if(!isset($_GET["sexo"]) && isset($_GET["cat"]) && !isset($_GET["q"]) && isset($_GET["tamanho"]) && isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&cat=<?php echo $categoriaFiltro; ?>&tamanho=<?php echo $tamanhoFiltro; ?>&ord=<?php echo $ordenacao; ?>";
+
+            <?php
+
+            }
+            /* busca, tamanho */
+            else if(!isset($_GET["sexo"]) && !isset($_GET["cat"]) && isset($_GET["q"]) && isset($_GET["tamanho"]) && !isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&q=<?php echo $buscaFiltro; ?>&tamanho=<?php echo $tamanhoFiltro; ?>";
+
+            <?php
+
+            }
+            /* busca, ordenação */
+            else if(!isset($_GET["sexo"]) && !isset($_GET["cat"]) && isset($_GET["q"]) && !isset($_GET["tamanho"]) && isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&q=<?php echo $buscaFiltro; ?>&ord=<?php echo $ordenacao; ?>";
+
+            <?php
+
+            }
+            /* busca, tamanho, ordenação */
+            else if(!isset($_GET["sexo"]) && !isset($_GET["cat"]) && isset($_GET["q"]) && isset($_GET["tamanho"]) && isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&q=<?php echo $buscaFiltro; ?>&tamanho=<?php echo $tamanhoFiltro; ?>&ord=<?php echo $ordenacao; ?>";
+
+            <?php
+
+            }
+            /* tamanho, ordenação */
+            else if(!isset($_GET["sexo"]) && !isset($_GET["cat"]) && !isset($_GET["q"]) && isset($_GET["tamanho"]) && isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo+"&tamanho=<?php echo $tamanhoFiltro; ?>&ord=<?php echo $ordenacao; ?>";
+
+            <?php
+
+            }
+            /* Apenas valores */
+            else if(!isset($_GET["sexo"]) && !isset($_GET["cat"]) && !isset($_GET["q"]) && !isset($_GET["tamanho"]) && !isset($_GET["ord"])){
+            
+            ?>
+
+            window.location="loja?vMin="+valorMinimo+"&vMax="+valorMaximo;
+
+            <?php
+
+            }
+
+            ?>
+
+        }
 
     </script>
 
@@ -119,15 +976,23 @@
 
                     <td>
 
-                        <input type="number" class="form-control" id="vMin2">
+                        <div class="input-group">
+                            <span class="input-group-text">R$</span>
+                            <input type="number" id="vMin2" autocomplete="off" class="form-control" name="vMin" required>
+                        </div>
 
                     </td>
 
-                    <td width="30px">à</td>
+                </tr>
 
-                    <td>
+                <tr>
 
-                        <input type="number" class="form-control" id="vMax2">
+                    <td class="pt-3">
+
+                        <div class="input-group">
+                            <span class="input-group-text">R$</span>
+                            <input type="number" id="vMax2" autocomplete="off" class="form-control" name="vMax" required>
+                        </div>
 
                     </td>
 
@@ -135,9 +1000,9 @@
 
             </table>
 
-            <div id="slider-range2" class="mt-3"></div>
+            <div id="slider-range2" class="mt-3 d-none"></div>
 
-            <button type="button" class="form-control mt-3" id="botaoFiltrar">FILTRAR</button>
+            <button onclick="alterar_precos()" type="button" class="form-control mt-3" id="botaoFiltrar">FILTRAR</button>
 
         </div>
 
@@ -147,183 +1012,209 @@
 
             <table border="0" cellspacing="0" width="100%" class="text-center">
 
-                <tr>
+            <?php
+                            
+            $resultTamanho = explode(",", $tamanhoFiltro);
+            
+            ?>
 
-                    <td>
+            <tr>
 
-                        <input type="checkbox"> P
+                <td>
 
-                    </td>
+                    <input id="tamanhop" type="checkbox" onchange="alterar_tamanho('p')" <?php
+                    
+                    $key = array_search("p", $resultTamanho);
 
-                    <td>
+                    if(in_array("p", $resultTamanho)){
 
-                        <input type="checkbox"> M
+                        echo "checked";
 
-                    </td>
+                    }
+                    
+                    ?>> <label for="tamanhop">P</label>
 
-                    <td>
+                </td>
 
-                        <input type="checkbox"> G
+                <td>
 
-                    </td>
+                    <input id="tamanhom" type="checkbox" onchange="alterar_tamanho('m')" <?php
+                    
+                    $key = array_search("m", $resultTamanho);
 
-                </tr>
+                    if(in_array("m", $resultTamanho)){
 
-                <tr>
+                        echo "checked";
 
-                    <td>
+                    }
+                    
+                    ?>> <label for="tamanhom">M</label>
 
-                        <input type="checkbox"> 1
+                </td>
 
-                    </td>
+                <td>
 
-                    <td>
+                    <input id="tamanhog" type="checkbox" onchange="alterar_tamanho('g')" <?php
+                    
+                    $key = array_search("g", $resultTamanho);
 
-                        <input type="checkbox"> 2
+                    if(in_array("g", $resultTamanho)){
 
-                    </td>
+                        echo "checked";
 
-                    <td>
+                    }
+                    
+                    ?>> <label for="tamanhog">G</label>
 
-                        <input type="checkbox"> 3
+                </td>
 
-                    </td>
+            </tr>
 
-                </tr>
+            <tr>
 
-                <tr>
+                <td>
 
-                    <td>
+                    <input id="tamanho1" type="checkbox" onchange="alterar_tamanho('1')" <?php
+                    
+                    $key = array_search("1", $resultTamanho);
 
-                        <input type="checkbox"> 4
+                    if(in_array("1", $resultTamanho)){
 
-                    </td>
+                        echo "checked";
 
-                    <td>
+                    }
+                    
+                    ?>> <label for="tamanho1">1</label>
 
-                        <input type="checkbox"> 5
+                </td>
 
-                    </td>
+                <td>
 
-                    <td>
+                    <input id="tamanho2" type="checkbox" onchange="alterar_tamanho('2')" <?php
+                    
+                    $key = array_search("2", $resultTamanho);
 
-                        <input type="checkbox"> 6
+                    if(in_array("2", $resultTamanho)){
 
-                    </td>
+                        echo "checked";
 
-                </tr>
+                    }
+                    
+                    ?>> <label for="tamanho2">2</label>
 
-                <tr>
+                </td>
 
-                    <td>
+                <td>
 
-                        <input type="checkbox"> 7
+                    <input id="tamanho3" type="checkbox" onchange="alterar_tamanho('3')" <?php
+                    
+                    $key = array_search("3", $resultTamanho);
 
-                    </td>
+                    if(in_array("3", $resultTamanho)){
 
-                    <td>
+                        echo "checked";
 
-                        <input type="checkbox"> 8
+                    }
+                    
+                    ?>> <label for="tamanho3">3</label>
 
-                    </td>
+                </td>
 
-                    <td>
+            </tr>
 
-                        
+            <tr>
 
-                    </td>
+                <td>
 
-                </tr>
+                    <input id="tamanho4" type="checkbox" onchange="alterar_tamanho('4')" <?php
+                    
+                    $key = array_search("4", $resultTamanho);
 
-            </table>
+                    if(in_array("4", $resultTamanho)){
 
-        </div>
+                        echo "checked";
 
-        <span>Marca</span>
+                    }
+                    
+                    ?>> <label for="tamanho4">4</label>
 
-        <div id="filtroValores" class="caixaFiltroMarca" align="center">
+                </td>
 
-            <table border="0" cellspacing="0" id="tabelaMarca">
+                <td>
 
-                <tr>
+                    <input id="tamanho5" type="checkbox" onchange="alterar_tamanho('5')" <?php
+                    
+                    $key = array_search("5", $resultTamanho);
 
-                    <td>
+                    if(in_array("5", $resultTamanho)){
 
-                        <input type="checkbox"> Marca 1
+                        echo "checked";
 
-                    </td>
+                    }
+                    
+                    ?>> <label for="tamanho5">5</label>
 
-                </tr>
+                </td>
 
-                <tr>
+                <td>
 
-                    <td>
+                    <input id="tamanho6" type="checkbox" onchange="alterar_tamanho('6')" <?php
+                    
+                    $key = array_search("6", $resultTamanho);
 
-                        <input type="checkbox"> Marca 2
+                    if(in_array("6", $resultTamanho)){
 
-                    </td>
+                        echo "checked";
 
-                </tr>
+                    }
+                    
+                    ?>> <label for="tamanho6">6</label>
 
-                <tr>
+                </td>
 
-                    <td>
+            </tr>
 
-                        <input type="checkbox"> Marca 3
+            <tr>
 
-                    </td>
+                <td>
 
-                </tr>
+                    <input id="tamanho7" type="checkbox" onchange="alterar_tamanho('7')" <?php
+                    
+                    $key = array_search("7", $resultTamanho);
 
-                <tr>
+                    if(in_array("7", $resultTamanho)){
 
-                    <td>
+                        echo "checked";
 
-                        <input type="checkbox"> Marca 4
+                    }
+                    
+                    ?>> <label for="tamanho7">7</label>
 
-                    </td>
+                </td>
 
-                </tr>
+                <td>
 
-                <tr>
+                    <input id="tamanho8" type="checkbox" onchange="alterar_tamanho('8')" <?php
+                    
+                    $key = array_search("8", $resultTamanho);
 
-                    <td>
+                    if(in_array("8", $resultTamanho)){
 
-                        <input type="checkbox"> Marca 5
+                        echo "checked";
 
-                    </td>
+                    }
+                    
+                    ?>> <label for="tamanho8">8</label>
 
-                </tr>
+                </td>
 
-                <tr>
+                <td>
 
-                    <td>
+                    
 
-                        <input type="checkbox"> Marca 5
+                </td>
 
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <td>
-
-                        <input type="checkbox"> Marca 5
-
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <td>
-
-                        <input type="checkbox"> Marca 5
-
-                    </td>
-
-                </tr>
+            </tr>
 
             </table>
 
@@ -351,11 +1242,9 @@
 
                                     <td>
 
-                                        <!-- <input type="number" class="form-control" id="vMin"> -->
-
                                         <div class="input-group">
                                             <span class="input-group-text">R$</span>
-                                            <input type="number" id="vMin" autocomplete="off" class="form-control" name="porcentagem" required>
+                                            <input type="number" id="vMin" autocomplete="off" class="form-control" name="vMin" required>
                                         </div>
 
                                     </td>
@@ -366,11 +1255,9 @@
 
                                     <td class="pt-3">
 
-                                        <!-- <input type="number" class="form-control" id="vMax"> -->
-
                                         <div class="input-group">
                                             <span class="input-group-text">R$</span>
-                                            <input type="number" id="vMax" autocomplete="off" class="form-control" name="porcentagem" required>
+                                            <input type="number" id="vMax" autocomplete="off" class="form-control" name="vMax" required>
                                         </div>
 
                                     </td>
@@ -381,7 +1268,7 @@
 
                             <div id="slider-range" class="mt-3"></div>
 
-                            <button type="button" class="form-control mt-3" id="botaoFiltrar">FILTRAR</button>
+                            <button onclick="alterar_precos()" type="button" class="form-control mt-3" id="botaoFiltrar">FILTRAR</button>
 
                         </div>
 
@@ -395,63 +1282,49 @@
 
                                     <td>
 
-                                        <input type="checkbox"> P
+                                        <input id="tamanhop" type="checkbox" onchange="alterar_tamanho('p')" <?php
+                                        
+                                        $key = array_search("p", $resultTamanho);
+
+                                        if(in_array("p", $resultTamanho)){
+
+                                            echo "checked";
+
+                                        }
+                                        
+                                        ?>> <label for="tamanhop">P</label>
 
                                     </td>
 
                                     <td>
 
-                                        <input type="checkbox"> M
+                                        <input id="tamanhom" type="checkbox" onchange="alterar_tamanho('m')" <?php
+                                        
+                                        $key = array_search("m", $resultTamanho);
+
+                                        if(in_array("m", $resultTamanho)){
+
+                                            echo "checked";
+
+                                        }
+                                        
+                                        ?>> <label for="tamanhom">M</label>
 
                                     </td>
 
                                     <td>
 
-                                        <input type="checkbox"> G
+                                        <input id="tamanhog" type="checkbox" onchange="alterar_tamanho('g')" <?php
+                                        
+                                        $key = array_search("g", $resultTamanho);
 
-                                    </td>
+                                        if(in_array("g", $resultTamanho)){
 
-                                </tr>
+                                            echo "checked";
 
-                                <tr>
-
-                                    <td>
-
-                                        <input type="checkbox"> 1
-
-                                    </td>
-
-                                    <td>
-
-                                        <input type="checkbox"> 2
-
-                                    </td>
-
-                                    <td>
-
-                                        <input type="checkbox"> 3
-
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-
-                                    <td>
-
-                                        <input type="checkbox"> 4
-
-                                    </td>
-
-                                    <td>
-
-                                        <input type="checkbox"> 5
-
-                                    </td>
-
-                                    <td>
-
-                                        <input type="checkbox"> 6
+                                        }
+                                        
+                                        ?>> <label for="tamanhog">G</label>
 
                                     </td>
 
@@ -461,13 +1334,137 @@
 
                                     <td>
 
-                                        <input type="checkbox"> 7
+                                        <input id="tamanho1" type="checkbox" onchange="alterar_tamanho('1')" <?php
+                                        
+                                        $key = array_search("1", $resultTamanho);
+
+                                        if(in_array("1", $resultTamanho)){
+
+                                            echo "checked";
+
+                                        }
+                                        
+                                        ?>> <label for="tamanho1">1</label>
 
                                     </td>
 
                                     <td>
 
-                                        <input type="checkbox"> 8
+                                        <input id="tamanho2" type="checkbox" onchange="alterar_tamanho('2')" <?php
+                                        
+                                        $key = array_search("2", $resultTamanho);
+
+                                        if(in_array("2", $resultTamanho)){
+
+                                            echo "checked";
+
+                                        }
+                                        
+                                        ?>> <label for="tamanho2">2</label>
+
+                                    </td>
+
+                                    <td>
+
+                                        <input id="tamanho3" type="checkbox" onchange="alterar_tamanho('3')" <?php
+                                        
+                                        $key = array_search("3", $resultTamanho);
+
+                                        if(in_array("3", $resultTamanho)){
+
+                                            echo "checked";
+
+                                        }
+                                        
+                                        ?>> <label for="tamanho3">3</label>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>
+
+                                        <input id="tamanho4" type="checkbox" onchange="alterar_tamanho('4')" <?php
+                                        
+                                        $key = array_search("4", $resultTamanho);
+
+                                        if(in_array("4", $resultTamanho)){
+
+                                            echo "checked";
+
+                                        }
+                                        
+                                        ?>> <label for="tamanho4">4</label>
+
+                                    </td>
+
+                                    <td>
+
+                                        <input id="tamanho5" type="checkbox" onchange="alterar_tamanho('5')" <?php
+                                        
+                                        $key = array_search("5", $resultTamanho);
+
+                                        if(in_array("5", $resultTamanho)){
+
+                                            echo "checked";
+
+                                        }
+                                        
+                                        ?>> <label for="tamanho5">5</label>
+
+                                    </td>
+
+                                    <td>
+
+                                        <input id="tamanho6" type="checkbox" onchange="alterar_tamanho('6')" <?php
+                                        
+                                        $key = array_search("6", $resultTamanho);
+
+                                        if(in_array("6", $resultTamanho)){
+
+                                            echo "checked";
+
+                                        }
+                                        
+                                        ?>> <label for="tamanho6">6</label>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>
+
+                                        <input id="tamanho7" type="checkbox" onchange="alterar_tamanho('7')" <?php
+                                        
+                                        $key = array_search("7", $resultTamanho);
+
+                                        if(in_array("7", $resultTamanho)){
+
+                                            echo "checked";
+
+                                        }
+                                        
+                                        ?>> <label for="tamanho7">7</label>
+
+                                    </td>
+
+                                    <td>
+
+                                        <input id="tamanho8" type="checkbox" onchange="alterar_tamanho('8')" <?php
+                                        
+                                        $key = array_search("8", $resultTamanho);
+
+                                        if(in_array("8", $resultTamanho)){
+
+                                            echo "checked";
+
+                                        }
+                                        
+                                        ?>> <label for="tamanho8">8</label>
 
                                     </td>
 
@@ -497,21 +1494,48 @@
                                 
                                 </div>
 
-                                <div id="bFeminino" class="float-start text-center d-inline-block botaoTipoAtivo me-1">
+                                <div id="bFeminino" onclick="mudar_link_sexo('t')" class="float-start text-center <?php
+                                
+                                if(!isset($_GET["sexo"]) || $_GET["sexo"] == "tud"){
+
+                                    echo "botaoTipoAtivo";
+
+                                }
+                                
+                                ?> d-inline-block me-1">
                                     
-                                    <p id="textoTipo" class="fs-4">T</p>
+                                    <p id="textoTipo" class="fs-6 d-none d-md-block">TUDO</p>
+                                    <p id="textoTipo" class="fs-5 d-block d-md-none">T</p>
                                 
                                 </div>
 
-                                <div id="bFeminino" class="float-start text-center text-secondary d-inline-block me-1">
+                                <div id="bFeminino" onclick="mudar_link_sexo('f')" class="float-start text-center <?php
+                                
+                                if($_GET["sexo"] == "fem"){
+
+                                    echo "botaoTipoAtivo";
+
+                                }
+                                
+                                ?> d-inline-block me-1">
                                     
-                                    <p id="textoTipo" class="fs-4">F</p>
+                                    <p id="textoTipo" class="fs-6 d-none d-md-block">FEMENINO</p>
+                                    <p id="textoTipo" class="fs-5 d-block d-md-none">F</p>
                                 
                                 </div>
 
-                                <div id="bFeminino" class="float-start text-center text-secondary d-inline-block">
+                                <div id="bFeminino" onclick="mudar_link_sexo('m')" class="float-start text-center <?php
+                                
+                                if($_GET["sexo"] == "masc"){
+
+                                    echo "botaoTipoAtivo";
+
+                                }
+                                
+                                ?> d-inline-block">
                                     
-                                    <p id="textoTipo" class="fs-4">M</p>
+                                    <p id="textoTipo" class="fs-6 d-none d-md-block">MASCULINO</p>
+                                    <p id="textoTipo" class="fs-5 d-block d-md-none">M</p>
                                 
                                 </div>
 
@@ -519,14 +1543,14 @@
 
                             <div class="col-4">
 
-                                <select id="selectOrganizar" class="float-end">
+                                <select id="selectOrganizar" class="float-end" onchange="alterar_ordenacao(this.value)">
 
-                                    <option>Organizar por</option>
-                                    <option>Nome</option>
-                                    <option>Último adicionado</option>
-                                    <option>Primeiro adicionado</option>
-                                    <option>Menor preço</option>
-                                    <option>Maior preço</option>
+                                    <option hidden disbled>Organizar por</option>
+                                    <option value="nome">Nome</option>
+                                    <option value="ua">Último adicionado</option>
+                                    <option value="pa">Primeiro adicionado</option>
+                                    <option value="menorp">Menor preço</option>
+                                    <option value="maiorp">Maior preço</option>
 
                                 </select>
 
@@ -562,34 +1586,29 @@
 
                         <div class="row" id="espacoProdutos">
 
-                            <!-- <div class="col-12 col-sm-6 col-md-4">
-                
-                                <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-                    
-                                    <img src="img/produtos/exemplo6.jpg" id="fotoAnelProdutos">
-                    
-                                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-                    
-                                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-                    
-                                    <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-                    
-                                    <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-                    
-                                </div>
-                
-                            </div> -->
-
                             <?php
+
+                            $funcRetornaProdutos = $classeProdutos->retorna_lista_produtos(1, $vMin, $vMax, $categoriaFiltro, $sexoUrl, $ordenacao, $buscaFiltro, $tamanhoFiltro);
+
+                            if($funcRetornaProdutos != false){
                             
-                            foreach($classesProdutos->retorna_lista_produtos(1)[0] as $arrProdutos){
+                            foreach($funcRetornaProdutos[0] as $arrProdutos){
+
+                                $nomeComTraco = str_replace(" ", "-", $arrProdutos["nome"]);
+                                $transformarEmMinuscula = mb_strtolower($nomeComTraco, "UTF-8");
+                                $trataInjection = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", $transformarEmMinuscula);
+                                $str1 = preg_replace('/[áàãâä]/ui', 'a', $trataInjection);
+                                $str2 = preg_replace('/[éèêë]/ui', 'e', $str1);
+                                $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
+                                $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
+                                $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
+                                $str6 = preg_replace('/[ç]/ui', 'c', $str5);
                             
                             ?>
 
                             <div class="col-12 col-sm-6 col-md-4">
 
-                                <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
+                                <div onclick="window.location='produto/<?php echo $str6; ?>'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
 
                                     <img src="img/produtos/<?php echo $arrProdutos["foto"]; ?>" id="fotoAnelProdutos">
 
@@ -606,11 +1625,25 @@
 
                             }
 
+                            }else{
+
+                            ?>
+
+                            <div class="col-12 text-center mt-5 text-secondary">
+
+                                OOPS NÃO ENCONTRAMOS NADA AQUI!
+
+                            </div>
+
+                            <?php
+                            
+                            }
+                            
                             ?>
 
                         </div>
 
-                        <div class="row mt-3">
+                        <div class="row mt-5">
 
                             <div class="col text-center">
 
@@ -618,7 +1651,9 @@
 
                                 <button id="botaoMostrar">Carregar mais</button>
 
-                                <img id="imgLoading" src='img/carregando.gif' class="d-none" width='80px'>
+                                <span class="text-secondary d-none" id="issoETudo">ISSO É TUDO!<br>AJUSTE SEU FILTRO, TALVEZ ENCONTRE MAIS PRODUTOS :) </span>
+
+                                <img id="imgLoading" src='img/carregando3.gif' class="d-none" width='80px'>
 
                             </div>
 
@@ -626,7 +1661,7 @@
 
                         <script>
 
-                        function retornaProdutos(pg) {
+                        function retornaProdutos(pg, vMin, vMax, sexo, ordenacao, tamanho, categoria, busca) {
                             
                             $.ajax({
 
@@ -643,7 +1678,7 @@
 
                                 }, */
 
-                                data: {pg: pg},
+                                data: {pg: pg, vMin: vMin, vMax: vMax, sexo: sexo, ordenacao: ordenacao, tamanho: tamanho, categoria: categoria, busca: busca},
 
                                 success: function (msg) {
 
@@ -665,7 +1700,7 @@
 
                             var pg = document.getElementById("hiddenPg").value;
 
-                            retornaProdutos(pg);
+                            retornaProdutos(pg, "<?php echo $vMin ?>", "<?php echo $vMax ?>", "<?php echo $sexoUrl ?>", "<?php echo $ordenacao ?>", "<?php echo $tamanhoFiltro ?>", "<?php echo $categoriaFiltro ?>", "<?php echo $buscaFiltro ?>");
 
                             $("#hiddenPg").val(parseInt(pg) + 1);
 
