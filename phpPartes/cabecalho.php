@@ -1,5 +1,17 @@
 <link rel="stylesheet" href="cssPartes/cabecalho.css">
 
+<?php
+
+if(!isset($classeClientes)){
+    
+    /* Iniciando classe */
+    include "classes/clientes.class.php";
+    $classeClientes = new clientes();
+
+}
+
+?>
+
 <script>
 
     function abrir_campo_busca(tipo){
@@ -44,6 +56,34 @@
 
             corpoLogar.classList.remove("d-none");
             corpoCadastrar.classList.add("d-none");
+
+        }
+
+    }
+
+    function verificar_senha_igual(senha2){
+
+        var senha1 = document.getElementById("inputSenha").value;
+
+        if(senha1 != "" && senha2 != ""){
+
+            if(senha1 != senha2){
+
+                $("#campoDicaSenha").text("Campo senha e confirmar senha são diferentes!");
+                $("#campoDicaSenha").removeClass("text-white");
+                $("#campoDicaSenha").addClass("text-info");
+
+                $('#botaoCadastrar').attr('disabled', 'disabled');
+
+            }else{
+
+                $("#campoDicaSenha").text("Dica: use letras e números; não use uma senha muito óbvia");
+                $("#campoDicaSenha").addClass("text-secondary");
+                $("#campoDicaSenha").removeClass("text-info");
+
+                $('#botaoCadastrar').removeAttr('disabled', 'disabled');
+
+            }
 
         }
 
@@ -150,15 +190,79 @@
                     <div id="espacoUser-compensa"></div>
                     <div id="espacoUser">
 
+                        <?php
+                        
+                        if(isset($_COOKIE["iu_mb"]) && isset($_COOKIE["eu_mb"]) && isset($_COOKIE["su_mb"])){
+
+                            if($classeClientes->verificaExistenciaUsuario($_COOKIE["iu_mb"], $_COOKIE["eu_mb"], $_COOKIE["su_mb"]) != true){
+
+                                die("<script>window.location='php/deslogar.php'</script>");
+
+                            }else{
+
+                            ?>
+
+                            <div id="espacoMenuUser" class="text-center text-secondary">
+
+                                <div id="espacoNomeUsuario">
+
+                                    <p class="pt-1">Bem vindo Erick Mota</p>
+
+                                </div>
+
+                                <table class="mt-3" width="100%" align="center" border="0px">
+
+                                    <tr>
+
+                                        <td width="33%">
+
+                                            <img src="img/check.png" width="40px"><br>
+
+                                            Pedidos
+
+                                        </td>
+
+                                        <td width="33%">
+
+                                            <img src="img/config.png" width="40px"><br>
+
+                                            Ajustes
+                                            
+                                        </td>
+
+                                        <td width="33%" style="cursor: pointer;" onclick="window.location='php/deslogar.php'">
+
+                                            <img src="img/sair.png" width="40px"><br>
+
+                                            Sair
+                                            
+                                        </td>
+
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+                            <?php
+
+                            }
+
+                        }else{
+                        
+                        ?>
+
                         <div id="espacoLoginUser" class="text-center ps-4 pe-4">
 
-                            <form>
+                            <form method="POST" action="php/login.php">
 
-                                <input type="email" id="campoUser" class="mt-4" placeholder=" E-mail"><br>
+                                <input name="email" type="email" class="campoUser mt-4" placeholder=" E-mail"><br>
     
-                                <input type="password" id="campoUser" placeholder=" Senha"><br>
+                                <input name="senha" type="password" class="campoUser" placeholder=" Senha"><br>
+
+                                <input type="hidden" value="<?php echo $_SERVER["REQUEST_URI"] ?>" name="url">
     
-                                <button type="submit" class="mb-3" id="botaoUser">ENTRAR</button>
+                                <button type="submit" class="botaoUser mb-3">ENTRAR</button>
     
                             </form>
     
@@ -168,9 +272,9 @@
 
                                 <form method="POST" action="php/esqueciSenha.php">
 
-                                    <input type="email" id="campoUser" placeholder=" E-mail cadastrado" name="esqueci-email" required>
+                                    <input type="email" class="campoUser" placeholder=" E-mail cadastrado" name="esqueci-email" required>
 
-                                    <input type="submit" id="botaoUser2" class="btn mt-2" value="LEMBRAR SENHA">
+                                    <input type="submit" class="botaoUser2 btn mt-2" value="LEMBRAR SENHA">
 
                                 </form>
 
@@ -192,28 +296,92 @@
 
                             <p class="botaoLink text-decoration-none mt-3" onclick="alterar_login_cadastro(2)"><small id="botaoVoltarLogin"><- Fazer login</small></p>
 
-                            <form>
+                            <form method="POST" action="php/cadastrarCliente.php">
 
-                                <input type="text" id="campoUser" class="mt-1" placeholder=" Seu nome" name="nome" maxlength="27" required><br>
+                                <input type="text" class="campoUser mt-1" placeholder=" Seu nome" name="nome" maxlength="27" required><br>
                                 <small class="text-secondary">Como gostaria de ser chamado(a)?</small><br>
 
-                                <input type="email" id="campoUser" placeholder=" Seu-email" name="email" id="inputEmail" autocomplete="off" required><br>
+                                <input type="email" class="campoUser" placeholder=" Seu-email" name="email" id="inputEmail" autocomplete="off" required><br>
                                 <small class="text-secondary" id="espacoVerificarEmail">Use o seu melhor e-mail</small><br>
 
-                                <input id="inputSenha" type="password" placeholder=" Sua senha" name="senha" maxlength="20" required><br>
+                                <script>
 
-                                <input onkeyup="verificar_senha_igual(this.value)" id="campoUser" type="password" placeholder=" Confirme a senha" maxlength="20" name="confirmarSenha" required><br>
+                                    function verifica_existencia_email(email) {
+
+                                    $.ajax({
+
+                                        type: "POST",
+                                        dataType: "html",
+
+                                        url: "ajax/verificar_email.php",
+
+                                        /* beforeSend: function () {
+
+                                            $("#espacoPagseguro").html("<img class='imgLoading' src='img/loading.gif' width='50px'>");
+
+                                        }, */
+
+                                        data: {email: email},
+
+                                        success: function (msg) {
+
+                                            $("#espacoVerificarEmail").html(msg);
+
+                                            var espacoMsg = $("#espacoVerificarEmail").text();  
+
+                                            if(espacoMsg == "Esse e-mail já existe em nossa base de dados, tente clicar em esqueci a senha."){
+
+                                                $('#botaoCadastrar').attr('disabled', 'disabled');
+
+                                            }else{
+
+                                                $('#botaoCadastrar').removeAttr('disabled', 'disabled');
+
+                                            }
+
+                                            /* setTimeout(function() {
+                                                $("#areaIconeOk").html("");
+                                                $("#textoAnotacoesRapidas").removeClass("is-valid");;
+                                            }, 3000); */
+
+                                        }
+
+                                    });
+
+                                    }
+
+                                    $("#inputEmail").keyup(function(){
+
+                                    var inputEmail = document.getElementById("inputEmail").value;
+
+                                    verifica_existencia_email(inputEmail);
+
+                                    });
+
+                                </script>
+
+                                <input id="inputSenha" class="inputSenha" type="password" placeholder=" Sua senha" name="senha" maxlength="20" required><br>
+
+                                <input onkeyup="verificar_senha_igual(this.value)" class="campoUser" type="password" placeholder=" Confirme a senha" maxlength="20" name="confirmarSenha" required><br>
                                 <small class="text-secondary" id="campoDicaSenha">Dica: use letras e números; não use uma senha muito óbvia</small><br>
 
-                                <input type="submit" id="botaoUser" value="CADASTRAR">
+                                <input type="submit" id="botaoCadastrar" class="botaoUser" value="CADASTRAR">
 
                             </form>
 
                         </div>
+                        
+                        <?php
+                        
+                        }
+                        
+                        ?>
 
                     </div>
 
                     <img src="img/bag.png" class="d-none d-sm-inline" id="iconeBag">
+
+                    <div onclick="window.location='sacola'" id="numeroItemSacola" class="text-center"><p class="">0</p></div>
 
                     <img src="img/search.png" onclick="abrir_campo_busca(true)" class="d-none d-lg-inline" id="iconeBusca">
 
