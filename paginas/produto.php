@@ -195,6 +195,74 @@
 
     }
 
+    function cadastrarProdutoCarrinho(variacao_complementar, variacao_complementar2, variacao_complementar3){
+
+        var qtdCarrinho = document.getElementById("selectQtd").value;
+
+        var hiddenTamanho = document.getElementById("hiddenTamanho").value;
+
+        var hiddenVariacaoAdicional = document.getElementById("hiddenVariacaoAdicional").value;
+        var boxVariacaoAdicional = document.getElementById("boxVariacaoAdicional");
+        var hiddenVariacaoAdicional2 = document.getElementById("hiddenVariacaoAdicional2").value;
+        var boxVariacaoAdicional2 = document.getElementById("boxVariacaoAdicional2");
+        var hiddenVariacaoAdicional3 = document.getElementById("hiddenVariacaoAdicional3").value;
+        var boxVariacaoAdicional3 = document.getElementById("boxVariacaoAdicional3");
+        var botaoAdicionarCarrinho = document.getElementById("botaoAddCarrinho");
+
+        if(variacao_complementar < 1){
+
+            hiddenVariacaoAdicional = "SE";
+
+        }
+
+        if(variacao_complementar2 < 1){
+
+            hiddenVariacaoAdicional2 = "SE";
+
+        }
+
+        if(variacao_complementar3 < 1){
+
+            hiddenVariacaoAdicional3 = "SE";
+
+        }
+
+        if(hiddenTamanho == ""){
+
+            alert("Por favor, selecione o tamanho desejado!");
+
+            return false;
+
+        }
+
+        if(hiddenVariacaoAdicional == "" && hiddenVariacaoAdicional != "SE"){
+
+            alert("Por favor, selecione uma das opções acima!");
+
+            return false;
+
+        }
+
+        if(hiddenVariacaoAdicional2 == "" && hiddenVariacaoAdicional2 != "SE"){
+
+            alert("Por favor, selecione uma das opções acima!");
+
+            return false;
+
+        }
+
+        if(hiddenVariacaoAdicional3 == "" && hiddenVariacaoAdicional3 != "SE"){
+
+            alert("Por favor, selecione uma das opções acima!");
+
+            return false;
+
+        }
+
+        window.location = "php/adicionarSacola.php?tamanho="+hiddenTamanho+"&variacaoComplementar="+hiddenVariacaoAdicional+"&variacaoComplementar2="+hiddenVariacaoAdicional2+"&variacaoComplementar3="+hiddenVariacaoAdicional3+"&quantidade="+qtdCarrinho+"&idProduto=<?php echo $arrProduto['id'] ?>";
+
+    }
+
     </script>
 
 </head>
@@ -261,6 +329,20 @@
 
                     <div class="col-4">
 
+                        <?php
+                        
+                        if($arrProduto["qtd_estoque"] < 1 || $arrProduto["estado"] != "publicado-disponivel"){
+                        
+                        ?>
+
+                        <span class="text-black-50">Produto indisponível</span>
+
+                        <?php
+                        
+                        }else{
+                        
+                        ?>
+
                         <select class="mt-2 text-secondary" id="selectQtd">
 
                             <?php
@@ -282,6 +364,12 @@
                             ?>
 
                         </select>
+
+                        <?php
+                        
+                        }
+                        
+                        ?>
 
                     </div>
 
@@ -309,7 +397,7 @@
 
                 <?php
                 
-                if($arrProduto["id_variacao_produto"] == 0){
+                if($arrProduto["id_variacao_produto"] == null){
 
                     $variacaoAdd = "d-none";
 
@@ -319,7 +407,7 @@
 
                 }
 
-                if($arrProduto["id_variacao_produto2"] == 0){
+                if($arrProduto["id_variacao_produto2"] == null){
 
                     $variacaoAdd2 = "d-none";
 
@@ -329,7 +417,7 @@
 
                 }
 
-                if($arrProduto["id_variacao_produto3"] == 0){
+                if($arrProduto["id_variacao_produto3"] == null){
 
                     $variacaoAdd3 = "d-none";
 
@@ -445,7 +533,7 @@
                         
                         if($verTamanho[3] != "desativado"){
 
-                            echo "mudarTamanho(3)";
+                            echo "mudarTamanho(1)";
 
                         }
                         
@@ -560,7 +648,7 @@
                 </div>
 
                 <!-- Variação Adicional -->
-                <div class="row justify-content-center mt-4 <?php echo $variacaoAdd; ?>">
+                <div class="row justify-content-center mt-4 <?php echo $variacaoAdd ?>">
 
                     <div id="boxVariacaoAdicional" class="boxAro col-12 col-lg-10">
 
@@ -621,7 +709,7 @@
                 </div>
 
                 <!-- Variação Adicional2 -->
-                <div class="row justify-content-center mt-2 <?php echo $variacaoAdd2; ?>">
+                <div class="row justify-content-center mt-2 <?php echo $variacaoAdd2 ?>">
 
                     <div id="boxVariacaoAdicional" class="boxAro col-12 col-lg-10">
 
@@ -682,7 +770,7 @@
                 </div>
 
                 <!-- Variação Adicional3 -->
-                <div class="row justify-content-center mt-2 <?php echo $variacaoAdd3; ?>">
+                <div class="row justify-content-center mt-2 <?php echo $variacaoAdd3 ?>">
 
                     <div id="boxVariacaoAdicional" class="boxAro col-12 col-lg-10">
 
@@ -829,7 +917,83 @@
 
                     <div class="col-12 col-lg-10 text-center">
 
-                        <button onclick="cadastrarProdutoCarrinho()" id="botaoAddCarrinho">ADICIONAR À SACOLA</button>
+                        <?php
+                        
+                        if($arrProduto["qtd_estoque"] < 1 || $arrProduto["estado"] != "publicado-disponivel"){
+                        
+                        ?>
+
+                        <span class="text-black-50">Produto indisponível</span>
+
+                        <a href="loja"><button class="mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal" id="botaoVerMaisOpcoes">IR PARA LOJA</button></a>
+
+                        <?php
+                        
+                        }else{
+                        
+                        ?>
+
+                        <?php
+                        
+                        $variacao_complementar = $arrProduto['id_variacao_produto'];
+                        $variacao_complementar2 = $arrProduto['id_variacao_produto2'];
+                        $variacao_complementar3 = $arrProduto['id_variacao_produto3'];
+
+                        if($arrProduto["id_variacao_produto"] == null){
+
+                            $variacao_complementar = 0;
+
+                        }else{
+
+                            $variacao_complementar = 1;
+
+                        }
+
+                        if($arrProduto["id_variacao_produto2"] == null){
+
+                            $variacao_complementar2 = 0;
+
+                        }else{
+
+                            $variacao_complementar2 = 1;
+
+                        }
+
+                        if($arrProduto["id_variacao_produto3"] == null){
+
+                            $variacao_complementar3 = 0;
+
+                        }else{
+
+                            $variacao_complementar3 = 1;
+
+                        }
+
+                        if(isset($_COOKIE["iu_mb"]) && isset($_COOKIE["eu_mb"]) && isset($_COOKIE["su_mb"]) && $classeClientes->verificaExistenciaUsuario($_COOKIE["iu_mb"], $_COOKIE["eu_mb"], $_COOKIE["su_mb"]) == true){
+
+                        ?>
+
+                        <button onclick="cadastrarProdutoCarrinho(<?php echo $variacao_complementar ?>, <?php echo $variacao_complementar2 ?>, <?php echo $variacao_complementar3 ?>)" id="botaoAddCarrinho">ADICIONAR À SACOLA</button>
+
+                        <?php
+                        
+                        }else{
+                        
+                        ?>
+
+                        <button data-bs-toggle="modal" data-bs-target="#exampleModal" id="botaoAddCarrinho">ADICIONAR À SACOLA</button>
+
+                        <?php
+                            
+                        }
+                        
+                        ?>
+
+                        <?php
+                            
+                        }
+                        
+                        ?>
 
                     </div>
 

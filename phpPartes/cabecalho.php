@@ -10,6 +10,14 @@ if(!isset($classeClientes)){
 
 }
 
+if(!isset($classeCompra)){
+    
+    /* Iniciando classe */
+    include "classes/compra.class.php";
+    $classeCompra = new compra();
+
+}
+
 ?>
 
 <script>
@@ -165,9 +173,9 @@ if(!isset($classeClientes)){
 
                     </nav>
 
-                    <form class="d-none" id="formBusca">
+                    <form method="GET" action="loja" class="d-none" id="formBusca">
 
-                        <input type="text" id="campoBusca" onfocusout="abrir_campo_busca(false)" placeholder="Faça uma busca">
+                        <input type="text" id="campoBusca" onfocusout="abrir_campo_busca(false)" placeholder="Faça uma busca" name="q">
 
                     </form>
 
@@ -181,7 +189,7 @@ if(!isset($classeClientes)){
 
                     <img src="img/bag.png" class="d-sm-none" id="iconeBagMobile">
 
-                    <img src="img/menu.png" class="d-sm-none" id="iconeBuscaMobile">
+                    <img src="img/menu.png" class="d-sm-none" id="iconeMenuMobile">
 
                     <!-- Tablet -->
                     
@@ -199,6 +207,10 @@ if(!isset($classeClientes)){
                                 die("<script>window.location='php/deslogar.php'</script>");
 
                             }else{
+
+                                $classeCompra->idCliente = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities(base64_decode($_COOKIE["iu_mb"])));
+
+                                $qtdItemCarrinho = $classeCompra->retorna_qtd_itens_carrinho();
 
                             ?>
 
@@ -249,6 +261,8 @@ if(!isset($classeClientes)){
                             }
 
                         }else{
+
+                            $qtdItemCarrinho = 0;
                         
                         ?>
 
@@ -381,13 +395,108 @@ if(!isset($classeClientes)){
 
                     <img src="img/bag.png" class="d-none d-sm-inline" id="iconeBag">
 
-                    <div onclick="window.location='sacola'" id="numeroItemSacola" class="text-center"><p class="">0</p></div>
+                    <div onclick="window.location='sacola'" id="numeroItemSacola" class="text-center"><p><?php echo $qtdItemCarrinho; ?></p></div>
 
                     <img src="img/search.png" onclick="abrir_campo_busca(true)" class="d-none d-lg-inline" id="iconeBusca">
 
-                    <img src="img/menu.png" class="d-none d-sm-inline d-lg-none" id="iconeBusca">
+                    <img src="img/menu.png" class="d-none d-sm-inline d-lg-none" id="iconeMenu">
 
                 </div>
+
+                <div id="areaMenuMobile">
+
+                    <form id="bordaCampoBuscaMobile" class="pb-4" action="loja" class="" method="GET">
+    
+                        <input type="text" id="campoBuscaMobile" placeholder="Buscar Produto" name="q">
+    
+                    </form>
+    
+                    <nav>
+    
+                        <ul class="mt-3" id="ulMenuPricipal" style="display: none;">
+    
+                            <li><span><a class="text-decoration-none" href="">Início</a></span></li>
+                            <li><span><a class="text-decoration-none" href="loja">Loja</a></span></li>
+                            <li id="itemCategoria"><span>Categorias</span> <img src="img/down.png" width="20px"></li>
+    
+                                <ul id="listaCategoria" style="display: none;">
+    
+                                <?php
+                            
+                                foreach($classeProdutos->retorna_categorias() as $arrCategoria){
+    
+                                $catComTraco = str_replace(" ", "-", $arrCategoria["nome"]);
+                                $transformarEmMinuscula = mb_strtolower($catComTraco, "UTF-8");
+                                $trataInjection = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlspecialchars($transformarEmMinuscula, ENT_QUOTES, "UTF-8"));
+                                $str1 = preg_replace('/[áàãâä]/ui', 'a', $trataInjection);
+                                $str2 = preg_replace('/[éèêë]/ui', 'e', $str1);
+                                $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
+                                $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
+                                $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
+                                $str6 = preg_replace('/[ç]/ui', 'c', $str5);
+                                
+                                ?>
+    
+                                    <li><a class="text-decoration-none" href="loja?pg=1&cat=<?php echo $str6; ?>&ordenacao=adicionado&tipoord=cre"><?php echo $arrCategoria["nome"]; ?></a></li>
+    
+                                <?php
+                        
+                                }
+                                
+                                ?>
+    
+                                </ul>
+    
+                            <li><span><a class="text-decoration-none" href="quem-somos">Quem Somos</a></span></li>
+                            <li><span><a class="text-decoration-none" href="contato">Contato</a></span></li>
+    
+                        </ul>
+    
+                    </nav>
+    
+                    <script>
+    
+                    $( "#itemCategoria" ).click(function() {
+                        $( "#listaCategoria" ).toggle("fast");
+                    });
+    
+                    </script>
+    
+                </div>
+
+                <div id="fundoAreaMenuMobile">
+
+
+
+                </div>
+    
+                <script>
+    
+                $( "#iconeMenu, #iconeMenuMobile" ).click(function() {
+                    $("#fundoAreaMenuMobile").css("display", "block");
+                    $("#fundoAreaMenuMobile").animate({
+                        opacity: "0.2"
+                    }, 100 );
+                    $( "#areaMenuMobile" ).animate({
+                        width: "256px",
+                        left: "0px"
+                    }, 100 );
+                    $( "#ulMenuPricipal" ).fadeIn();
+                });
+    
+                $( "#fundoAreaMenuMobile" ).click(function() {
+                    $("#fundoAreaMenuMobile").animate({
+                        opacity: "0.0"
+                    }, 100 );
+                    $("#fundoAreaMenuMobile").css("display", "none");
+                    $( "#areaMenuMobile" ).animate({
+                        width: "0px",
+                        left: "-50px"
+                    }, 100 );
+                    $( "#ulMenuPricipal" ).fadeOut("fast");
+                });
+    
+                </script>
 
                 <div id="telaTransparente"></div>
 

@@ -4,7 +4,7 @@
 
 }
 
-#iconeUser, #iconeBag, #iconeBusca{
+#iconeUser, #iconeBag, #iconeBusca, #iconeMenu{
 
     width: 45px;
     margin-left: 5px;
@@ -16,12 +16,12 @@
 
 #iconeUser{
 
-    z-index: 99;
+    z-index: 97;
     position: relative;
 
 }
 
-#iconeUserMobile, #iconeBagMobile, #iconeBuscaMobile{
+#iconeUserMobile, #iconeBagMobile, #iconeMenuMobile{
 
     width: 35px;
     margin-left: 5px;
@@ -161,7 +161,7 @@
     display: none;
     top: 0px;
     left: 0px;
-    z-index: 98;
+    z-index: 96;
 
 }
 
@@ -172,7 +172,7 @@
     padding-bottom: 20px;
     top: 125px;
     right: 120px;
-    z-index: 99;
+    z-index: 97;
     list-style: none;
     background-color: rgb(255, 255, 255);
     display: none;
@@ -253,7 +253,7 @@
         padding-bottom: 20px;
         top: 85px;
         right: 10px;
-        z-index: 99;
+        z-index: 97;
         list-style: none;
         background-color: white;
         display: none;
@@ -276,7 +276,7 @@
         padding-bottom: 20px;
         top: 125px;
         right: 20px;
-        z-index: 99;
+        z-index: 97;
         list-style: none;
         background-color: white;
         display: none;
@@ -348,5 +348,92 @@
         cursor: pointer;
     
     }
+
+}
+
+#areaMenuMobile{
+
+    width: 0px;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: -50px;
+    background-color: white;
+    z-index: 99;
+    overflow-x: auto;
+
+}
+
+#fundoAreaMenuMobile{
+
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: black;
+    opacity: 0.0;
+    z-index: 98;
+    top: 0px;
+    left: 0px;
+
+}
+
+#bordaCampoBuscaMobile{
+
+    border-bottom: 1px solid #9dc8ad;
+
+}
+
+#campoBuscaMobile{
+
+    background-image: url(../img/iconeLupa.png);
+    background-size: 22px;
+    background-repeat:no-repeat;
+    background-position: right 10px center;
+    width: 100%;
+    height: 35px;
+    border: 1px solid #CCC;
+    border-radius: 2px;
+    text-indent: 10px;
+    margin-top: 45px;
+    
+
+}
+
+#campoBuscaMobile:focus{
+
+    box-shadow: 0 0 0 0;
+    outline: 0;
+
+}
+
+#ulMenuPricipal a{
+
+    color: rgb(122, 122, 122);
+
+}
+
+#areaMenuMobile ul{
+
+    font-size: 20px;
+    color: #9dc8ad;
+
+}
+
+#listaCategoria li a{
+
+    color: #9dc8ad;
+
+}
+
+#areaMenuMobile ul li{
+
+    padding: 15px 0px;
+
+}
+
+#areaMenuMobile ul li span{
+
+    color: rgb(122, 122, 122);
 
 }

@@ -543,14 +543,22 @@ class produtos{
 
         include 'conexao.class.php';
 
-        $sql = mysqli_query($conn, "SELECT * FROM variacao_produtos WHERE id=$idVariacao") or die("Erro retorna op variações");
-        while($linha = mysqli_fetch_assoc($sql)){
-            
-            $array[] = $linha;
-            
-        }
+        if($idVariacao == null){
 
-        return $array;
+            return ["texto_cliente" => 1];
+
+        }else{
+
+            $sql = mysqli_query($conn, "SELECT * FROM variacao_produtos WHERE id=$idVariacao") or die("Erro retorna op variações");
+            while($linha = mysqli_fetch_assoc($sql)){
+                
+                $array[] = $linha;
+                
+            }
+
+            return $array;
+
+        }
 
     }
 
@@ -572,6 +580,21 @@ class produtos{
 
             $array[] = $linha;
 
+        }
+
+        return $array;
+
+    }
+
+    public function retorna_categorias(){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM categoria ORDER BY id ASC") or die("Erro ao retornar categorias");
+        while($linha = mysqli_fetch_assoc($sql)){
+            
+            $array[] = $linha;
+            
         }
 
         return $array;

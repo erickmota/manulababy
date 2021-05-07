@@ -56,6 +56,10 @@ if(isset($_GET["url"])){
 
       include "paginas/confirmacao_cadastro.php";
   
+    }else if($explode[0] == "sacola"){
+
+      include "paginas/sacola.php";
+  
     }
 
 }else{
