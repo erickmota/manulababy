@@ -44,6 +44,37 @@
 
 #imgProduto{
 
-    max-width: 220px;
+    max-width: 150px;
+
+}
+
+.boxTamanho{
+
+    width: 45px;
+    height: 45px;
+    border: 1px solid #63cf8b;
+    line-height:40px;
+    display: inline-block;
+    margin: 0px 3px;
+    color: rgb(148, 148, 148);
+    cursor: pointer;
+    border-radius: 10px;
+
+}
+
+#selecaoPromo{
+
+    width: auto;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #63cf8b;
+    padding: 5px;
+
+}
+
+#selecaoPromo:focus{
+
+    box-shadow: 0 0 0 0;
+    outline: 0;
 
 }

@@ -3,6 +3,51 @@
 
 <head>
 
+<?php
+
+    $explode = explode("/", $_GET["url"]);
+
+    /* Verificar existencia usuário */
+
+    if(!isset($classeClientes)){
+
+        include "classes/clientes.class.php";
+        $classeClientes = new clientes();
+
+    }
+
+    if(isset($_COOKIE["iu_mb"]) && isset($_COOKIE["eu_mb"]) && isset($_COOKIE["su_mb"]) && $classeClientes->verificaExistenciaUsuario($_COOKIE["iu_mb"], $_COOKIE["eu_mb"], $_COOKIE["su_mb"]) == true){
+
+
+
+    }else{
+
+        die("<script>window.location='php/deslogar.php'</script>");
+
+    }
+
+    /* //Verificar existencia usuário */
+    
+    /* Iniciando classe */
+    include "classes/compra.class.php";
+    $classeCompra = new compra();
+
+    $idCliente = $classeCompra->idCliente = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities(base64_decode($_COOKIE["iu_mb"])));
+
+    $classeCompra->idCliente = $idCliente;
+
+    if(isset($_GET["promo"])){
+
+        $prmoAtiva = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities($_GET["promo"]));
+
+    }else{
+
+        $prmoAtiva = "SE";
+
+    }
+    
+    ?>
+
     <title>Sacola - Manulá Baby</title>
 
     <meta charset="UTF-8">
@@ -37,6 +82,18 @@
 
     }
 
+    function mudar_qtd_produto(qtd, id_sacola){
+
+        window.location="php/mudarQtdProdutoCarrinho.php?id_sacola="+id_sacola+"&nova_qtd="+qtd;
+
+    }
+
+    function ativar_promo(id_promo){
+
+        window.location="sacola?promo="+id_promo;
+
+    }
+
     </script>
 
 </head>
@@ -51,7 +108,17 @@
         
         ?>
 
-        <div class="row justify-content-center">
+        <?php
+        
+        if($prmoAtiva != "SE"){
+
+            $metodoVerificaProdutoPromo = $classeCompra->verificar_produtos_promo($prmoAtiva);
+
+        }
+        
+        ?>
+
+        <div class="row justify-content-center mt-3">
 
             <div class="col-lg-10 pt-3 pb-3">
 
@@ -60,6 +127,65 @@
             </div>
 
         </div>
+
+        <?php
+        
+        if(isset($metodoVerificaProdutoPromo) && $metodoVerificaProdutoPromo[0] == "erro qtd"){
+        
+        ?>
+
+        <div class="row justify-content-center pb-4">
+
+            <div class="col-lg-10 border border-danger p-4 text-danger" id="boxMsgPromo">
+
+                * Para que sua promoção seja válida, você precisa deixar todos os itens que pertencem a promoção,
+                com quantidade "1" na sacola.<br>
+                * Se quiser comprar mais de uma unidade do mesmo produto, adicione o mesmo, duas vezes na sacola.
+
+            </div>
+
+        </div>
+
+        <?php
+        
+        }else if(isset($metodoVerificaProdutoPromo) && $metodoVerificaProdutoPromo == "Quantidade de produtos inválida"){
+        
+        ?>
+
+        <div class="row justify-content-center pb-4">
+
+            <div class="col-lg-10 border border-danger p-4 text-danger" id="boxMsgPromo">
+
+                * Oops, adicione a quantidade de produto adequada para liberar a promoção!<br>
+                * Se precisar leia a descrição e quantidade correta de produtos para essa promoção, <a class="text-decoration-none" href="#">clicando aqui</a>
+
+            </div>
+
+        </div>
+
+        <?php
+        
+        }
+        
+        if($prmoAtiva != "SE" && $metodoVerificaProdutoPromo != "Quantidade de produtos inválida" && $metodoVerificaProdutoPromo[0] != "erro qtd"){
+        
+        ?>
+
+        <div class="row justify-content-center pb-4">
+
+            <div class="col-lg-10 border border-success p-4 text-success" id="boxMsgPromo">
+
+                * <b>Oba!</b> A promoção foi habilitada com sucesso, e já calculamos o valor total da sua sacola :)
+
+            </div>
+
+        </div>
+
+        <?php
+        
+        }
+        
+        ?>
 
         <div class="row justify-content-center">
 
@@ -134,16 +260,41 @@
 
                             <div class="col-md-6 col-lg-5 mt-3">
 
-                                <h2 class="fs-5 text-secondary"><?php echo $arrCompra["nome_produto"] ?></h2>
+                                <div class="row">
 
-                                <ul class="fw-light text-secondary">
+                                    <div class="col">
 
-                                    <li><b>Tamanho:</b> <?php echo $arrCompra["tamanho"]; ?></li>
-                                    <li class="<?php if($arrCompra["variacao_complementar"] == "SE"){ echo "d-none";} ?>"><b><?php echo $nome_variacao1; ?>:</b> <?php echo $arrCompra["variacao_complementar"]; ?></li>
-                                    <li class="<?php if($arrCompra["variacao_complementar2"] == "SE"){ echo "d-none";} ?>"><b><?php echo $nome_variacao2; ?>:</b> <?php echo $arrCompra["variacao_complementar2"]; ?></li>
-                                    <li class="<?php if($arrCompra["variacao_complementar3"] == "SE"){ echo "d-none";} ?>"><b><?php echo $nome_variacao3; ?>:</b> <?php echo $arrCompra["variacao_complementar3"]; ?></li>
+                                        <h2 class="fs-5 text-secondary"><?php echo $arrCompra["nome_produto"] ?></h2>
 
-                                </ul>
+                                    </div>
+
+                                </div>
+
+                                <div class="row justify-content-center">
+
+                                    <div class="col-5 col-md-5">
+
+                                        <div class="boxTamanho text-center mt-2 <?php echo $verTamanho[0] ?>">
+    
+                                            <span class="fs-4 text-uppercase"><?php echo $arrCompra["tamanho"]; ?></span>
+
+                                        </div>
+    
+                                    </div>
+
+                                    <div class="col-5 col-md-7">
+    
+                                        <ul class="fw-light text-secondary">
+
+                                            <li class="<?php if($arrCompra["variacao_complementar"] == "SE"){ echo "d-none";} ?>"><b><?php echo $nome_variacao1; ?>:</b> <?php echo $arrCompra["variacao_complementar"]; ?></li>
+                                            <li class="<?php if($arrCompra["variacao_complementar2"] == "SE"){ echo "d-none";} ?>"><b><?php echo $nome_variacao2; ?>:</b> <?php echo $arrCompra["variacao_complementar2"]; ?></li>
+                                            <li class="<?php if($arrCompra["variacao_complementar3"] == "SE"){ echo "d-none";} ?>"><b><?php echo $nome_variacao3; ?>:</b> <?php echo $arrCompra["variacao_complementar3"]; ?></li>
+    
+                                        </ul>
+    
+                                    </div>
+
+                                </div>
 
                             </div>
 
@@ -183,7 +334,15 @@
                                 
                                 ?>
 
-                                <select class="mt-2 text-secondary" id="selectQtd" onchange="mudar_qtd_produto(this.value, <?php echo $arrCompra['id_sacola']; ?>)">
+                                <select class="mt-2 text-secondary <?php
+                                
+                                if(isset($metodoVerificaProdutoPromo) && $metodoVerificaProdutoPromo[0] == "erro qtd"){
+
+                                    echo "border border-danger";
+
+                                }
+                                
+                                ?>" id="selectQtd" onchange="mudar_qtd_produto(this.value, <?php echo $arrCompra['id_sacola']; ?>)">
 
                                     <?php
                                     
@@ -219,7 +378,7 @@
                             
                             ?>
 
-                            <div id="espacoImgProduto" class="col-md-6 col-lg-2 fs-4 mt-3 text-secondary">
+                            <div id="espacoImgProduto" class="col-md-6 col-lg-2 fs-2 mt-3 text-secondary">
 
                                 R$<?php echo number_format($precoProdutoIndividual[$i_preco], 2, ",", "."); ?>
 
@@ -259,6 +418,86 @@
         }
         
         ?>
+
+        <?php
+        
+        if($classeCompra->retornar_promocoes_disponiveis() != null){
+        
+        ?>
+
+        <div class="row justify-content-center mt-3">
+
+            <div class="col-lg-10 text-end">
+
+                <p class="text-secondary">Você possui produtos com promoções na sacola. Deseja utilizar alguma promoção?</p>
+
+                <select id="selecaoPromo" class="text-secondary" onchange="ativar_promo(this.value)">
+
+                    <option hidden disbled>Selecionar promoção</option>
+
+                    <?php
+                    
+                    foreach($classeCompra->retornar_promocoes_disponiveis() as $arrOpPromo){
+                    
+                    ?>
+
+                    <option value="<?php echo $arrOpPromo ?>" <?php
+                    
+                    if($prmoAtiva == $arrOpPromo){
+
+                        echo "selected";
+
+                    }
+                    
+                    ?>><?php echo $classeCompra->retorna_nome_promo($arrOpPromo) ?></option>
+
+                    <?php
+                    
+                    }
+                    
+                    ?>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <?php
+        
+        }
+        
+        ?>
+
+        <div class="row justify-content-center mt-3">
+
+            <div class="col-lg-10">
+
+                <div class="row">
+
+                    <div class="col-5">
+
+                        <button onclick="window.location='loja'" type="button" class="btn btn-secondary" id="botaoComprarMais">Comprar mais</button>
+
+                    </div>
+
+                    <div class="col-7 text-end">
+
+                        <a href="php/apagarProdutoCarrinho.php?limpar=sim" class="text-secondary me-5 d-none d-md-inline">Esvaziar Sacola</a>
+
+                        <span class="text-secondary me-2">Total</span><span class="fs-4">R$<?php echo number_format($preco_total, 2, ",", ".") ?></span>
+
+                        <div id="espacoPagseguro" class="text-secondary">Total c/frete R$<?php echo number_format($preco_total, 2, ",", ".") ?></div>
+
+                        <div id="espacoNovaCompra"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
         <?php
                 

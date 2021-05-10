@@ -128,6 +128,17 @@ class clientes{
         
     }
 
+    public function verifica_se_sacola_pertence_ao_cliente($idSacola, $idCliente){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM sacola WHERE id='$idSacola' AND id_cliente='$idCliente'") or die("Erro verifica_se_sacola_pertence_ao_cliente");
+        $qtd = mysqli_num_rows($sql);
+
+        return $qtd;
+
+    }
+
 }
 
 ?>

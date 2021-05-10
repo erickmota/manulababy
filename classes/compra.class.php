@@ -165,6 +165,156 @@ class compra{
 
     }
 
+    public function atualiza_qtd_produto_carrinho($id_sacola, $qtd){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "UPDATE sacola SET quantidade=$qtd WHERE id=$id_sacola") or die("Erro ao atualizar qtd produto no carrinho");
+
+    }
+
+    public function limpar_carrinho(){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "DELETE FROM sacola WHERE id_cliente=$this->idCliente") or die("Erro ao limpar carrinho");
+
+    }
+
+    public function retornar_promocoes_disponiveis(){
+
+        include 'conexao.class.php';
+
+        $ids_promo = array();
+
+        $sql = mysqli_query($conn, "SELECT * FROM sacola WHERE id_cliente=$this->idCliente") or die("Erro1");
+        while($row = mysqli_fetch_assoc($sql)){
+
+            $id_produto = $row["id_produto"];
+
+            $sql2 = mysqli_query($conn, "SELECT * FROM promocoes_produtos WHERE id_produtos=$id_produto") or die("Erro2");
+            while($row2 = mysqli_fetch_assoc($sql2)){
+
+                $id_promo = $row2["id_promocoes"];
+
+                array_push($ids_promo, $id_promo);
+
+            }
+
+        }
+
+        $ids_finais = array_unique($ids_promo);
+
+        return $ids_finais;
+
+    }
+
+    public function retorna_nome_promo($id_promo){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT nome FROM promocoes WHERE id=$id_promo") or die("Erro");
+        $row = mysqli_fetch_array($sql);
+
+        $nome_promo = $row["nome"];
+
+        return $nome_promo;
+
+    }
+
+    public function verificar_produtos_promo($id_promo){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM promocoes WHERE id=$id_promo") or die("Erro");
+        $row = mysqli_fetch_array($sql);
+
+        $qtd_pecas = $row["qtd_pecas"];
+        $preco_promo = $row["preco"];
+
+        $qtdProdutoNaPromo = 0;
+
+        $prdutos_com_promo = array();
+
+        $sql2 = mysqli_query($conn, "SELECT id_produto, quantidade FROM sacola WHERE id_cliente=$this->idCliente") or die("Erro 2");
+        while($row2 = mysqli_fetch_assoc($sql2)){
+
+            $id_produtos = $row2["id_produto"];
+
+            $sql3 = mysqli_query($conn, "SELECT * FROM promocoes_produtos WHERE id_promocoes='$id_promo' AND id_produtos='$id_produtos'") or die("Erro 3");
+            $qtd3 = mysqli_num_rows($sql3);
+            $row3 = mysqli_fetch_array($sql3);
+
+            $id_produto_na_promo = $row3["id_produtos"];
+
+            $sql5 = mysqli_query($conn, "SELECT quantidade FROM sacola WHERE id_produto='$id_produto_na_promo'") or die("Erro 5");
+            while($row5 = mysqli_fetch_array($sql5)){
+
+                $qtdProdutosSacola = $row5["quantidade"];
+
+                if($qtdProdutosSacola > 1){
+
+                    $retornoErroQtd = ["erro qtd", $id_produto_na_promo];
+
+                    return $retornoErroQtd;
+
+                }
+
+                echo $qtdProdutosSacola."<br>";
+
+                if($qtd3 > 0){
+
+                    $qtdProdutoNaPromo++;
+
+                    array_push($prdutos_com_promo, $id_produto_na_promo);
+
+                }
+
+            }
+
+        }
+
+        if($qtdProdutoNaPromo < $qtd_pecas){
+
+            return "Quantidade de produtos inválida";
+
+        }else{
+
+            $precos_produto_promo_arr = array();
+
+            foreach($prdutos_com_promo as $arr_prdutos_com_promo){
+
+                $id_produto_com_promo = $arr_prdutos_com_promo;
+
+                $sql4 = mysqli_query($conn, "SELECT * FROM sacola INNER JOIN produtos ON sacola.id_produto=produtos.id WHERE sacola.id_produto=$id_produto_com_promo") or die("Erro 4");
+                $row4 = mysqli_fetch_array($sql4);
+
+                $preco_produto_promo = $row4["preco"];
+
+                array_push($precos_produto_promo_arr, $preco_produto_promo);
+
+            }
+
+            $result_precos_promo = array();
+
+            $i_promocao = 0;
+
+            while($i_promocao < $qtd_pecas){
+
+                $result_preco_promo = $precos_produto_promo_arr[$i_promocao];
+
+                array_push($result_precos_promo, $result_preco_promo);
+
+                $i_promocao++;
+
+            }
+
+            echo $valor_total_promo = array_sum($result_precos_promo);
+
+        }
+
+    }
+
 }
 
 ?>
