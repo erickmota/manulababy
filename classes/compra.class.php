@@ -248,6 +248,7 @@ class compra{
             $id_produto_na_promo = $row3["id_produtos"];
 
             $sql5 = mysqli_query($conn, "SELECT quantidade FROM sacola WHERE id_produto='$id_produto_na_promo'") or die("Erro 5");
+            $qtd5 = mysqli_num_rows($sql5);
             while($row5 = mysqli_fetch_array($sql5)){
 
                 $qtdProdutosSacola = $row5["quantidade"];
@@ -260,19 +261,19 @@ class compra{
 
                 }
 
-                echo $qtdProdutosSacola."<br>";
+            }
 
-                if($qtd3 > 0){
+            if($qtd3 > 0){
 
-                    $qtdProdutoNaPromo++;
+                $qtdProdutoNaPromo++;
 
-                    array_push($prdutos_com_promo, $id_produto_na_promo);
-
-                }
+                array_push($prdutos_com_promo, $id_produto_na_promo);
 
             }
 
         }
+
+        /* echo $qtdProdutoNaPromo; */
 
         if($qtdProdutoNaPromo < $qtd_pecas){
 
@@ -309,9 +310,78 @@ class compra{
 
             }
 
-            echo $valor_total_promo = array_sum($result_precos_promo);
+            $retornoGeral = [array_sum($result_precos_promo), $preco_promo];
+
+            return $retornoGeral;
 
         }
+
+    }
+
+    public function pagseguro($produtos, $codReferencia, $desconto){
+
+        $data["token"] = "5CF4F8DF64774D95BA43EAAFF1E704F8";
+        $data["email"] = "erick_fcsaopaulo@hotmail.com";
+        /* $data["token"] = "6780316e-7722-43f5-ac22-5e9bfa93481f3ff214f2488eb24a82550eb8959a12225592-2416-41c3-8f62-d2a35e158a0a";
+        $data["email"] = "oscarmgablu@hotmail.com"; */
+        $data["currency"] = "BRL";
+        $data["shippingAddressRequired"] = "false";
+        /* $data["shippingAddressStreet"] = "Rua Castilho Aribert Fazzio";
+        $data["shippingAddressNumber"] = "355";
+        $data["shippingAddressCity"] = "Sorocaba";
+        $data["shippingAddressState"] = "SP";
+        $data["shippingAddressCountry"] = "BRA";
+        $data["shippingAddressPostalCode"] = intval("18066315");
+        $data["shippingType"] = intval("1"); */
+        $data["reference"] = $codReferencia;
+        
+        if($desconto != 0.00){
+
+            $data["extraAmount"] = "-".number_format($desconto, 2, ".", "");
+
+        }
+
+        $i = 1;
+
+        foreach($produtos as $arrProdutos[]){
+
+            $data["itemId".$i] = $arrProdutos[$i - 1]["id_produtos"];
+            $data["itemQuantity".$i] = $arrProdutos[$i - 1]["qtd"];
+            $data["itemDescription".$i] = $arrProdutos[$i - 1]["nome"];
+            $data["itemAmount".$i] = number_format($arrProdutos[$i - 1]["preco"], 2, ".", "");
+            /* $data["itemWeight".$i] = "100"; */
+
+            $i++;
+
+        }
+
+        /* $data["itemId1"] = "1";
+        $data["itemQuantity1"] = "1";
+        $data["itemDescription1"] = "Produto teste";
+        $data["itemAmount1"] = "299.00"; */
+
+        $url = "https://ws.sandbox.pagseguro.uol.com.br/v2/checkout";
+        /* $url = "https://ws.pagseguro.uol.com.br/v2/checkout"; */
+
+        $data = http_build_query($data);
+
+        $curl = curl_init($url);
+
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+
+        $xml = curl_exec($curl);
+
+        curl_close($curl);
+
+        $xml = simplexml_load_string($xml);
+
+        return $xml -> code;
+
+        /* var_dump($xml); */
 
     }
 

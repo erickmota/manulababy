@@ -187,7 +187,7 @@ if(!isset($classeCompra)){
 
                     <img src="img/user.png" class="d-sm-none" id="iconeUserMobile" onclick="aparecer_espaco_user()">
 
-                    <img src="img/bag.png" class="d-sm-none" id="iconeBagMobile">
+                    <img src="img/bag.png" class="d-sm-none" id="iconeBagMobile" onclick="window.location='sacola'">
 
                     <img src="img/menu.png" class="d-sm-none" id="iconeMenuMobile">
 
@@ -393,7 +393,7 @@ if(!isset($classeCompra)){
 
                     </div>
 
-                    <img src="img/bag.png" class="d-none d-sm-inline" id="iconeBag">
+                    <img src="img/bag.png" class="d-none d-sm-inline" id="iconeBag" onclick="window.location='sacola'">
 
                     <div onclick="window.location='sacola'" id="numeroItemSacola" class="text-center"><p><?php echo $qtdItemCarrinho; ?></p></div>
 
