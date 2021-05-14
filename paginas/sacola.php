@@ -218,7 +218,7 @@
 
                         var hiidenCodigoPS = document.getElementById('hiddenCodigo').value;
 
-                        /* efetua_pedido(); */
+                        efetua_pedido();
 
                         abrir_pagseguro(hiidenCodigoPS);
 
@@ -286,7 +286,8 @@
 
                 * Para que sua promoção seja válida, você precisa deixar todos os itens que pertencem a promoção,
                 com quantidade "1" na sacola.<br>
-                * Se quiser comprar mais de uma unidade do mesmo produto, adicione o mesmo, duas vezes na sacola.
+                * Se quiser comprar mais de uma unidade do mesmo produto, adicione o mesmo, duas vezes na sacola.<br>
+                * Obs, você ainda pode finalizar seu pedido :)
 
             </div>
 
@@ -303,7 +304,8 @@
             <div class="col-lg-10 border border-danger p-4 text-danger" id="boxMsgPromo">
 
                 * Oops, adicione a quantidade de produto adequada para liberar a promoção!<br>
-                * Se precisar leia a descrição e quantidade correta de produtos para essa promoção, <a class="text-decoration-none" href="#">clicando aqui</a>
+                * Se precisar leia a descrição e quantidade correta de produtos para essa promoção, <a class="text-decoration-none" href="#">clicando aqui</a><br>
+                * Obs, você ainda pode finalizar seu pedido :)
 
             </div>
 
@@ -1106,7 +1108,7 @@
 
                                             }, */
 
-                                            data: {cidade: cidade, estado: estado, bairro: bairro, rua: rua, complemento: complemento, numero: numero, referencia: referencia, cep: cep, detalhes: detalhes, cpf: cpf, celular: celular, preco_total: preco_total},
+                                            data: {cidade: cidade, estado: estado, bairro: bairro, rua: rua, complemento: complemento, numero: numero, referencia: referencia, cep: cep, detalhes: detalhes, cpf: cpf, celular: celular},
 
                                             success: function (msg) {
 

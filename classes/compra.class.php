@@ -385,6 +385,99 @@ class compra{
 
     }
 
+    public function adicionar_nova_compra($idReferencia, $cidade, $estado, $bairro, $rua, $complemento, $numero, $cep, $dataHora, $statusEntrega, $detalhes, $cpf, $celular){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "INSERT INTO pedido (id, id_cliente, cidade_entrega, estado_entrega, bairro_entrega, rua_entrega, complemento_entrega, numero_entrega, cep_entrega, data_hora, status_entrega, detalhes_entrega, cpf, celular) VALUES ($idReferencia, $this->idCliente, '$cidade', '$estado', '$bairro', '$rua', '$complemento', $numero, '$cep', '$dataHora', '$statusEntrega', '$detalhes', '$cpf', '$celular')") or die("Erro cadastrar nova compra");
+
+        /* $sql2 = mysqli_query($conn, "INSERT INTO item_pedido (id_produtos, id_pedido, anel_unico, gravacao_anel_unico, anel_casal, gravacao_anel_casal, apenas_aro, apenas_gravacao, variacao_complementar, quantidade) SELECT id_produto, '$idReferencia', anel_unico, gravacao_anel_unico, anel_casal, gravacao_anel_casal, apenas_aro, apenas_gravacao, variacao_complementar, quantidade FROM sacola WHERE id_cliente=$this->idCliente") or die("Erro ao cadastrar novos itens a compra"); */
+
+        $sql2 = mysqli_query($conn, "SELECT sacola.id_produto AS id_produto, sacola.tamanho AS tamanho, sacola.variacao_complementar AS variacao_complementar, sacola.variacao_complementar2 AS variacao_complementar2, sacola.variacao_complementar3 AS variacao_complementar3, sacola.quantidade AS quantidade, produtos.preco AS preco FROM sacola INNER JOIN produtos ON sacola.id_produto=produtos.id WHERE sacola.id_cliente=$this->idCliente") or die("Erro puxar os dados da sacola");
+        while($linha = mysqli_fetch_assoc($sql2)){
+
+            $idProduto = $linha["id_produto"];
+            $tamanho = $linha["tamanho"];
+            $variacaoComplementar = $linha["variacao_complementar"];
+            $variacaoComplementar2 = $linha["variacao_complementar2"];
+            $variacaoComplementar3 = $linha["variacao_complementar3"];
+            $quantidade = $linha["quantidade"];
+            $preco = $linha["preco"];
+
+            $sql7 = mysqli_query($conn, "INSERT INTO item_pedido (id_produtos, id_pedido, tamanho, variacao_complementar, variacao_complementar2, variacao_complementar3, quantidade, preco_produto_pedido) VALUES ('$idProduto', '$idReferencia', '$tamanho', '$variacaoComplementar', '$variacaoComplementar2', '$variacaoComplementar3', '$quantidade', '$preco')") or die("Erro ao add produtos");
+
+        }
+
+        /* -1 produto no estoque */
+
+        $sql3 = mysqli_query($conn, "SELECT id FROM pedido WHERE id_cliente=$this->idCliente ORDER BY data_hora DESC LIMIT 1") or die("Erro ao remover produto do estoque");
+        $linha3 = mysqli_fetch_assoc($sql3);
+
+        $id_pedido = $linha3["id"];
+
+        $sql4 = mysqli_query($conn, "SELECT * FROM item_pedido WHERE id_pedido=$id_pedido") or die("Erro ao obter os produtos do pedido");
+        while($linha4 = mysqli_fetch_assoc($sql4)){
+
+            $id_produto = $linha4["id_produtos"];
+            $qtd_produto = $linha4["quantidade"];
+
+            $sql5 = mysqli_query($conn, "SELECT qtd_estoque FROM produtos WHERE id=$id_produto") or die("Erro ao buscar produto");
+            $linha5 = mysqli_fetch_assoc($sql5);
+
+            $novaQtd = $linha5["qtd_estoque"] - $qtd_produto;
+
+            $sql6 = mysqli_query($conn, "UPDATE produtos SET qtd_estoque=$novaQtd WHERE id=$id_produto") or die("erro nova quantidade");
+
+        }
+
+    }
+
+    public function verifica_se_referencia_pertence_ao_cliente($referencia){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM pedido WHERE id='$referencia' AND id_cliente=$this->idCliente") or die("erro ao verificar se referencia pertence ao id");
+        $qtd = mysqli_num_rows($sql);
+
+        if($qtd < 1){
+
+            return false;
+
+        }else{
+
+            return true;
+
+        }
+
+    }
+
+    public function apagar_pedido_e_item_pedido($referencia){
+
+        include 'conexao.class.php';
+
+        /* +1 nos produtos */
+
+        $sql4 = mysqli_query($conn, "SELECT * FROM item_pedido WHERE id_pedido=$referencia") or die("Erro ao obter os produtos do pedido");
+        while($linha4 = mysqli_fetch_assoc($sql4)){
+
+            $id_produto = $linha4["id_produtos"];
+            $qtd_produto = $linha4["quantidade"];
+
+            $sql5 = mysqli_query($conn, "SELECT qtd_estoque FROM produtos WHERE id=$id_produto") or die("Erro ao buscar produto");
+            $linha5 = mysqli_fetch_assoc($sql5);
+
+            $novaQtd = $linha5["qtd_estoque"] + $qtd_produto;
+
+            $sql6 = mysqli_query($conn, "UPDATE produtos SET qtd_estoque=$novaQtd WHERE id=$id_produto") or die("erro nova quantidade");
+
+        }
+
+        $sql2 = mysqli_query($conn, "DELETE FROM item_pedido WHERE id_pedido='$referencia'") or die("Erro ao excluir item pedido");
+
+        $sql = mysqli_query($conn, "DELETE FROM pedido WHERE id='$referencia'") or die("Erro ao excluir pedido");
+
+    }
+
 }
 
 ?>
