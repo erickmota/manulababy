@@ -226,7 +226,7 @@ if(!isset($classeCompra)){
 
                                     <tr>
 
-                                        <td width="33%">
+                                        <td width="33%" style="cursor: pointer;" onclick="window.location='pedidos'">
 
                                             <img src="img/check.png" width="40px"><br>
 

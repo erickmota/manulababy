@@ -60,6 +60,14 @@ if(isset($_GET["url"])){
 
       include "paginas/sacola.php";
   
+    }else if($explode[0] == "pedidos"){
+
+      include "paginas/pedidos.php";
+  
+    }else if($explode[0] == "detalhe-pedido"){
+
+      include "paginas/itemPedido.php";
+  
     }
 
 }else{

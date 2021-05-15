@@ -286,8 +286,7 @@
 
                 * Para que sua promoção seja válida, você precisa deixar todos os itens que pertencem a promoção,
                 com quantidade "1" na sacola.<br>
-                * Se quiser comprar mais de uma unidade do mesmo produto, adicione o mesmo, duas vezes na sacola.<br>
-                * Obs, você ainda pode finalizar seu pedido :)
+                * Se quiser comprar mais de uma unidade do mesmo produto, adicione o mesmo, duas vezes na sacola.
 
             </div>
 
@@ -304,8 +303,7 @@
             <div class="col-lg-10 border border-danger p-4 text-danger" id="boxMsgPromo">
 
                 * Oops, adicione a quantidade de produto adequada para liberar a promoção!<br>
-                * Se precisar leia a descrição e quantidade correta de produtos para essa promoção, <a class="text-decoration-none" href="#">clicando aqui</a><br>
-                * Obs, você ainda pode finalizar seu pedido :)
+                * Leia a descrição e quantidade correta de produtos para essa promoção, <a class="text-decoration-none" href="#">clicando aqui</a>
 
             </div>
 
@@ -383,6 +381,8 @@
         
         foreach($classeCompra->retorna_dados_carrinho() as $arrCompra){
 
+            $funcVerificarQtd = $classeCompra->verificar_limite_qtd_produtos_sacola($arrCompra["id_produto"]);
+
             $classeCompra->comparar_qtd_carrinho_qtd_produto($arrCompra["id_produto"]);
             $nome_variacao1 = $classeCompra->retorna_dados_variacao_complementar_por_id($arrCompra["id_variacao_produto"]);
             $nome_variacao2 = $classeCompra->retorna_dados_variacao_complementar_por_id($arrCompra["id_variacao_produto2"]);
@@ -443,6 +443,34 @@
                                     </div>
 
                                 </div>
+
+                                <?php
+                                
+                                if($funcVerificarQtd[0] == false){
+
+                                $variavelBloqueio = true;
+                                
+                                ?>
+
+                                <div class="row justify-content-center">
+
+                                    <div class="col">
+
+                                        <div class="alert alert-danger" role="alert">
+
+                                            Desculpe, esse produto possui <?php echo $funcVerificarQtd[1] ?> unidades em estoque
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <?php
+                                
+                                }
+                                
+                                ?>
 
                             </div>
 
@@ -1031,8 +1059,29 @@
                                 </script>
         
                                 <!-- Botão comprar -->
-                                <button onclick="verificar_campo_frete()" id="botaoFinalizar" <?php if($classeCompra->retorna_dados_carrinho() == false){ echo "disabled"; } ?>>FINALIZAR COMPRA</button>
 
+                                <?php
+                                
+                                if($classeCompra->retorna_dados_carrinho() == false || isset($variavelBloqueio)){
+                                
+                                ?>
+
+                                <button id="botaoFinalizar" disabled>FINALIZAR COMPRA</button>
+
+                                <?php
+                                
+                                }else{
+                                
+                                ?>
+
+                                <button onclick="verificar_campo_frete()" id="botaoFinalizar">FINALIZAR COMPRA</button>
+
+                                <?php
+                                
+                                }
+                                
+                                ?>
+                                
                                 <script type="text/javascript">
                                                                                 
                                     function retorna_codigo_pagseguro(frete, precosacola, desconto_frete) {

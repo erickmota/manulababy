@@ -1,0 +1,72 @@
+#boxProcesso{
+
+    height: 90px;
+    width: 100%;
+    border: 2px solid #9dc8ad;
+    display: table;
+    border-radius: 15px;
+    color: rgb(141, 141, 141);
+
+}
+
+#boxProcesso.ativo{
+
+    border: 2px solid #cb9088;
+    color: rgb(141, 141, 141);
+
+}
+
+#boxProcesso.transicao{
+
+    border: 2px solid #7a9b86;
+    color: rgb(141, 141, 141);
+
+}
+
+#textoBoxProcesso{
+
+    vertical-align: middle;
+    display: table-cell;
+
+}
+
+#fundoEndereco{
+
+    border:1px solid #f5f5f5;
+
+}
+
+#fundoTituloProdutos{
+
+    background-color: #9dc8ad;
+
+}
+
+#espacoImgProduto{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+#imgProduto{
+
+    max-width: 150px;
+
+}
+
+.boxTamanho{
+
+    width: 45px;
+    height: 45px;
+    border: 1px solid #63cf8b;
+    line-height:40px;
+    display: inline-block;
+    margin: 0px 3px;
+    color: rgb(148, 148, 148);
+    cursor: pointer;
+    border-radius: 10px;
+
+}

@@ -93,7 +93,7 @@
     box-shadow: 0 0 0 0;
     border: 0 none;
     outline: 0;
-    border-bottom: 1px solid #e1d440;
+    border-bottom: 1px solid #8bad97;
 
 }
 
@@ -101,7 +101,7 @@
 
     width: 100%;
     min-height: 40px;
-    background-color: rgb(107, 182, 107);
+    background-color: #9dc8ad;
     border: none;
     border-radius: 5px;
     color: white;
@@ -110,7 +110,14 @@
 
 #botaoFinalizar:hover{
 
-    background-color: rgb(90, 153, 90);
+    background-color: #8bad97;
+
+}
+
+#botaoFinalizar:focus{
+
+    box-shadow: 0 0 0 0;
+    outline: 0;
 
 }
 

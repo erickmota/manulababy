@@ -478,6 +478,174 @@ class compra{
 
     }
 
+    public function verificar_limite_qtd_produtos_sacola($id_produto){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM sacola INNER JOIN produtos ON sacola.id_produto=produtos.id WHERE sacola.id_cliente=$this->idCliente AND sacola.id_produto=$id_produto") or die("Erro");
+        
+        $qtdProdutoCarrinho = 0;
+        
+        while($row = mysqli_fetch_array($sql)){
+
+            $qtd_estoque = $row["qtd_estoque"];
+            $qtdProdutoCarrinho += $row["quantidade"];
+
+        }
+
+        if($qtd_estoque < $qtdProdutoCarrinho){
+
+            $retorno = [false, $qtd_estoque];
+
+            return $retorno;
+
+        }else{
+
+            $retorno = [true, $qtd_estoque];
+
+            return $retorno;
+
+        }
+
+    }
+
+    public function retorna_pedidos_por_cliente(){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM pedido WHERE id_cliente=$this->idCliente ORDER BY data_hora DESC") or die("Erro ao retornar pedidos de cliente");
+        $cont = mysqli_num_rows($sql);
+        while($linha = mysqli_fetch_array($sql)){
+
+            $array[] = $linha;
+
+        }
+
+        if($cont < 1){
+
+            return false;
+
+        }else{
+
+            return $array;
+
+        }
+
+    }
+
+    public function retornar_status_compra_pagseguro($referencia){
+
+        $token = "5CF4F8DF64774D95BA43EAAFF1E704F8";
+        $email = "erick_fcsaopaulo@hotmail.com";
+        /* $token = "6780316e-7722-43f5-ac22-5e9bfa93481f3ff214f2488eb24a82550eb8959a12225592-2416-41c3-8f62-d2a35e158a0a";
+        $email = "oscarmgablu@hotmail.com"; */
+
+        $url = "https://ws.sandbox.pagseguro.uol.com.br/v2/transactions?email={$email}&token={$token}&reference={$referencia}";
+        /* $url = "https://ws.pagseguro.uol.com.br/v2/transactions?email={$email}&token={$token}&reference={$referencia}"; */
+
+        $curl = curl_init($url);
+
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+
+        $xml = curl_exec($curl);
+
+        $xml = simplexml_load_string($xml);
+
+        /* var_dump($xml); */
+
+        $result = $xml -> resultsInThisPage;
+
+        if($result < 1){
+
+            $valores = ["valor" => 0, "status" => 0];
+
+            return $valores;
+
+        }else{
+
+            $valores = ["valor" => $xml -> transactions -> transaction -> grossAmount, "status" => $xml -> transactions -> transaction -> status];
+
+            return $valores;
+
+        }
+
+        /* return $xml -> transactions -> transaction -> status; */
+
+    }
+
+    public function organizar_status_pagseguro($status){
+
+        /* Método modelado de acordo com a documentação oficial do pagseguro */
+
+        if($status == 0){
+
+            return "Não finalizada";
+
+        }else if($status == 1){
+
+            return "Aguardando pagamento";
+
+        }else if($status == 2){
+
+            return "Em análise";
+
+        }else if($status == 3){
+
+            return "Paga";
+
+        }else if($status == 4){
+
+            return "Disponível";
+
+        }else if($status == 5){
+
+            return "Em disputa";
+
+        }else if($status == 6){
+
+            return "Devolvida";
+
+        }else if($status == 7){
+
+            return "Cancelada";
+
+        }
+
+    }
+
+    public function retorna_dados_pedido_por_referencia($referencia){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM pedido WHERE id='$referencia'") or die("Erro ao retornar dados por referencia");
+        while($linha = mysqli_fetch_assoc($sql)){
+
+            $array[] = $linha;
+            
+        }
+
+        return $array;
+
+    }
+
+    public function retorna_produtos_pedido($referencia){
+
+        include 'conexao.class.php';
+
+        /* $sql = mysqli_query($conn, "SELECT * FROM item_pedido INNER JOIN pedido ON item_pedido.id_pedido=pedido.id WHERE pedido.id='$referencia' ORDER BY item_pedido.id ASC") or die("Erro ao retornar produtos do pedido"); */
+        $sql = mysqli_query($conn, "SELECT * FROM item_pedido INNER JOIN pedido ON item_pedido.id_pedido=pedido.id INNER JOIN produtos ON item_pedido.id_produtos=produtos.id WHERE pedido.id='$referencia' ORDER BY item_pedido.id DESC") or die("Erro ao retornar produtos do pedido");
+        while($linha = mysqli_fetch_assoc($sql)){
+
+            $array[] = $linha;
+            
+        }
+
+        return $array;
+
+    }
+
 }
 
 ?>

@@ -139,6 +139,17 @@ class clientes{
 
     }
 
+    public function verificar_se_numero_pedido_pertence_ao_cliente($idPedido, $idCliente){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM pedido WHERE id='$idPedido' AND id_cliente='$idCliente'") or die("Erro verificar_se_numero_pedido_pertence_ao_cliente");
+        $qtd = mysqli_num_rows($sql);
+
+        return $qtd;
+
+    }
+
 }
 
 ?>
