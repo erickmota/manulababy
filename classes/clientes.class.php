@@ -150,6 +150,63 @@ class clientes{
 
     }
 
+    public function retorna_dados_cliente(){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM cliente WHERE email='$this->emailUsuario'") or die("Erro retorna_dados_cliente");
+        while($linha = mysqli_fetch_assoc($sql)){
+
+            $array[] = $linha;
+
+        }
+
+        return $array;
+
+    }
+
+    public function retorna_dado_individual_cliente($dado){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT $dado FROM cliente WHERE email='$this->emailUsuario'") or die("Erro ao retornar dado individual do cliente");
+        $linha = mysqli_fetch_assoc($sql);
+
+        $retorno = $linha[$dado];
+
+        return $retorno;
+
+    }
+
+    public function atualiza_dado_individual_cliente($atributo, $novoDado){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "UPDATE cliente SET $atributo='$novoDado' WHERE id=$this->idUsuario") or die("Erro atualiza_dado_individual_cliente");
+
+    }
+
+    public function verifica_se_senha_e_do_usuario(){
+
+        include 'conexao.class.php';
+
+        $senhaCompactada = base64_encode($this->senhaUsuario);
+
+        $sql = mysqli_query($conn, "SELECT * FROM cliente WHERE email='$this->emailUsuario' AND senha='$senhaCompactada'") or die("Erro verifica_se_senha_e_do_usuario");
+        $qtd = mysqli_num_rows($sql);
+
+        if($qtd < 1){
+
+            return false;
+
+        }else{
+
+            return true;
+
+        }
+
+    }
+
 }
 
 ?>

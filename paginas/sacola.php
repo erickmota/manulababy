@@ -40,6 +40,8 @@
 
         $prmoAtiva = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities($_GET["promo"]));
 
+        $nomePromoAtiva = $classeCompra->retorna_nome_promo($prmoAtiva);
+
     }else{
 
         $prmoAtiva = "SE";
@@ -295,6 +297,16 @@
         <?php
         
         }else if(isset($metodoVerificaProdutoPromo) && $metodoVerificaProdutoPromo == "Quantidade de produtos inválida"){
+
+            $nomeComTraco = str_replace(" ", "-", $nomePromoAtiva);
+            $transformarEmMinuscula = mb_strtolower($nomeComTraco, "UTF-8");
+            $trataInjection = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", $transformarEmMinuscula);
+            $str1 = preg_replace('/[áàãâä]/ui', 'a', $trataInjection);
+            $str2 = preg_replace('/[éèêë]/ui', 'e', $str1);
+            $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
+            $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
+            $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
+            $str6 = preg_replace('/[ç]/ui', 'c', $str5);
         
         ?>
 
@@ -303,7 +315,7 @@
             <div class="col-lg-10 border border-danger p-4 text-danger" id="boxMsgPromo">
 
                 * Oops, adicione a quantidade de produto adequada para liberar a promoção!<br>
-                * Leia a descrição e quantidade correta de produtos para essa promoção, <a class="text-decoration-none" href="#">clicando aqui</a>
+                * Leia a descrição e quantidade correta de produtos para essa promoção, <a class="text-decoration-none" target="_blank" href="promocao/<?php echo $str6 ?>">clicando aqui</a>
 
             </div>
 

@@ -109,7 +109,7 @@ if(!isset($classeCompra)){
 
                 <div class="col-5 col-md-6 col-lg-3">
 
-                    <img src="img/logo.png" width="100%" id="logo">
+                    <img onclick="window.location=''" src="img/logo.png" width="100%" id="logo">
 
                 </div>
 
@@ -125,49 +125,81 @@ if(!isset($classeCompra)){
 
                                 <ul>
 
+                                    <?php
+                                    
+                                    $funcRetornaListaPromo = $classeProdutos->retorna_lista_promocoes();
+
+                                    if($funcRetornaListaPromo != false){
+                                    
+                                    ?>
+
                                     <li>
                                         
                                         <ul id="subLista">
 
-                                            <li><a>Sub1</a></li>
-                                            <li><a>Sub2</a></li>
-                                            <li><a>Sub3</a></li>
-                                            <li><a>Sub4</a></li>
+                                            <?php
+                                            
+                                            foreach($funcRetornaListaPromo as $arrPromocoes){
+
+                                                $nomeComTraco = str_replace(" ", "-", $arrPromocoes["nome"]);
+                                                $transformarEmMinuscula = mb_strtolower($nomeComTraco, "UTF-8");
+                                                $trataInjection = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", $transformarEmMinuscula);
+                                                $str1 = preg_replace('/[áàãâä]/ui', 'a', $trataInjection);
+                                                $str2 = preg_replace('/[éèêë]/ui', 'e', $str1);
+                                                $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
+                                                $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
+                                                $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
+                                                $str6 = preg_replace('/[ç]/ui', 'c', $str5);
+                                            
+                                            ?>
+
+                                            <li><a class="text-decoration-none text-secondary" href="promocao/<?php echo $str6 ?>"><?php echo $arrPromocoes["nome"] ?></a></li>
+
+                                            <?php
+                                            
+                                            }
+                                            
+                                            ?>
 
                                         </ul>    
                                         
-                                    <a>Esse é apenas</a></li>
-                                    <li>
-                                        
-                                        <ul id="subLista">
+                                    <a>Promoções &nbsp;<img src="img/seta-direita.png" width="12px"></a></li>
 
-                                            <li><a>Sub1</a></li>
-                                            <li><a>Sub2</a></li>
-                                            <li><a>Sub3</a></li>
-                                            <li><a>Sub4</a></li>
+                                    <?php
+                                            
+                                    }
+                                    
+                                    ?>
 
-                                        </ul>    
-                                        
-                                    <a>Cat2</a></li>
-                                    <li><a>Cat3</a></li>
-                                    <li>
-                                        
-                                        <ul id="subLista">
+                                    <?php
+                            
+                                    foreach($classeProdutos->retorna_categorias() as $arrCategoria){
+        
+                                    $catComTraco = str_replace(" ", "-", $arrCategoria["nome"]);
+                                    $transformarEmMinuscula = mb_strtolower($catComTraco, "UTF-8");
+                                    $trataInjection = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlspecialchars($transformarEmMinuscula, ENT_QUOTES, "UTF-8"));
+                                    $str1 = preg_replace('/[áàãâä]/ui', 'a', $trataInjection);
+                                    $str2 = preg_replace('/[éèêë]/ui', 'e', $str1);
+                                    $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
+                                    $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
+                                    $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
+                                    $str6 = preg_replace('/[ç]/ui', 'c', $str5);
+                                    
+                                    ?>
 
-                                            <li><a>Sub1</a></li>
-                                            <li><a>Sub2</a></li>
-                                            <li><a>Sub3</a></li>
-                                            <li><a>Sub4</a></li>
+                                    <li><a class="text-decoration-none text-secondary" href="loja?cat=<?php echo $str6; ?>"><?php echo $arrCategoria["nome"]; ?></a></li>
 
-                                        </ul>
-                                        
-                                    <a>Cat4</a></li>
+                                    <?php
+                        
+                                    }
+                                    
+                                    ?>
 
                                 </ul>
 
                             </li>
-                            <li><a>Quem Somos</a></li>
-                            <li><a>Contato</a></li>
+                            <li><a class="text-decoration-none text-secondary" href="quem-somos">Quem Somos</a></li>
+                            <li><a class="text-decoration-none text-secondary" href="contato">Contato</a></li>
 
                         </ul>
 
@@ -187,7 +219,27 @@ if(!isset($classeCompra)){
 
                     <img src="img/user.png" class="d-sm-none" id="iconeUserMobile" onclick="aparecer_espaco_user()">
 
+                    <?php
+                    
+                    if(isset($_COOKIE["iu_mb"]) && isset($_COOKIE["eu_mb"]) && isset($_COOKIE["su_mb"])){
+                    
+                    ?>
+
                     <img src="img/bag.png" class="d-sm-none" id="iconeBagMobile" onclick="window.location='sacola'">
+
+                    <?php
+                    
+                    }else{
+                    
+                    ?>
+
+                    <img src="img/bag.png" class="d-sm-none" id="iconeBagMobile">
+
+                    <?php
+                    
+                    }
+                    
+                    ?>
 
                     <img src="img/menu.png" class="d-sm-none" id="iconeMenuMobile">
 
@@ -208,6 +260,8 @@ if(!isset($classeCompra)){
 
                             }else{
 
+                                $classeClientes->emailUsuario = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities(base64_decode($_COOKIE["eu_mb"])));
+
                                 $classeCompra->idCliente = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities(base64_decode($_COOKIE["iu_mb"])));
 
                                 $qtdItemCarrinho = $classeCompra->retorna_qtd_itens_carrinho();
@@ -218,7 +272,7 @@ if(!isset($classeCompra)){
 
                                 <div id="espacoNomeUsuario">
 
-                                    <p class="pt-1">Bem vindo Erick Mota</p>
+                                    <p class="pt-1">Bem vindo <?php echo $classeClientes->retorna_dado_individual_cliente("nome") ?></p>
 
                                 </div>
 
@@ -234,7 +288,7 @@ if(!isset($classeCompra)){
 
                                         </td>
 
-                                        <td width="33%">
+                                        <td width="33%" style="cursor: pointer;" onclick="window.location='ajustes'">
 
                                             <img src="img/config.png" width="40px"><br>
 
@@ -393,9 +447,31 @@ if(!isset($classeCompra)){
 
                     </div>
 
+                    <?php
+                    
+                    if(isset($_COOKIE["iu_mb"]) && isset($_COOKIE["eu_mb"]) && isset($_COOKIE["su_mb"])){
+                    
+                    ?>
+
                     <img src="img/bag.png" class="d-none d-sm-inline" id="iconeBag" onclick="window.location='sacola'">
 
                     <div onclick="window.location='sacola'" id="numeroItemSacola" class="text-center"><p><?php echo $qtdItemCarrinho; ?></p></div>
+
+                    <?php
+                    
+                    }else{
+                    
+                    ?>
+
+                    <img src="img/bag.png" class="d-none d-sm-inline" id="iconeBag">
+
+                    <div id="numeroItemSacola" class="text-center"><p><?php echo $qtdItemCarrinho; ?></p></div>
+
+                    <?php
+                    
+                    }
+                    
+                    ?>
 
                     <img src="img/search.png" onclick="abrir_campo_busca(true)" class="d-none d-lg-inline" id="iconeBusca">
 
@@ -420,6 +496,52 @@ if(!isset($classeCompra)){
                             <li id="itemCategoria"><span>Categorias</span> <img src="img/down.png" width="20px"></li>
     
                                 <ul id="listaCategoria" style="display: none;">
+
+                                <?php
+
+                                if($funcRetornaListaPromo != false){
+                                
+                                ?>
+
+                                <li id="menuPromocao">
+
+                                    <a>Promoções &nbsp;<img src="img/seta-direita.png" width="12px"></a>
+                                    
+                                    <ul id="listaPromocaoMobile" style="display: none;">
+
+                                        <?php
+                                        
+                                        foreach($funcRetornaListaPromo as $arrPromocoes){
+
+                                            $nomeComTraco = str_replace(" ", "-", $arrPromocoes["nome"]);
+                                            $transformarEmMinuscula = mb_strtolower($nomeComTraco, "UTF-8");
+                                            $trataInjection = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", $transformarEmMinuscula);
+                                            $str1 = preg_replace('/[áàãâä]/ui', 'a', $trataInjection);
+                                            $str2 = preg_replace('/[éèêë]/ui', 'e', $str1);
+                                            $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
+                                            $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
+                                            $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
+                                            $str6 = preg_replace('/[ç]/ui', 'c', $str5);
+                                        
+                                        ?>
+
+                                        <li class="liPromocao"><a class="text-decoration-none text-secondary" href="promocao/<?php echo $str6 ?>"><?php echo $arrPromocoes["nome"] ?></a></li>
+
+                                        <?php
+                                        
+                                        }
+                                        
+                                        ?>
+
+                                    </ul>    
+                                    
+                                </li>
+
+                                <?php
+                                        
+                                }
+                                
+                                ?>
     
                                 <?php
                             
@@ -437,7 +559,7 @@ if(!isset($classeCompra)){
                                 
                                 ?>
     
-                                    <li><a class="text-decoration-none" href="loja?pg=1&cat=<?php echo $str6; ?>&ordenacao=adicionado&tipoord=cre"><?php echo $arrCategoria["nome"]; ?></a></li>
+                                    <li><a class="text-decoration-none" href="loja?cat=<?php echo $str6; ?>"><?php echo $arrCategoria["nome"]; ?></a></li>
     
                                 <?php
                         
@@ -458,6 +580,10 @@ if(!isset($classeCompra)){
     
                     $( "#itemCategoria" ).click(function() {
                         $( "#listaCategoria" ).toggle("fast");
+                    });
+
+                    $( "#menuPromocao" ).click(function() {
+                        $( "#listaPromocaoMobile" ).toggle("fast");
                     });
     
                     </script>

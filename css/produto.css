@@ -23,9 +23,20 @@
 #etiquetaPromocao{
 
     background-color: #9dc8ad;
-    padding: 1px 5px;
+    padding: 0px 5px;
     color: white;
     border: 1px solid #63cf8b;
+    width: 155px;
+    height: 20px;
+    line-height: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+
+}
+
+#etiquetaPromocao:hover{
+
+    background-color: #b1ddc1;
 
 }
 
@@ -107,6 +118,12 @@
     border-radius: 5px;
     background-color: #9dc8ad;
     color: white;
+
+}
+
+#botaoAddCarrinho:hover{
+
+    background-color: #95b9a2;
 
 }
 

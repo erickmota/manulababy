@@ -1,0 +1,64 @@
+#listaMenu li a{
+
+    text-decoration: none;
+    color: white;
+
+}
+
+#listaMenuMobile li a{
+
+    text-decoration: none;
+    color: white;
+
+}
+
+#fundoMenuPrincipal{
+
+    height: 100vh;
+    background-color: #3d3d3d;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+
+}
+
+#listaMenu{
+
+list-style: none;
+line-height: 50px;
+
+}
+
+#listaMenuMobile{
+
+    list-style: none;
+    line-height: 50px;
+    
+}
+
+#areaMenuMobile{
+
+    width: 0px;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: -50px;
+    background-color: #201e1f;
+    z-index: 99;
+    overflow-x: auto;
+
+}
+
+#fundoAreaMenuMobile{
+
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: black;
+    opacity: 0.0;
+    z-index: 98;
+    top: 0px;
+    left: 0px;
+
+}

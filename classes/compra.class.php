@@ -209,6 +209,36 @@ class compra{
 
     }
 
+    public function retorna_promocoes_disponiveis_por_produto($id_produto){
+
+        include 'conexao.class.php';
+
+        $ids_promo = array();
+
+        $sql = mysqli_query($conn, "SELECT * FROM promocoes_produtos WHERE id_produtos=$id_produto") or die("Erro2");
+        $qtdSql = mysqli_num_rows($sql);
+        while($row = mysqli_fetch_assoc($sql)){
+
+            $id_promo = $row["id_promocoes"];
+
+            array_push($ids_promo, $id_promo);
+
+        }
+
+        if($qtdSql < 1){
+
+            return false;
+
+        }else{
+
+            $ids_finais = array_unique($ids_promo);
+
+            return $ids_finais;
+
+        }
+
+    }
+
     public function retorna_nome_promo($id_promo){
 
         include 'conexao.class.php';
@@ -635,7 +665,7 @@ class compra{
         include 'conexao.class.php';
 
         /* $sql = mysqli_query($conn, "SELECT * FROM item_pedido INNER JOIN pedido ON item_pedido.id_pedido=pedido.id WHERE pedido.id='$referencia' ORDER BY item_pedido.id ASC") or die("Erro ao retornar produtos do pedido"); */
-        $sql = mysqli_query($conn, "SELECT * FROM item_pedido INNER JOIN pedido ON item_pedido.id_pedido=pedido.id INNER JOIN produtos ON item_pedido.id_produtos=produtos.id WHERE pedido.id='$referencia' ORDER BY item_pedido.id DESC") or die("Erro ao retornar produtos do pedido");
+        $sql = mysqli_query($conn, "SELECT item_pedido.tamanho, produtos.id_variacao_produto, produtos.id_variacao_produto2, produtos.id_variacao_produto3, produtos.nome, item_pedido.variacao_complementar, item_pedido.variacao_complementar2, item_pedido.variacao_complementar3, item_pedido.preco_produto_pedido, item_pedido.quantidade, produtos.foto FROM item_pedido INNER JOIN pedido ON item_pedido.id_pedido=pedido.id INNER JOIN produtos ON item_pedido.id_produtos=produtos.id WHERE pedido.id='$referencia' ORDER BY item_pedido.id DESC") or die("Erro ao retornar produtos do pedido");
         while($linha = mysqli_fetch_assoc($sql)){
 
             $array[] = $linha;

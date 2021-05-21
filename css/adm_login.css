@@ -1,0 +1,20 @@
+#logo{
+
+    max-width: 250px;
+
+}
+
+#fundo{
+
+    width: 100vw;
+    height: 100vh;
+    display: table;
+
+}
+
+#conteudo{
+
+    vertical-align: middle;
+    display: table-cell;
+
+}

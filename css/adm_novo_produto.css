@@ -1,0 +1,26 @@
+#fundoMenuPrincipal{
+
+    height: 100vh;
+    background-color: #3d3d3d;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+
+}
+
+#listaMenu{
+
+list-style: none;
+line-height: 50px;
+
+}
+
+#escolher-img-capa, #escolher-img-1, #escolher-img-2, #escolher-img-3, #escolher-img-4, #escolher-img-5, #escolher-img-6, #escolher-img-7, #escolher-img-8, #escolher-img-9{
+
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    object-position: center;
+    cursor: pointer;
+
+}

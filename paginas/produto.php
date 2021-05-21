@@ -42,6 +42,7 @@
     ?>
 
     <link rel="stylesheet" href="css/produto.css">
+    <script src="jQuery-Mask-Plugin-master/src/jquery.mask.js"></script>
 
     <script>
 
@@ -263,6 +264,13 @@
 
     }
 
+    /* Mask */
+    $(document).ready(function(){
+
+        $('.maskCep').mask('00000-000');
+
+    });
+
     </script>
 
 </head>
@@ -315,17 +323,71 @@
 
                 <h1 class="fs-2 fw-light text-secondary"><?php echo $arrProduto["nome"]; ?></h1>
 
+                <?php
+
+                $funcRetornaPromo = $classeCompra->retorna_promocoes_disponiveis_por_produto($arrProduto["id"]);
+                
+                if($funcRetornaPromo != false){
+                
+                ?>
+
                 <div class="row">
 
                     <div class="col">
 
-                        <span id="etiquetaPromocao">Promoções válidas</span>
+                        <div id="etiquetaPromocao" class="mb-3"><small>Promoções disponíveis</small></div>
+
+                        <ul class="text-secondary" id="ulPromocoes" style="display: none;">
+
+                            <?php
+                    
+                            /* var_dump($classeCompra->retorna_promocoes_disponiveis_por_produto($arrProduto["id"])); */
+
+                            foreach($funcRetornaPromo as $arrPromocao){
+
+                                $funcRetornaNomePromo = $classeCompra->retorna_nome_promo($arrPromocao);
+
+                                $nomeComTraco = str_replace(" ", "-", $funcRetornaNomePromo);
+                                $transformarEmMinuscula = mb_strtolower($nomeComTraco, "UTF-8");
+                                $trataInjection = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", $transformarEmMinuscula);
+                                $str1 = preg_replace('/[áàãâä]/ui', 'a', $trataInjection);
+                                $str2 = preg_replace('/[éèêë]/ui', 'e', $str1);
+                                $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
+                                $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
+                                $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
+                                $str6 = preg_replace('/[ç]/ui', 'c', $str5);
+                            
+                            ?>
+
+                            <li><b><?php echo $funcRetornaNomePromo ?>:</b> <a class="text-decoration-none" target="_blank" href="promocao/<?php echo $str6 ?>">ver detalhes</a></li>
+
+                            <?php
+                            
+                            }
+                            
+                            ?>
+
+                        </ul>
 
                     </div>
 
                 </div>
 
-                <div class="row mt-3">
+                <script>
+
+                $( "#etiquetaPromocao" ).click(function() {
+                    $( "#ulPromocoes" ).toggle( "fast" );
+                });
+
+                </script>
+
+                <?php
+                
+                }
+                
+                ?>
+
+                <div class="row">
 
                     <div class="col-4">
 
@@ -981,7 +1043,7 @@
                         
                         ?>
 
-                        <button data-bs-toggle="modal" data-bs-target="#exampleModal" id="botaoAddCarrinho">ADICIONAR À SACOLA</button>
+                        <button onclick="window.alert('Por favor, efetue o login com sua conta, antes de prosseguir :)')" id="botaoAddCarrinho">ADICIONAR À SACOLA</button>
 
                         <?php
                             
@@ -1036,7 +1098,9 @@
 
               <?php
 
-              /* $id_categoria =  $classeProdutos->retorna_nome_categoria_produto($id_produto);
+              $id_produto = $arrProduto["id"];
+
+              $id_categoria =  $classeProdutos->retorna_nome_categoria_produto($id_produto);
               
               foreach($classeProdutos->retorna_produtos_relacionados($id_categoria, $id_produto) as $arrRelacionados){
 
@@ -1048,80 +1112,20 @@
                 $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
                 $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
                 $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
-                $str6 = preg_replace('/[ç]/ui', 'c', $str5); */
+                $str6 = preg_replace('/[ç]/ui', 'c', $str5);
               
               ?>
-    
-                <li class="text-center" id="espacoProdutoMaisVendidos">
-    
-                  <div onclick="window.location='produto/<?php /* echo $str6; */ ?>'" class="box">
-    
-                    <img src="img/produtos/exemplo1.jpg" id="fotoAnel">
-    
-                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-    
-                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-    
-                  </div>
-    
-                </li>
 
                 <li class="text-center" id="espacoProdutoMaisVendidos">
     
-                  <div onclick="window.location='produto/<?php /* echo $str6; */ ?>'" class="box">
+                  <div onclick="window.location='produto/<?php echo $str6; ?>'" class="box">
     
-                    <img src="img/produtos/exemplo2.jpg" id="fotoAnel">
+                    <img src="img/produtos/<?php echo $arrRelacionados["foto"]; ?>" id="fotoAnel">
     
-                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
+                    <p id="nomeItem" class="card-text mt-1 pt-2"><?php echo $arrRelacionados["nome"]; ?></p>
     
-                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-    
-                  </div>
-    
-                </li>
-
-                <li class="text-center" id="espacoProdutoMaisVendidos">
-    
-                  <div onclick="window.location='produto/<?php /* echo $str6; */ ?>'" class="box">
-    
-                    <img src="img/produtos/exemplo3.jpg" id="fotoAnel">
-    
-                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-    
-                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-    
-                  </div>
-    
-                </li>
-
-                <li class="text-center" id="espacoProdutoMaisVendidos">
-    
-                  <div onclick="window.location='produto/<?php /* echo $str6; */ ?>'" class="box">
-    
-                    <img src="img/produtos/exemplo4.jpg" id="fotoAnel">
-    
-                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-    
-                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-    
-                  </div>
-    
-                </li>
-
-                <li class="text-center" id="espacoProdutoMaisVendidos">
-    
-                  <div onclick="window.location='produto/<?php /* echo $str6; */ ?>'" class="box">
-    
-                    <img src="img/produtos/exemplo5.jpg" id="fotoAnel">
-    
-                    <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-    
-                    <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                    <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
+                    <span id="precoAntigo" class="text-decoration-line-through text-secondary <?php if($arrRelacionados["preco_promocao"] == ""){ echo "d-none"; } ?>">R$<?php echo number_format($arrRelacionados["preco_promocao"], 2, ",", "."); ?></span>
+                    <h5 class="card-title fs-4"  id="precoPromocao">R$<?php echo number_format($arrRelacionados["preco"], 2, ",", "."); ?></h5>
     
                   </div>
     
@@ -1129,13 +1133,13 @@
 
                 <?php
                 
-                /* } */
+                }
                 
                 ?>
 
                 <?php
 
-                /* $id_categoria =  $classeProdutos->retorna_nome_categoria_produto(0);
+                $id_categoria =  $classeProdutos->retorna_nome_categoria_produto(0);
 
                 foreach($classeProdutos->retorna_produtos_relacionados($id_categoria, $id_produto) as $arrRelacionados){
 
@@ -1147,34 +1151,34 @@
                     $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
                     $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
                     $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
-                    $str6 = preg_replace('/[ç]/ui', 'c', $str5); */
+                    $str6 = preg_replace('/[ç]/ui', 'c', $str5);
 
                 ?>
 
-                <!-- <li class="text-center" id="espacoProdutoMaisVendidos">
+                <li class="text-center" id="espacoProdutoMaisVendidos">
 
                     <div onclick="window.location='produto/<?php echo $str6; ?>'" class="box">
 
                     <img src="img/produtos/<?php echo $arrRelacionados["foto"]; ?>" id="fotoAnel">
 
-                    <p class="card-text mt-1 pt-2 border-top"><?php echo $arrRelacionados["nome"]; ?></p>
+                    <p id="nomeItem" class="card-text mt-1 pt-2 border-top"><?php echo $arrRelacionados["nome"]; ?></p>
 
-                    <small class="text-decoration-line-through <?php if($arrRelacionados["preco_promocao"] == ""){ echo "d-none"; } ?>">R$<?php echo number_format($arrRelacionados["preco_promocao"], 2, ",", "."); ?></small>
-                    <h5 class="card-title">R$<?php echo number_format($arrRelacionados["preco"], 2, ",", "."); ?></h5>
+                    <small id="precoAntigo" class="text-decoration-line-through text-secondary <?php if($arrRelacionados["preco_promocao"] == ""){ echo "d-none"; } ?>">R$<?php echo number_format($arrRelacionados["preco_promocao"], 2, ",", "."); ?></small>
+                    <h5 class="card-title fs-4" id="precoPromocao">R$<?php echo number_format($arrRelacionados["preco"], 2, ",", "."); ?></h5>
 
                     </div>
 
-                </li> -->
+                </li>
 
                 <?php
                 
-                /* } */
+                }
                 
                 ?>
 
                 <?php
 
-                /* $id_categoria =  $classeProdutos->retorna_nome_categoria_produto(0);
+                $id_categoria =  $classeProdutos->retorna_nome_categoria_produto(0);
 
                 foreach($classeProdutos->retorna_produtos_relacionados($id_categoria, $id_produto) as $arrRelacionados){
 
@@ -1186,28 +1190,28 @@
                     $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
                     $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
                     $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
-                    $str6 = preg_replace('/[ç]/ui', 'c', $str5); */
+                    $str6 = preg_replace('/[ç]/ui', 'c', $str5);
 
                 ?>
 
-                <!-- <li class="text-center" id="espacoProdutoMaisVendidos">
+                <li class="text-center" id="espacoProdutoMaisVendidos">
 
                     <div onclick="window.location='produto/<?php echo $str6; ?>'" class="box">
 
                     <img src="img/produtos/<?php echo $arrRelacionados["foto"]; ?>" id="fotoAnel">
 
-                    <p class="card-text mt-1 pt-2 border-top"><?php echo $arrRelacionados["nome"]; ?></p>
+                    <p id="nomeItem" class="card-text mt-1 pt-2 border-top"><?php echo $arrRelacionados["nome"]; ?></p>
 
-                    <small class="text-decoration-line-through <?php if($arrRelacionados["preco_promocao"] == ""){ echo "d-none"; } ?>">R$<?php echo number_format($arrRelacionados["preco_promocao"], 2, ",", "."); ?></small>
-                    <h5 class="card-title">R$<?php echo number_format($arrRelacionados["preco"], 2, ",", "."); ?></h5>
+                    <small id="precoAntigo" class="text-decoration-line-through text-secondary <?php if($arrRelacionados["preco_promocao"] == ""){ echo "d-none"; } ?>">R$<?php echo number_format($arrRelacionados["preco_promocao"], 2, ",", "."); ?></small>
+                    <h5 class="card-title fs-4" id="precoPromocao">R$<?php echo number_format($arrRelacionados["preco"], 2, ",", "."); ?></h5>
 
                     </div>
 
-                </li> -->
+                </li>
 
                 <?php
 
-                /* } */
+                }
 
                 ?>
     
@@ -1218,8 +1222,6 @@
         </div>
 
         <?php
-
-        /* $id_produto = $arrProduto["id"]; */
         
         }
         

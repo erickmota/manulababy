@@ -1,6 +1,7 @@
 #logo{
 
     max-width: 270px;
+    cursor: pointer;
 
 }
 
@@ -420,6 +421,12 @@
 
 }
 
+#listaCategoria li{
+
+    padding: 5px 0px !important;
+
+}
+
 #listaCategoria li a{
 
     color: #9dc8ad;
@@ -435,5 +442,11 @@
 #areaMenuMobile ul li span{
 
     color: rgb(122, 122, 122);
+
+}
+
+.liPromocao{
+
+    padding: 10px 0px !important;
 
 }

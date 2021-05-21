@@ -1519,7 +1519,7 @@
                                 
                                 ?> d-inline-block me-1">
                                     
-                                    <p id="textoTipo" class="fs-6 d-none d-md-block">FEMENINO</p>
+                                    <p id="textoTipo" class="fs-6 d-none d-md-block">FEMININO</p>
                                     <p id="textoTipo" class="fs-5 d-block d-md-none">F</p>
                                 
                                 </div>
@@ -1543,7 +1543,7 @@
 
                             <div class="col-4">
 
-                                <select id="selectOrganizar" class="float-end" onchange="alterar_ordenacao(this.value)">
+                                <select id="selectOrganizar" class="float-end text-secondary" onchange="alterar_ordenacao(this.value)">
 
                                     <option hidden disbled>Organizar por</option>
                                     <option value="nome">Nome</option>

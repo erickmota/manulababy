@@ -106,7 +106,7 @@ class produtos{
 
         }else if($sexo == "fem"){
 
-            $sexoSql = "sexo='femenino'";
+            $sexoSql = "sexo='feminino'";
 
         }else if($sexo == "masc"){
 
@@ -495,6 +495,90 @@ class produtos{
 
     }
 
+    public function verificarExisenciaPromocao($tabela, $comparador, $nomePromocao){
+
+        include 'conexao.class.php';
+
+        $nomeSemTraco = str_replace("-", " ", $nomePromocao);
+
+        $sql = mysqli_query($conn, "SELECT * FROM $tabela WHERE $comparador='$nomeSemTraco' collate utf8_general_ci") or die("Erro");
+        $qtdSql = mysqli_num_rows($sql);
+
+        if($qtdSql < 1){
+
+            return false;
+
+        }else{
+
+            return true;
+
+        }
+
+    }
+
+    public function retorna_dados_promocao($nomePromocao){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM promocoes WHERE nome='$nomePromocao'") or die("erro");
+        while($row = mysqli_fetch_assoc($sql)){
+
+            $array[] = $row;
+
+        }
+
+        return $array;
+
+    }
+
+    public function retorna_produtos_promocao($id_promocao){
+
+        include 'conexao.class.php';
+        
+        $sql = mysqli_query($conn, "SELECT * FROM promocoes_produtos INNER JOIN produtos ON promocoes_produtos.id_produtos=produtos.id WHERE promocoes_produtos.id_promocoes=$id_promocao") or die("Erro");
+        $qtdSql = mysqli_num_rows($sql);
+        while($row = mysqli_fetch_assoc($sql)){
+
+            $array[] = $row;
+
+        }
+
+        if($qtdSql < 1){
+
+            return false;
+
+        }else{
+
+            return $array;
+
+        }
+
+    }
+
+    public function retorna_lista_promocoes(){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT nome FROM promocoes") or die("Erro");
+        $qtdSql = mysqli_num_rows($sql);
+        while($row = mysqli_fetch_assoc($sql)){
+
+            $array[] = $row;
+
+        }
+
+        if($qtdSql < 1){
+
+            return false;
+
+        }else{
+
+            return $array;
+
+        }
+
+    }
+
     /* Retorna Dados do produto pelo nome */
     public function retorna_dados_pelo_nome(){
 
@@ -598,6 +682,189 @@ class produtos{
         }
 
         return $array;
+
+    }
+
+    public function retorna_produtos_promocionais($sexo){
+
+        include 'conexao.class.php';
+
+        if($sexo == "masculino"){
+
+            $sql = mysqli_query($conn, "SELECT * FROM  produtos WHERE preco_promocao!='' AND estado='publicado-disponivel' AND qtd_estoque > 0 AND sexo='masculino' ORDER BY id DESC LIMIT 16") or die("Erro ao retornar produtos promocionais");
+
+        }else if($sexo == "feminino"){
+
+            $sql = mysqli_query($conn, "SELECT * FROM  produtos WHERE preco_promocao!='' AND estado='publicado-disponivel' AND qtd_estoque > 0 AND sexo='feminino' ORDER BY id DESC LIMIT 16") or die("Erro ao retornar produtos promocionais");
+
+        }
+
+        /* $sql = mysqli_query($conn, "SELECT * FROM  produtos WHERE preco_promocao!='' AND estado='publicado-disponivel' AND qtd_estoque > 0 ORDER BY id DESC LIMIT 16") or die("Erro ao retornar produtos promocionais"); */
+        while($linha = mysqli_fetch_assoc($sql)){
+            
+            $array[] = $linha;
+            
+        }
+
+        return $array;
+
+    }
+
+    public function retorna_lista_produtos_home($qtd){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 ORDER BY id DESC LIMIT $qtd") or die("Erro retornar produtos para a loja");
+        while($linha = mysqli_fetch_assoc($sql)){
+            
+            $array[] = $linha;
+            
+        }
+
+        return $array;
+
+    }
+
+    public function retorna_nome_categoria_produto($id_produto){
+
+        include 'conexao.class.php';
+
+        if($id_produto == 0){
+
+            $sql = mysqli_query($conn, "SELECT id FROM categoria ORDER BY RAND() LIMIT 5") or die("Erro ao retornar nome categoria");
+
+        }else{
+
+            $sql = mysqli_query($conn, "SELECT categoria.id AS id FROM categoria INNER JOIN categoria_produto ON categoria.id=categoria_produto.id_categoria WHERE categoria_produto.id_produtos=$id_produto LIMIT 5") or die("Erro ao retornar nome categoria");
+
+        }
+        
+        $linha = mysqli_fetch_assoc($sql);
+
+        $nome = $linha["id"];
+
+        return $nome;
+
+    }
+
+    public function retorna_produtos_relacionados($id_categoria, $id_produto_atual){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM produtos INNER JOIN categoria_produto ON produtos.id=categoria_produto.id_produtos WHERE categoria_produto.id_categoria=$id_categoria AND categoria_produto.id_produtos!=$id_produto_atual AND produtos.qtd_estoque > 0 AND produtos.estado='publicado-disponivel'") or die("Erro ao retornar produtos relacionados");
+        while($linha = mysqli_fetch_assoc($sql)){
+            
+            $array[] = $linha;
+            
+        }
+
+        return $array;
+
+    }
+
+    public function verifica_nome_produto(){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT id FROM produtos WHERE nome='$this->nome' collate utf8_general_ci") or die("Erro verifica_nome_produto");
+        $qtd = mysqli_num_rows($sql);
+
+        return $qtd;
+
+    }
+
+    public function retorna_variacoes(){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT nome FROM variacao_produtos") or die("Erro retorna_variacoes");
+        while($linha = mysqli_fetch_assoc($sql)){
+
+            $array[] = $linha;
+
+        }
+
+        return $array;
+
+    }
+
+    public function retorna_op_variacoes($nome, $propriedade){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT $propriedade FROM variacao_produtos WHERE nome='$nome'") or die("Erro retorna_variacoes");
+        $linha = mysqli_fetch_assoc($sql);
+
+        $retorno = $linha["$propriedade"];
+
+        return $retorno;
+
+    }
+
+    public function cadastrar_variacao_personalizada($nomeVariacao, $opVariacao, $texto_cliente){
+
+        include 'conexao.class.php';
+
+        $sql1 = mysqli_query($conn, "SELECT id FROM variacao_produtos WHERE nome='$nomeVariacao'") or die("Erro verificar se existe variação personalizada");
+        $qtd1 = mysqli_num_rows($sql1);
+        $linha1 = mysqli_fetch_assoc($sql1);
+
+        if($qtd1 < 1){
+
+            $tirarEspacos = str_replace(", ", ",", $opVariacao);
+            $tirarEspacos2 = str_replace(", ", ",", $tirarEspacos);
+
+            $sql = mysqli_query($conn, "INSERT INTO variacao_produtos (nome, opcoes, texto_cliente) VALUES ('$nomeVariacao', '$tirarEspacos2', '$texto_cliente')") or die("Erro variação personalizada");
+
+            $sql2 = mysqli_query($conn, "SELECT id FROM variacao_produtos ORDER BY id DESC") or die("Erro ao retornar ultimo ID");
+            $linha2 = mysqli_fetch_array($sql2);
+
+            return $linha2["id"];
+
+        }else{
+
+            return $linha1["id"];
+
+        }
+
+    }
+
+    public function categoria($categoria, $ultimoIdCategoria, $ultimoIdProduto){
+
+        include 'conexao.class.php';
+
+        $tirarEspacos = str_replace(", ", ",", $categoria);
+        $tirarEspacos2 = str_replace(", ", ",", $tirarEspacos);
+        $transformarEmMinuscula = mb_strtolower($tirarEspacos2, "UTF-8");
+
+        $categoriaIndividual = explode(",", $transformarEmMinuscula);
+        $qtdCategoria = count($categoriaIndividual);
+
+        $i = 0;
+
+        while($i < $qtdCategoria){
+
+            $sql = mysqli_query($conn, "SELECT id FROM categoria WHERE nome='$categoriaIndividual[$i]'") or die("Erro nome categoria");
+            $qtdResultado = mysqli_num_rows($sql);
+
+            if($qtdResultado < 1){
+
+                $sql2 = mysqli_query($conn, "INSERT INTO categoria (id, nome) VALUES ($ultimoIdCategoria + ($i + 1), '$categoriaIndividual[$i]')") or die("Erro adicionar categoria");
+
+                $sql3 = mysqli_query($conn, "INSERT INTO categoria_produto (id_categoria, id_produtos) VALUES ($ultimoIdCategoria + ($i + 1), $ultimoIdProduto)") or die("Erro ao relacionar produtos x categoria");
+
+            }else{
+
+                $linhaCategoriaSelecionada = mysqli_fetch_array($sql);
+                $idCategoriaSelecionada = $linhaCategoriaSelecionada["id"];
+
+                $sql2 = mysqli_query($conn, "INSERT INTO categoria_produto (id_categoria, id_produtos) VALUES ($idCategoriaSelecionada, $ultimoIdProduto)") or die("Erro buscar id Categoria");
+
+            }
+
+            $i++;
+
+        }
 
     }
     

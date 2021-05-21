@@ -3,6 +3,13 @@
 
 <head>
 
+    <?php
+    
+    include "classes/adm.class.php";
+    $classeAdm = new adm();
+    
+    ?>
+
     <title>Manulá Baby</title>
 
     <meta charset="UTF-8">
@@ -125,32 +132,81 @@
 
             <!-- Slide -->
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+
                 <ol class="carousel-indicators">
-                  <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
-                  <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
-                  <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
+
+                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
+                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
+                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
+
                 </ol>
+
                 <div class="carousel-inner">
 
-                  <div class="carousel-item active">
-                    <a><img id="imgSlide" src="img/slide.jpg" class="d-block w-100" alt="..."></a>
-                  </div>
-                  <div class="carousel-item">
-                    <a><img id="imgSlide" src="img/slide2.JPG" class="d-block w-100" alt="..."></a>
-                  </div>
-                  <div class="carousel-item">
-                    <a><img id="imgSlide" src="img/slide.jpg" class="d-block w-100" alt="..."></a>
-                  </div>
+                    <?php
+                    
+                    foreach($classeAdm->retorna_slide_link() as $arrAdm){
+
+                      $link[0] = $arrAdm['link_slide_1'];
+                      $link[1] = $arrAdm['link_slide_2'];
+                      $link[2] = $arrAdm['link_slide_3'];
+                    
+                    ?>
+
+                    <div class="carousel-item active">
+                        <a <?php
+                      
+                      if($link[0] != NULL){
+
+                        echo "href='$link[0]'";
+
+                      }
+                      
+                      ?>><img id="imgSlide" src="img/slides/<?php echo $arrAdm['img_slide_1'] ?>" class="d-block w-100" alt="..."></a>
+                    </div>
+
+                    <div class="carousel-item">
+                        <a <?php
+                      
+                      if($link[1] != NULL){
+
+                        echo "href='$link[1]'";
+
+                      }
+                      
+                      ?>><img id="imgSlide" src="img/slides/<?php echo $arrAdm['img_slide_2'] ?>" class="d-block w-100" alt="..."></a>
+                    </div>
+
+                    <div class="carousel-item">
+                        <a <?php
+                      
+                      if($link[2] != NULL){
+
+                        echo "href='$link[2]'";
+
+                      }
+                      
+                      ?>><img id="imgSlide" src="img/slides/<?php echo $arrAdm['img_slide_3'] ?>" class="d-block w-100" alt="..."></a>
+                    </div>
+
+                    <?php
+                    
+                    }
+                    
+                    ?>
 
                 </div>
+
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
                 </a>
+
                 <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
                 </a>
+
             </div>
             <!-- //Slide -->
 
@@ -168,7 +224,7 @@
 
                     <div class="col-12 col-md-6 mt-2">
 
-                        <div id="boxMenina" class="text-center fs-5 fw-bold">
+                        <div onclick="window.location='loja?sexo=fem'" id="boxMenina" class="text-center fs-5 fw-bold">
 
                             PARA MOCINHAS
 
@@ -178,7 +234,7 @@
 
                     <div class="col-12 col-md-6 mt-2">
 
-                        <div id="boxMenino" class="text-center fs-5 fw-bold">
+                        <div onclick="window.location='loja?sexo=masc'" id="boxMenino" class="text-center fs-5 fw-bold">
 
                             PARA MOCINHOS
 
@@ -205,65 +261,42 @@
 
                         <ul class="col" id="espacoItem">
 
+                            <?php
+            
+                            foreach($classeProdutos->retorna_produtos_promocionais("feminino") as $arrPromocao){
+
+                                $nomeComTraco = str_replace(" ", "-", $arrPromocao["nome"]);
+                                $transformarEmMinuscula = mb_strtolower($nomeComTraco, "UTF-8");
+                                $trataInjection = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", $transformarEmMinuscula);
+                                $str1 = preg_replace('/[áàãâä]/ui', 'a', $trataInjection);
+                                $str2 = preg_replace('/[éèêë]/ui', 'e', $str1);
+                                $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
+                                $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
+                                $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
+                                $str6 = preg_replace('/[ç]/ui', 'c', $str5);
+                            
+                            ?>
+
                             <li class="text-center" id="espacoProdutoMaisVendidos">
 
-                                <div onclick="window.location='produto/'" class="box">
+                                <div onclick="window.location='produto/<?php echo $str6; ?>'" class="box">
 
-                                <img src="img/produtos/exemplo1.jpg" id="fotoAnel">
+                                <img src="img/produtos/<?php echo $arrPromocao["foto"]; ?>" id="fotoAnel">
 
-                                <p class="card-text mt-1 pt-2">Pulseira Recém Nascido Plaquinha Vazada Meninoc</p>
+                                <p class="card-text mt-1 pt-2"><?php echo $arrPromocao["nome"]; ?></p>
 
-                                <span class="text-decoration-line-through">R$58,90</span>
-                                <h5 class="card-title fs-4" id="precoPromocao">R$45,80</h5>
+                                <span class="text-decoration-line-through">R$<?php echo number_format($arrPromocao["preco_promocao"], 2, ",", "."); ?></span>
+                                <h5 class="card-title fs-4" id="precoPromocao">R$<?php echo number_format($arrPromocao["preco"], 2, ",", "."); ?></h5>
 
                                 </div>
 
                             </li>
 
-                            <li class="text-center" id="espacoProdutoMaisVendidos">
-
-                                <div onclick="window.location='produto/'" class="box">
-
-                                <img src="img/produtos/exemplo2.jpg" id="fotoAnel">
-
-                                <p class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-
-                                <span class="text-decoration-line-through">R$58,90</span>
-                                <h5 class="card-title fs-4" id="precoPromocao">R$45,80</h5>
-
-                                </div>
-
-                            </li>
-
-                            <li class="text-center" id="espacoProdutoMaisVendidos">
-
-                                <div onclick="window.location='produto/'" class="box">
-
-                                <img src="img/produtos/exemplo3.jpg" id="fotoAnel">
-
-                                <p class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-
-                                <span class="text-decoration-line-through">R$58,90</span>
-                                <h5 class="card-title fs-4" id="precoPromocao">R$45,80</h5>
-
-                                </div>
-
-                            </li>
-
-                            <li class="text-center" id="espacoProdutoMaisVendidos">
-
-                                <div onclick="window.location='produto/'" class="box">
-
-                                <img src="img/produtos/exemplo4.jpg" id="fotoAnel">
-
-                                <p class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-
-                                <span class="text-decoration-line-through">R$58,90</span>
-                                <h5 class="card-title fs-4" id="precoPromocao">R$45,80</h5>
-
-                                </div>
-
-                            </li>
+                            <?php
+          
+                            }
+                            
+                            ?>
 
                         </ul>
 
@@ -289,65 +322,42 @@
 
                         <ul class="col" id="espacoItemMocinho">
 
+                        <?php
+            
+                            foreach($classeProdutos->retorna_produtos_promocionais("masculino") as $arrPromocao){
+
+                                $nomeComTraco = str_replace(" ", "-", $arrPromocao["nome"]);
+                                $transformarEmMinuscula = mb_strtolower($nomeComTraco, "UTF-8");
+                                $trataInjection = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", $transformarEmMinuscula);
+                                $str1 = preg_replace('/[áàãâä]/ui', 'a', $trataInjection);
+                                $str2 = preg_replace('/[éèêë]/ui', 'e', $str1);
+                                $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
+                                $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
+                                $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
+                                $str6 = preg_replace('/[ç]/ui', 'c', $str5);
+                            
+                            ?>
+
                             <li class="text-center" id="espacoProdutoMaisVendidos">
 
-                                <div onclick="window.location='produto/'" class="box">
+                                <div onclick="window.location='produto/<?php echo $str6; ?>'" class="box">
 
-                                <img src="img/produtos/exemplo5.jpg" id="fotoAnel">
+                                <img src="img/produtos/<?php echo $arrPromocao["foto"]; ?>" id="fotoAnel">
 
-                                <p class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
+                                <p class="card-text mt-1 pt-2"><?php echo $arrPromocao["nome"]; ?></p>
 
-                                <span class="text-decoration-line-through">R$58,90</span>
-                                <h5 class="card-title fs-4" id="precoPromocao">R$45,80</h5>
+                                <span class="text-decoration-line-through">R$<?php echo number_format($arrPromocao["preco_promocao"], 2, ",", "."); ?></span>
+                                <h5 class="card-title fs-4" id="precoPromocao">R$<?php echo number_format($arrPromocao["preco"], 2, ",", "."); ?></h5>
 
                                 </div>
 
                             </li>
 
-                            <li class="text-center" id="espacoProdutoMaisVendidos">
-
-                                <div onclick="window.location='produto/'" class="box">
-
-                                <img src="img/produtos/exemplo6.jpg" id="fotoAnel">
-
-                                <p class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-
-                                <span class="text-decoration-line-through">R$58,90</span>
-                                <h5 class="card-title fs-4" id="precoPromocao">R$45,80</h5>
-
-                                </div>
-
-                            </li>
-
-                            <li class="text-center" id="espacoProdutoMaisVendidos">
-
-                                <div onclick="window.location='produto/'" class="box">
-
-                                <img src="img/produtos/exemplo7.jpg" id="fotoAnel">
-
-                                <p class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-
-                                <span class="text-decoration-line-through">R$58,90</span>
-                                <h5 class="card-title fs-4" id="precoPromocao">R$45,80</h5>
-
-                                </div>
-
-                            </li>
-
-                            <li class="text-center" id="espacoProdutoMaisVendidos">
-
-                                <div onclick="window.location='produto/'" class="box">
-
-                                <img src="img/produtos/exemplo8.jpg" id="fotoAnel">
-
-                                <p class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-
-                                <span class="text-decoration-line-through">R$58,90</span>
-                                <h5 class="card-title fs-4" id="precoPromocao">R$45,80</h5>
-
-                                </div>
-
-                            </li>
+                            <?php
+          
+                            }
+                            
+                            ?>
 
                         </ul>
 
@@ -368,120 +378,51 @@
                 </div>
 
                 <div class="row">
+
+                    <?php
                 
+                    /* $tipo, $vMinimo, $vMaximo, $categoria, $pg, $ordenacao, $tipoOrdenacao */
+                    foreach($classeProdutos->retorna_lista_produtos_home(8) as $arrProdutos){
+
+                    $idProduto = $arrProdutos["id"];
+
+                    /* $nomeComTraco = str_replace(" ", "-", $arrProdutos["nome"]);
+                    $transformarEmMinuscula = mb_strtolower($nomeComTraco, "UTF-8");
+                    $tirarCaracteres = str_replace("ã", "a", $transformarEmMinuscula);
+                    $convert = iconv('utf-8', 'us-ascii//TRANSLIT', $tirarCaracteres); */
+
+                    $nomeComTraco = str_replace(" ", "-", $arrProdutos["nome"]);
+                    $transformarEmMinuscula = mb_strtolower($nomeComTraco, "UTF-8");
+                    $trataInjection = str_replace(array(";", "'", "--", "/", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", $transformarEmMinuscula);
+                    $str1 = preg_replace('/[áàãâä]/ui', 'a', $trataInjection);
+                    $str2 = preg_replace('/[éèêë]/ui', 'e', $str1);
+                    $str3 = preg_replace('/[íìîï]/ui', 'i', $str2);
+                    $str4 = preg_replace('/[óòõôö]/ui', 'o', $str3);
+                    $str5 = preg_replace('/[úùûü]/ui', 'u', $str4);
+                    $str6 = preg_replace('/[ç]/ui', 'c', $str5);
+                    
+                    ?>
+
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
         
-                        <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
+                        <div onclick="window.location='produto/<?php echo $str6; ?>'" class="boxProdutos text-center">
             
-                            <img src="img/produtos/exemplo1.jpg" id="fotoAnelProdutos">
+                            <img src="img/produtos/<?php echo $arrProdutos["foto"]; ?>" id="fotoAnelProdutos">
             
-                            <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
+                            <p id="nomeItem" class="card-text mt-1 pt-2"><?php echo $arrProdutos["nome"]; ?></p>
             
-                            <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                            <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-            
-                            <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-            
-                            <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
+                            <span id="precoAntigo" class="text-decoration-line-through text-secondary <?php if($arrProdutos["preco_promocao"] == ""){ echo "d-none"; } ?>">R$<?php echo $arrProdutos["preco_promocao"]; ?></span>
+                            <h5 class="card-title fs-4"  id="precoPromocao">R$<?php echo number_format($arrProdutos["preco"], 2, ",", "."); ?></h5>
             
                         </div>
         
                     </div>
 
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        
-                        <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-            
-                            <img src="img/produtos/exemplo2.jpg" id="fotoAnelProdutos">
-            
-                            <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-            
-                            <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                            <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-            
-                            <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-            
-                            <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-            
-                        </div>
-        
-                    </div>
+                    <?php
 
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        
-                        <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-            
-                            <img src="img/produtos/exemplo3.jpg" id="fotoAnelProdutos">
-            
-                            <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-            
-                            <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                            <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-            
-                            <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-            
-                            <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-            
-                        </div>
-        
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        
-                        <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-            
-                            <img src="img/produtos/exemplo4.jpg" id="fotoAnelProdutos">
-            
-                            <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-            
-                            <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                            <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-            
-                            <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-            
-                            <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-            
-                        </div>
-        
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        
-                        <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-            
-                            <img src="img/produtos/exemplo5.jpg" id="fotoAnelProdutos">
-            
-                            <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-            
-                            <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                            <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-            
-                            <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-            
-                            <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-            
-                        </div>
-        
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        
-                        <div onclick="window.location='produto/'" class="boxProdutos text-center" onmouseover="mudarItemAdd()" onmouseout="mudarItemRemove()">
-            
-                            <img src="img/produtos/exemplo6.jpg" id="fotoAnelProdutos">
-            
-                            <p id="nomeItem" class="card-text mt-1 pt-2">Blusinha rosa para bebê</p>
-            
-                            <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$58,50</span>
-                            <h5 class="card-title fs-4"  id="precoPromocao">R$46,50</h5>
-            
-                            <p id="precoItemGrande" class="card-title mt-1 pt-3 border-top fs-3 text-secondary d-none">R$46,50</p>
-            
-                            <button class="botaoComprar d-none" id="botaoComprar">COMPRAR</button>
-            
-                        </div>
-        
-                    </div>
+                    }
+                    
+                    ?>
         
                 </div>
                 <!-- //Últimos adicionados -->
