@@ -77,9 +77,9 @@ class produtos{
 
         include 'conexao.class.php';
 
-        $sql = mysqli_query($conn, "INSERT INTO produtos (id_variacao_produto, id_variacao_produto2, id_variacao_produto3, id_promocoes, tamanho, nome, foto, descricao, preco, qtd_estoque, estado, preco_promocao, sexo, peso, altura, largura, comprimento, dias_entrega) VALUES ($variacaoAdicional1, $variacaoAdicional2, $variacaoAdicional3, $this->id_promocao, '$this->tamanho', '$this->nome', NULL, '$this->descricao', $this->preco, $this->qtd, '$this->estado', $this->preco_promocao, '$this->sexo', '$this->peso', '$this->altura', '$this->largura', '$this->comprimento', $this->dias_entrega)") or die("Erro ao cadastrar o produto");
+        $sql = mysqli_query($conn, "INSERT INTO produtos (id_variacao_produto, id_variacao_produto2, id_variacao_produto3, tamanho, nome, foto, descricao, preco, qtd_estoque, estado, preco_promocao, sexo, peso, altura, largura, comprimento, dias_entrega) VALUES ($variacaoAdicional1, $variacaoAdicional2, $variacaoAdicional3, '$this->tamanho', '$this->nome', NULL, '$this->descricao', $this->preco, $this->qtd, '$this->estado', $this->preco_promocao, '$this->sexo', '$this->peso', '$this->altura', '$this->largura', '$this->comprimento', $this->dias_entrega)") or die("Erro ao cadastrar o produto");
 
-        echo "{$variacaoAdicional1}<br>{$variacaoAdicional2}<br>{$variacaoAdicional3}<br>{$this->id_promocao}<br>{$this->tamanho}<br>{$this->nome}<br>{$this->descricao}<br>{$this->preco}<br>{$this->qtd}<br>{$this->estado}<br>{$this->preco_promocao}<br>{$this->sexo}<br>{$this->peso}<br>{$this->altura}<br>{$this->largura}<br>{$this->comprimento}<br>{$this->dias_entrega}";
+        /* echo "{$variacaoAdicional1}<br>{$variacaoAdicional2}<br>{$variacaoAdicional3}<br>{$this->tamanho}<br>{$this->nome}<br>{$this->descricao}<br>{$this->preco}<br>{$this->qtd}<br>{$this->estado}<br>{$this->preco_promocao}<br>{$this->sexo}<br>{$this->peso}<br>{$this->altura}<br>{$this->largura}<br>{$this->comprimento}<br>{$this->dias_entrega}"; */
 
     }
 
@@ -106,11 +106,11 @@ class produtos{
 
         }else if($sexo == "fem"){
 
-            $sexoSql = "sexo='feminino'";
+            $sexoSql = "sexo='feminino' OR sexo='indefinido'";
 
         }else if($sexo == "masc"){
 
-            $sexoSql = "sexo='masculino'";
+            $sexoSql = "sexo='masculino' OR sexo='indefinido'";
 
         }
 
@@ -225,8 +225,8 @@ class produtos{
             /* Apenas Busca */
             if($vMinimo == "SE" && $sexo == "SE" && $tamanho == "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -234,8 +234,8 @@ class produtos{
             /* Apenas Valores */
             else if($vMinimo != "SE" && $sexo == "SE" && $tamanho == "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -243,8 +243,8 @@ class produtos{
             /* Apenas Sexo */
             else if($vMinimo == "SE" && $sexo != "SE" && $tamanho == "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci AND $sexoSql ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci AND $sexoSql ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci AND $sexoSql ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci AND $sexoSql ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -252,8 +252,8 @@ class produtos{
             /* Apenas tamanho */
             else if($vMinimo == "SE" && $sexo == "SE" && $tamanho != "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -261,8 +261,8 @@ class produtos{
             /* Valores, sexo */
             else if($vMinimo != "SE" && $sexo != "SE" && $tamanho == "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -270,8 +270,8 @@ class produtos{
             /* Valores, tamanho */
             else if($vMinimo != "SE" && $sexo == "SE" && $tamanho != "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -279,8 +279,8 @@ class produtos{
             /* Valores, sexo, tamanho */
             else if($vMinimo != "SE" && $sexo != "SE" && $tamanho != "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci AND preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -288,8 +288,8 @@ class produtos{
             /* Sexo, tamanho */
             else if($vMinimo == "SE" && $sexo != "SE" && $tamanho != "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci AND $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$busca%' collate utf8_general_ci AND $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci AND $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND nome LIKE '%$busca%' collate utf8_general_ci AND $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -382,8 +382,8 @@ class produtos{
             /* Apenas Valores */
             if($vMinimo != "SE" && $sexo == "SE" && $tamanho == "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE preco BETWEEN $vMinimo AND $vMaximo ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE preco BETWEEN $vMinimo AND $vMaximo ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND preco BETWEEN $vMinimo AND $vMaximo ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND preco BETWEEN $vMinimo AND $vMaximo ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -391,8 +391,8 @@ class produtos{
             /* Apenas Sexo */
             else if($vMinimo == "SE" && $sexo != "SE" && $tamanho == "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE $sexoSql ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE $sexoSql ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND $sexoSql ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND $sexoSql ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -400,8 +400,8 @@ class produtos{
             /* Apenas tamanho */
             else if($vMinimo == "SE" && $sexo == "SE" && $tamanho != "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -409,8 +409,8 @@ class produtos{
             /* Valores, sexo */
             else if($vMinimo != "SE" && $sexo != "SE" && $tamanho == "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -418,8 +418,8 @@ class produtos{
             /* Valores, tamanho */
             else if($vMinimo != "SE" && $sexo == "SE" && $tamanho != "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE preco BETWEEN $vMinimo AND $vMaximo AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE preco BETWEEN $vMinimo AND $vMaximo AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND preco BETWEEN $vMinimo AND $vMaximo AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND preco BETWEEN $vMinimo AND $vMaximo AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -427,8 +427,8 @@ class produtos{
             /* Valores, sexo, tamanho */
             else if($vMinimo != "SE" && $sexo != "SE" && $tamanho != "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND preco BETWEEN $vMinimo AND $vMaximo AND $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -436,15 +436,15 @@ class produtos{
             /* Sexo, tamanho */
             else if($vMinimo == "SE" && $sexo != "SE" && $tamanho != "SE"){
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 AND $sexoSql AND ($arrTamanhoFiltro[0] $arrTamanhoFiltro[1] $arrTamanhoFiltro[2] $arrTamanhoFiltro[3] $arrTamanhoFiltro[4] $arrTamanhoFiltro[5] $arrTamanhoFiltro[6] $arrTamanhoFiltro[7] $arrTamanhoFiltro[8] $arrTamanhoFiltro[9] $arrTamanhoFiltro[10]) ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
             }else{
 
-                $sql = mysqli_query($conn, "SELECT * FROM produtos ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
-                $sql2 = mysqli_query($conn, "SELECT * FROM produtos ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
+                $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 ORDER BY $ordFiltro $tipoOrd LIMIT $somaPg, $qtdProdutosPg") or die("Erro retorna_lista_produtos");
+                $sql2 = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='publicado-disponivel' AND qtd_estoque > 0 ORDER BY $ordFiltro $tipoOrd") or die("Erro retorna_lista_produtos");
                 $qtd = mysqli_num_rows($sql);
                 $qtd2 = mysqli_num_rows($sql2);
 
@@ -691,11 +691,11 @@ class produtos{
 
         if($sexo == "masculino"){
 
-            $sql = mysqli_query($conn, "SELECT * FROM  produtos WHERE preco_promocao!='' AND estado='publicado-disponivel' AND qtd_estoque > 0 AND sexo='masculino' ORDER BY id DESC LIMIT 16") or die("Erro ao retornar produtos promocionais");
+            $sql = mysqli_query($conn, "SELECT * FROM  produtos WHERE preco_promocao!='' AND estado='publicado-disponivel' AND qtd_estoque > 0 AND (sexo='masculino' OR sexo='indefinido') ORDER BY id DESC LIMIT 16") or die("Erro ao retornar produtos promocionais");
 
         }else if($sexo == "feminino"){
 
-            $sql = mysqli_query($conn, "SELECT * FROM  produtos WHERE preco_promocao!='' AND estado='publicado-disponivel' AND qtd_estoque > 0 AND sexo='feminino' ORDER BY id DESC LIMIT 16") or die("Erro ao retornar produtos promocionais");
+            $sql = mysqli_query($conn, "SELECT * FROM  produtos WHERE preco_promocao!='' AND estado='publicado-disponivel' AND qtd_estoque > 0 AND (sexo='feminino' OR sexo='indefinido') ORDER BY id DESC LIMIT 16") or die("Erro ao retornar produtos promocionais");
 
         }
 
@@ -863,6 +863,240 @@ class produtos{
             }
 
             $i++;
+
+        }
+
+    }
+
+    public function retorna_produtos_adm($busca, $estado, $organizar){
+
+        include 'conexao.class.php';
+
+        if($busca != "SE"){
+
+            $retirarTracoBusca = str_replace("-", " ", $busca);
+
+        }
+
+        if($busca == "SE" && $estado == "SE"){
+
+            $sql = mysqli_query($conn, "SELECT * FROM produtos ORDER BY id $organizar") or die("Erro retorna_produtos_adm");
+
+        }else if($busca != "SE" && $estado == "SE"){
+
+            $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%{$retirarTracoBusca}%' collate utf8_general_ci ORDER BY id $organizar") or die("Erro retorna_produtos_adm");
+
+        }else if($busca == "SE" && $estado != "SE"){
+
+            $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='$estado' ORDER BY id $organizar") or die("Erro retorna_produtos_adm");
+
+        }else if($busca != "SE" && $estado != "SE"){
+
+            $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE estado='$estado' AND nome LIKE '%{$retirarTracoBusca}%' collate utf8_general_ci ORDER BY id $organizar") or die("Erro retorna_produtos_adm");
+
+        }
+
+        $qtd = mysqli_num_rows($sql);
+        while($linha = mysqli_fetch_array($sql)){
+
+            $array[] = $linha;
+
+        }
+
+        if($qtd < 1){
+
+            return false;
+
+        }else{
+
+            return $array;
+
+        }
+
+    }
+
+    public function verificar_se_existe_pedido_para_o_produto(){
+
+        include 'conexao.class.php';
+        
+        $sql = mysqli_query($conn, "SELECT id FROM item_pedido WHERE id_produtos=$this->id") or die("Erro verificar_se_existe_pedido_para_o_produto");
+        $qtd = mysqli_num_rows($sql);
+
+        if($qtd > 0){
+
+            return true;
+
+        }else{
+
+            return false;
+
+        }
+
+    }
+
+    public function retorna_dados_galeria(){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM galeria WHERE id_produtos=$this->id ORDER BY id ASC") or die("Erro retorna_qtd_imagem_galeria");
+        $qtd = mysqli_num_rows($sql);
+        while($linha = mysqli_fetch_assoc($sql)){
+
+            $array[] = $linha;
+
+        }
+
+        if($qtd > 0){
+
+            $retorno = ["qtd" => $qtd, "dados" => $array];
+
+        }else{
+
+            $retorno = ["qtd" => $qtd, "dados" => false];
+
+        }
+
+        return $retorno;
+
+    }
+
+    public function apagar_produto(){
+
+        include 'conexao.class.php';
+
+        $sql2 = mysqli_query($conn, "DELETE FROM categoria_produto WHERE id_produtos=$this->id") or die("Erro apagar_produto");
+
+        $sql3 = mysqli_query($conn, "DELETE FROM galeria WHERE id_produtos=$this->id") or die("Erro apagar_produto");
+
+        $sql5 = mysqli_query($conn, "DELETE FROM promocoes_produtos WHERE id_produtos=$this->id") or die("Erro apagar_produto");
+
+        $sql4 = mysqli_query($conn, "DELETE FROM sacola WHERE id_produto=$this->id") or die("Erro apagar_produto");
+
+        $sql = mysqli_query($conn, "DELETE FROM produtos WHERE id=$this->id") or die("Erro apagar_produto");
+
+    }
+
+    public function retorna_variacao_complementar_pelo_id($id_variacao){
+
+        include 'conexao.class.php';
+
+        if($id_variacao == null){
+
+            $id_variacao = 0;
+
+        }
+
+        $sql = mysqli_query($conn, "SELECT * FROM variacao_produtos WHERE id=$id_variacao") or die("Erro retorna_variacao_complementar_pelo_id");
+        $linha = mysqli_fetch_assoc($sql);
+
+        $nome = $linha["nome"];
+        $opcoes = $linha["opcoes"];
+        $texto_cliente = $linha["texto_cliente"];
+
+        $retorno = ["nome" => $nome, "opcoes" => $opcoes, "texto_cliente" => $texto_cliente];
+
+        return $retorno;
+
+    }
+
+    public function retorna_categorias_pelo_id_do_produto(){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM categoria INNER JOIN categoria_produto ON categoria.id=categoria_produto.id_categoria WHERE categoria_produto.id_produtos=$this->id ORDER BY categoria_produto.id ASC") or die("Erro retorna_categorias_pelo_id_do_produto");
+        $qtd = mysqli_num_rows($sql);
+        while($linha = mysqli_fetch_assoc($sql)){
+
+            $array[] = $linha;
+
+        }
+
+        if($qtd < 1){
+
+            return false;
+
+        }else{
+
+            return $array;
+
+        }
+
+    }
+
+    public function atualizar_produto($capa, $variacaoAdicional1, $variacaoAdicional2, $variacaoAdicional3){
+
+        include 'conexao.class.php';
+
+        /* $sql = mysqli_query($conn, "INSERT INTO produtos (nome, foto, descricao, preco, qtd_estoque, estado, id_variacao_produto, variacao_padrao, qtd_caracteres, preco_promocao, tipo, peso, altura, largura, comprimento, dias_entrega) VALUES ('$this->nome', NULL, '$this->descricao', $this->preco, $this->qtd, '$this->estado', $variacaoAdicional, '$this->variacaoPadrao', $this->maximo_caracteres, $this->promocao, '$this->tipo', '$this->peso', '$this->altura', '$this->largura', '$this->comprimento', $this->dias_entrega)") or die("Erro ao cadastrar o produto"); */
+        if($capa == 1){
+
+            $sql = mysqli_query($conn, "UPDATE produtos SET nome='$this->nome', descricao='$this->descricao', preco=$this->preco, qtd_estoque=$this->qtd, estado='$this->estado', id_variacao_produto=$variacaoAdicional1, id_variacao_produto2=$variacaoAdicional2, id_variacao_produto3=$variacaoAdicional3, tamanho='$this->tamanho', preco_promocao=$this->preco_promocao, sexo='$this->sexo', peso='$this->peso', altura='$this->altura', largura='$this->largura', comprimento='$this->comprimento', dias_entrega=$this->dias_entrega WHERE id=$this->id") or die("Erro atualizar_produto");
+
+            /* echo "Nome:{$this->nome}<br>Descrição:{$this->descricao}<br>Preço:{$this->preco}<br>Qtd:{$this->qtd}<br>Estado:{$this->estado}<br>v1:{$variacaoAdicional1}<br>v2:{$variacaoAdicional2}<br>v3:{$variacaoAdicional3}<br>tamanho:{$this->tamanho}<br>caracteres:{$this->maximo_caracteres}<br>promocao:{$this->preco_promocao}<br>sexo:{$this->sexo}<br>peso:{$this->peso}<br>altura:{$this->altura}<br>largura:{$this->largura}<br>comprimento:{$this->comprimento}<br>dias entrega:{$this->dias_entrega}"; */
+
+            /* die(); */
+
+        }else{
+
+            $sql = mysqli_query($conn, "UPDATE produtos SET nome='$this->nome', foto=NULL, descricao='$this->descricao', preco=$this->preco, qtd_estoque=$this->qtd, estado='$this->estado', id_variacao_produto=$variacaoAdicional1, id_variacao_produto2=$variacaoAdicional2, id_variacao_produto3=$variacaoAdicional3, tamanho='$this->tamanho', preco_promocao=$this->preco_promocao, sexo='$this->sexo', peso='$this->peso', altura='$this->altura', largura='$this->largura', comprimento='$this->comprimento', dias_entrega=$this->dias_entrega WHERE id=$this->id") or die("Erro atualizar_produto2");
+
+        }
+
+    }
+
+    public function zerar_produtos_categoria(){
+
+        include 'conexao.class.php';
+        
+        $sql = mysqli_query($conn, "DELETE FROM categoria_produto WHERE id_produtos=$this->id") or die("Erro zerar_produtos_categoria");
+
+    }
+
+    public function apagar_img_galeria_bd($caminho){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "DELETE FROM galeria WHERE caminho='$caminho'") or die("Erro apagar_img_galeria_bd");
+
+    }
+
+    public function retorna_qtd_produtos_por_categoria($id_categoria){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT id FROM categoria_produto WHERE id_categoria=$id_categoria") or die("Erro retorna_qtd_produtos_por_categoria");
+        $qtd = mysqli_num_rows($sql);
+
+        return $qtd;
+
+    }
+
+    public function apagar_categoria($id_categoria){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "DELETE FROM categoria WHERE id=$id_categoria") or die("Erro apagar_categoria");
+
+    }
+
+    public function adicionar_categoria_adm($nomeCategoria){
+
+        include 'conexao.class.php';
+
+        $transformarEmMinuscula = mb_strtolower($nomeCategoria, "UTF-8");
+
+        $sql = mysqli_query($conn, "SELECT nome FROM categoria WHERE nome='$transformarEmMinuscula'") or die("Erro adicionar_categoria_adm");
+        $qtd = mysqli_num_rows($sql);
+
+        if($qtd < 1){
+
+            $sql2 = mysqli_query($conn, "INSERT INTO categoria (nome) VALUES ('$transformarEmMinuscula')") or die("Erro adicionar_categoria_adm2");
+
+            return true;
+
+        }else{
+
+            return false;
 
         }
 

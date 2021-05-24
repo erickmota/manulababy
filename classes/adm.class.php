@@ -162,6 +162,52 @@ class adm{
 
     }
 
+    public function atualizar_link_slide($posicao, $link){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "UPDATE configuracao SET link_slide_{$posicao}='$link'") or die("atualizar_link_slide");
+
+    }
+
+    public function trocar_slide($posicao, $img){
+
+        include 'conexao.class.php';
+
+        $tipoImg =  $img["type"];
+
+        if($tipoImg != "image/jpeg"){
+
+            return false;
+
+        }else{
+
+            $sql = mysqli_query($conn, "SELECT * FROM configuracao WHERE id=1") or die("Erro trocar_slide");
+            $linha = mysqli_fetch_array($sql);
+
+            $foto = $linha["img_slide_{$posicao}"];
+
+            unlink("../img/slides/$foto");
+
+
+            $dataHoraAtual = date("dmYHis");
+
+            $novoCaminho = "../img/slides/{$posicao}-$dataHoraAtual.jpg";
+
+            $novoNome = "{$posicao}-$dataHoraAtual.jpg";
+
+            $arquivo_tmp = $img['tmp_name'];
+
+            move_uploaded_file($arquivo_tmp, $novoCaminho);
+
+            $sql2 = mysqli_query($conn, "UPDATE configuracao SET img_slide_{$posicao}='$novoNome'") or die("Erro upload img slide");
+
+            return true;
+
+        }
+
+    }
+
 }
 
 ?>

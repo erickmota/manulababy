@@ -411,7 +411,7 @@
             
                             <p id="nomeItem" class="card-text mt-1 pt-2"><?php echo $arrProdutos["nome"]; ?></p>
             
-                            <span id="precoAntigo" class="text-decoration-line-through text-secondary <?php if($arrProdutos["preco_promocao"] == ""){ echo "d-none"; } ?>">R$<?php echo $arrProdutos["preco_promocao"]; ?></span>
+                            <span id="precoAntigo" class="text-decoration-line-through text-secondary <?php if($arrProdutos["preco_promocao"] == ""){ echo "d-none"; } ?>">R$<?php echo number_format($arrProdutos["preco_promocao"], 2, ",", "."); ?></span>
                             <h5 class="card-title fs-4"  id="precoPromocao">R$<?php echo number_format($arrProdutos["preco"], 2, ",", "."); ?></h5>
             
                         </div>

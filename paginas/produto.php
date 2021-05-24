@@ -303,8 +303,8 @@
                     
                     ?>
                     
-                    <li data-thumb="img/produtos/exemplo4.jpg" data-src="img/produtos/exemplo4.jpg">
-                      <img id="imgSlide" src="img/produtos/exemplo4.jpg" width="100%"/>
+                    <li data-thumb="img/produtos/<?php echo $arrGaleria["caminho"] ?>" data-src="img/produtos/<?php echo $arrGaleria["caminho"] ?>">
+                      <img id="imgSlide" src="img/produtos/<?php echo $arrGaleria["caminho"] ?>" width="100%"/>
                     </li>
 
                     <?php

@@ -177,6 +177,17 @@
         });
         });
 
+        $(document).ready(function() {
+            $(".checkTamanho").click(function(e) {
+                var checados = [];
+                $.each($("input[name='checkTamanho[]']:checked"), function(){            
+                    checados.push($(this).val());
+                });
+                /* console.log(checados.join(", ")); */
+                $("#tamanhos").val(checados.join(","));
+            });
+        });
+
     </script>
 
 </head>
@@ -199,7 +210,7 @@
 
                     <div class="col text-secondary">
 
-                        <img id="iconeMenu" class="float-start mt-1 me-3 d-block d-md-none" src="img/iconeMenu2.png" width="30px"><h1>Novo Produto</h1>
+                        <img id="iconeMenu" class="float-start mt-1 me-3 d-block d-md-none" src="img/menu.png" width="30px"><h1>Novo Produto</h1>
 
                     </div>
 
@@ -492,7 +503,7 @@
 
                             </div>
 
-                            <div class="row mt-4">
+                            <!-- <div class="row mt-4">
 
                                 <div class="col-12 col-md-9">
 
@@ -501,9 +512,9 @@
                                     <select class="form-select" name="variacao" required>
 
                                         <option disabled selected hidden value="">Difina um padrão</option>
-                                        <option value="nenhum">Nenhum padrão</option>
-                                        <option value="unico">Anel único</option>
-                                        <option value="casal">Anel casal</option>
+                                        <option value="nenhum">P</option>
+                                        <option value="unico">M</option>
+                                        <option value="casal">G</option>
                                         <option value="aro">Apenas aro</option>
                                         <option value="gravacao">Apenas gravação</option>
             
@@ -514,6 +525,171 @@
                                     <b>Anel casal:</b> Será solicitado número do aro e gravação, para duas pessoas<br>
                                     <b>Apenas aro:</b> Será solicitado apenas o número do aro (sem a gravação), apenas para uma pessoa<br>
                                     <b>Apenas gravação:</b> Será solicitado apenas a gravação, apenas para uma pessoa</div>
+
+                                </div>
+
+                            </div> -->
+
+                            <div class="row mt-4">
+
+                                <div class="col-12 col-md-9">
+
+                                    <label>Tamanhos disponíveis <span class="text-danger">*</span></label>
+
+                                    <div id="filtroValores">
+
+                                        <table border="0" cellspacing="0" width="100%" class="text-center">
+
+                                        <tr>
+
+                                            <td>
+
+                                                <input id="tamanhop" class="checkTamanho" type="checkbox" name="checkTamanho[]" value="p">
+                                                <label id="boxTamanho-m" class="boxTamanho text-center" for="tamanhop">
+
+                                                    <span class="fs-3">P</span>
+
+                                                </label>
+
+                                            </td>
+
+                                            <td>
+
+                                                <input id="tamanhom" class="checkTamanho" type="checkbox" name="checkTamanho[]" value="m">
+                                                <label id="boxTamanho-m" class="boxTamanho text-center" for="tamanhom">
+
+                                                    <span class="fs-3">M</span>
+
+                                                </label>
+
+                                            </td>
+
+                                            <td>
+
+                                                <input id="tamanhog" class="checkTamanho" type="checkbox" name="checkTamanho[]" value="g">
+                                                <label id="boxTamanho-m" class="boxTamanho text-center" for="tamanhog">
+
+                                                    <span class="fs-3">G</span>
+
+                                                </label>
+
+                                            </td>
+
+                                        </tr>
+
+                                        <tr>
+
+                                            <td>
+
+                                                <input id="tamanho1" class="checkTamanho" type="checkbox" name="checkTamanho[]" value="1">
+                                                <label id="boxTamanho-m" class="boxTamanho text-center" for="tamanho1">
+
+                                                    <span class="fs-3">1</span>
+
+                                                </label>
+
+                                            </td>
+
+                                            <td>
+
+                                                <input id="tamanho2" class="checkTamanho" type="checkbox" name="checkTamanho[]" value="2">
+                                                <label id="boxTamanho-m" class="boxTamanho text-center" for="tamanho2">
+
+                                                    <span class="fs-3">2</span>
+
+                                                </label>
+
+                                            </td>
+
+                                            <td>
+
+                                                <input id="tamanho3" class="checkTamanho" type="checkbox" name="checkTamanho[]" value="3">
+                                                <label id="boxTamanho-m" class="boxTamanho text-center" for="tamanho3">
+
+                                                    <span class="fs-3">3</span>
+
+                                                </label>
+
+                                            </td>
+
+                                        </tr>
+
+                                        <tr>
+
+                                            <td>
+
+                                                <input id="tamanho4" class="checkTamanho" type="checkbox" name="checkTamanho[]" value="4">
+                                                <label id="boxTamanho-m" class="boxTamanho text-center" for="tamanho4">
+
+                                                    <span class="fs-3">4</span>
+
+                                                </label>
+
+                                            </td>
+
+                                            <td>
+
+                                                <input id="tamanho5" class="checkTamanho" type="checkbox" name="checkTamanho[]" value="5">
+                                                <label id="boxTamanho-m" class="boxTamanho text-center" for="tamanho5">
+
+                                                    <span class="fs-3">5</span>
+
+                                                </label>
+
+                                            </td>
+
+                                            <td>
+
+                                                <input id="tamanho6" class="checkTamanho" type="checkbox" name="checkTamanho[]" value="6">
+                                                <label id="boxTamanho-m" class="boxTamanho text-center" for="tamanho6">
+
+                                                    <span class="fs-3">6</span>
+
+                                                </label>
+
+                                            </td>
+
+                                        </tr>
+
+                                        <tr>
+
+                                            <td>
+
+                                                <input id="tamanho7" class="checkTamanho" type="checkbox" name="checkTamanho[]" value="7">
+                                                <label id="boxTamanho-m" class="boxTamanho text-center" for="tamanho7">
+
+                                                    <span class="fs-3">7</span>
+
+                                                </label>
+
+                                            </td>
+
+                                            <td>
+
+                                                <input id="tamanho8" class="checkTamanho" type="checkbox" name="checkTamanho[]" value="8">
+                                                <label id="boxTamanho-m" class="boxTamanho text-center" for="tamanho8">
+
+                                                    <span class="fs-3">8</span>
+
+                                                </label>
+
+                                            </td>
+
+                                            <td>
+
+                                                
+
+                                            </td>
+
+                                        </tr>
+
+                                        </table>
+
+                                        <input type="text" id="tamanhos" name="tamanhos" required>
+
+                                    </div>
+
+                                    <div class="form-text">Selecione acima, todos os tamanhos diponíveis para essa peça</div>
 
                                 </div>
 
@@ -1031,30 +1207,20 @@
 
                             <div class="row mt-4">
 
-                                <div class="col-12 col-sm-6 col-md-5 pb-3">
+                                <div class="col-12 col-md-9">
 
-                                    <label class="form-label" for="input-img1">Qtd máxima de caracteres</label>
+                                    <label class="form-label" for="input-img1">Sexo <span class="text-danger">*</span></label>
 
-                                    <input class="form-control" type="number" name="maximo_caracteres">
+                                    <select name="sexo" class="form-select" required>
 
-                                    <div class="form-text text-info">*Deixe em branco para não limitar quantidade de caracteres ou se o produto não vai permitir gravação</div>
-                                    <div class="form-text">Define a quantidade de caracteres que o cliente poderá digitar, quando escolhendo a gravação no produto</div>
-                                    
-                                </div>
-
-                                <div class="col-12 col-sm-6 col-md-4">
-
-                                    <label class="form-label" for="input-img1">Tipo do produto <span class="text-danger">*</span></label>
-
-                                    <select name="tipo" class="form-select" required>
-
-                                        <option disabled selected hidden value="">Defina o tipo</option>
-                                        <option value="ouro">Ouro</option>
-                                        <option value="prata">Prata</option>
+                                        <option disabled selected hidden value="">Defina o sexo</option>
+                                        <option value="feminino">Feminino</option>
+                                        <option value="masculino">Masculino</option>
+                                        <option value="indefinido">Indefinido</option>
 
                                     </select>
 
-                                    <div class="form-text">Defina se o produto é do tipo ouro ou prata</div>
+                                    <div class="form-text">Defina se o produto é para o sexo masculino ou feminino</div>
 
                                 </div>
 

@@ -57,7 +57,7 @@
     /* $estado = $_POST["estado"]; */
     $estado = str_replace(array(";", "'", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities($_POST["estado"]));
     /* $variacao = $_POST["variacao"]; */
-    $variacao = str_replace(array(";", "'", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities($_POST["variacao"]));
+    $tamanho = str_replace(array(";", "'", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities($_POST["tamanhos"]));
 
     /* @$novaVariacao1 = $_POST["novaVariacao1"]; */
     @$novaVariacao1 = str_replace(array(";", "'", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlspecialchars($_POST["novaVariacao1"], ENT_QUOTES, "UTF-8"));
@@ -80,14 +80,6 @@
 
     /* $categoria = mb_strtolower($_POST["categoria"], "UTF-8"); */
     $categoria = str_replace(array(";", "'", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlspecialchars(mb_strtolower($_POST["categoria"], "UTF-8"), ENT_QUOTES, "UTF-8"));
-    /* $maximo_caracteres = $_POST["maximo_caracteres"]; */
-    $maximo_caracteres = str_replace(array(";", "'", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities($_POST["maximo_caracteres"]));
-
-    if($maximo_caracteres == ""){
-
-        $maximo_caracteres = 'null';
-
-    }
 
     $promocao = $_POST["promocao"];
 
@@ -98,7 +90,7 @@
     }
 
     /* $tipo = $_POST["tipo"]; */
-    $tipo = str_replace(array(";", "'", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities($_POST["tipo"]));
+    $sexo = str_replace(array(";", "'", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities($_POST["sexo"]));
 
     /* $peso = $_POST["peso"]; */
     $peso = str_replace(array(";", "'", "*", "xp_", "XP_", "SELECT" , "INSERT" , "UPDATE" , "DELETE" , "DROP", "select" , "insert" , "update" , "delete" , "drop"), "", htmlentities($_POST["peso"]));
@@ -127,10 +119,9 @@
     $classeImg->preco = $preco;
     $classeImg->qtd = $qtd;
     $classeImg->estado = $estado;
-    $classeImg->variacaoPadrao = $variacao;
-    $classeImg->maximo_caracteres = $maximo_caracteres;
-    $classeImg->promocao = $promocao;
-    $classeImg->tipo = $tipo;
+    $classeImg->tamanho = $tamanho;
+    $classeImg->preco_promocao = $promocao;
+    $classeImg->sexo = $sexo;
     $classeImg->peso = $peso;
     $classeImg->altura = $altura;
     $classeImg->largura = $largura;
@@ -147,7 +138,7 @@
 
         }else{
 
-            $varia1 = 0;
+            $varia1 = 'null';
 
         }
 
@@ -159,7 +150,7 @@
 
         }else{
 
-            $varia2 = 0;
+            $varia2 = 'null';
 
         }
 
@@ -171,7 +162,7 @@
 
         }else{
 
-            $varia3 = 0;
+            $varia3 = 'null';
 
         }
 
@@ -179,7 +170,7 @@
 
     }else{
 
-        $classeImg->cadastrar_produto_bd(0, 0, 0);
+        $classeImg->cadastrar_produto_bd('null', 'null', 'null');
 
     }
 

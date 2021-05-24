@@ -8,8 +8,8 @@
     $explode = explode("/", $_GET["url"]);
     
     /* Iniciando classe */
-    include "classes/produtos.class.php";
-    $classeProdutos = new produtos();
+    /* include "classes/produtos.class.php";
+    $classeProdutos = new produtos(); */
     
     ?>
 

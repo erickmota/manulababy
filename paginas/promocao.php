@@ -129,8 +129,8 @@
             
                             <p id="nomeItem" class="card-text mt-1 pt-2"><?php echo $arrProdutosPromo["nome"] ?></p>
             
-                            <span id="precoAntigo" class="text-decoration-line-through text-secondary "><?php echo $arrProdutosPromo["preco_promocao"] ?></span>
-                            <h5 class="card-title fs-4"  id="precoPromocao"><?php echo $arrProdutosPromo["preco"] ?></h5>
+                            <span id="precoAntigo" class="text-decoration-line-through text-secondary ">R$<?php echo number_format($arrProdutosPromo["preco_promocao"], 2, ",", "."); ?></span>
+                            <h5 class="card-title fs-4"  id="precoPromocao">R$<?php echo number_format($arrProdutosPromo["preco"], 2, ",", "."); ?></h5>
             
                         </div>
         

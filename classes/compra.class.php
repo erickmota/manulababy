@@ -676,6 +676,47 @@ class compra{
 
     }
 
+    public function alterar_status_entrega($status, $idPedido){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "UPDATE pedido SET status_entrega='$status' WHERE id=$idPedido") or die("Erro alterar_status_entrega");
+
+    }
+
+    public function retorna_pedido_adm($busca){
+
+        include 'conexao.class.php';
+
+        if($busca == "SE"){
+
+            $sql = mysqli_query($conn, "SELECT pedido.id AS id_pedido, pedido.id_cliente AS id_cliente, pedido.data_hora AS data_hora, pedido.status_entrega AS status_entrega, cliente.id AS id_cliente, cliente.nome AS nome FROM pedido INNER JOIN cliente ON pedido.id_cliente=cliente.id ORDER BY pedido.data_hora DESC") or die("Erro retorna_pedido_adm");
+
+        }else{
+
+            $sql = mysqli_query($conn, "SELECT pedido.id AS id_pedido, pedido.id_cliente AS id_cliente, pedido.data_hora AS data_hora, pedido.status_entrega AS status_entrega, cliente.id AS id_cliente, cliente.nome AS nome FROM pedido INNER JOIN cliente ON pedido.id_cliente=cliente.id WHERE pedido.id LIKE '%$busca%' OR cliente.nome LIKE '%$busca%' collate utf8_general_ci ORDER BY pedido.data_hora DESC") or die("Erro retorna_pedido_adm");
+
+        }
+
+        $qtd = mysqli_num_rows($sql);
+        while($linha = mysqli_fetch_assoc($sql)){
+
+            $array[] = $linha;
+
+        }
+
+        if($qtd < 1){
+
+            return false;
+
+        }else{
+
+            return $array;
+
+        }
+
+    }
+
 }
 
 ?>
