@@ -156,7 +156,7 @@ class produtos{
         $arrTamanho = explode(",", $tamanho);
 
         /* Quantidade de produtos por página */
-        $qtdProdutosPg = 6;
+        $qtdProdutosPg = 24;
 
         $somaPg = ($pg * $qtdProdutosPg) - $qtdProdutosPg;
 
@@ -535,7 +535,7 @@ class produtos{
 
         include 'conexao.class.php';
         
-        $sql = mysqli_query($conn, "SELECT * FROM promocoes_produtos INNER JOIN produtos ON promocoes_produtos.id_produtos=produtos.id WHERE promocoes_produtos.id_promocoes=$id_promocao") or die("Erro");
+        $sql = mysqli_query($conn, "SELECT * FROM promocoes_produtos INNER JOIN produtos ON promocoes_produtos.id_produtos=produtos.id WHERE promocoes_produtos.id_promocoes=$id_promocao AND produtos.estado='publicado-disponivel' AND produtos.qtd_estoque > 0") or die("Erro");
         $qtdSql = mysqli_num_rows($sql);
         while($row = mysqli_fetch_assoc($sql)){
 
@@ -559,7 +559,7 @@ class produtos{
 
         include 'conexao.class.php';
 
-        $sql = mysqli_query($conn, "SELECT nome FROM promocoes") or die("Erro");
+        $sql = mysqli_query($conn, "SELECT * FROM promocoes") or die("Erro");
         $qtdSql = mysqli_num_rows($sql);
         while($row = mysqli_fetch_assoc($sql)){
 
@@ -1099,6 +1099,109 @@ class produtos{
             return false;
 
         }
+
+    }
+
+    public function cadastrar_promocao($nome, $quantidade, $preco, $descricao){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT nome FROM promocoes WHERE nome='$nome'") or die("Erro");
+        $qtdSql = mysqli_num_rows($sql);
+
+        if($qtdSql > 0){
+
+            return false;
+
+        }else{
+
+            $sql2 = mysqli_query($conn, "INSERT INTO promocoes (nome, descricao, qtd_pecas, preco) VALUE ('$nome', '$descricao', $quantidade, $preco)") or die("Erro");
+
+            return true;
+
+        }
+
+    }
+
+    public function atualizar_promocao($nome, $quantidade, $preco, $descricao, $id){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT nome FROM promocoes WHERE nome='$nome' AND id!=$id") or die("Erro");
+        $qtdSql = mysqli_num_rows($sql);
+
+        if($qtdSql > 0){
+
+            return false;
+
+        }else{
+
+            $sql2 = mysqli_query($conn, "UPDATE promocoes SET nome='$nome', descricao='$descricao', qtd_pecas=$quantidade, preco=$preco WHERE id=$id") or die("Erro");
+
+            return true;
+
+        }
+
+    }
+
+    public function remover_promocao($id){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "DELETE FROM promocoes_produtos WHERE id_promocoes=$id") or die("Erro");
+
+        $sql2 = mysqli_query($conn, "DELETE FROM promocoes WHERE id=$id") or die("Erro");
+
+    }
+
+    public function buscar_produtos_ajax($nome){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM produtos WHERE nome LIKE '%$nome%' LIMIT 5") or die("Erro sql");
+        $qtdSql = mysqli_num_rows($sql);
+        while($row = mysqli_fetch_assoc($sql)){
+
+            $array[] = $row;
+
+        }
+
+        if($qtdSql < 1){
+
+            return false;
+
+        }else{
+
+            return $array;
+
+        }
+
+    }
+
+    public function adicionar_produto_na_promocao($id_promocao, $id_produto){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT * FROM promocoes_produtos WHERE id_promocoes=$id_promocao AND id_produtos=$id_produto") or die("Erro 1");
+        $qtdSql = mysqli_num_rows($sql);
+
+        if($qtdSql > 0){
+
+            return false;
+
+        }else{
+
+            $sql2 = mysqli_query($conn, "INSERT INTO promocoes_produtos (id_promocoes, id_produtos) VALUE ($id_promocao, $id_produto)") or die("Erro 2");
+
+        }
+
+    }
+
+    public function apagar_produto_na_promocao($id_promocao, $id_produto){
+
+        include 'conexao.class.php';
+
+        $sqç = mysqli_query($conn, "DELETE FROM promocoes_produtos WHERE id_promocoes=$id_promocao AND id_produtos=$id_produto") or die("Erro");
 
     }
     

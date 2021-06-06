@@ -661,3 +661,28 @@ if(!isset($classeCompra)){
     </div>
 
 </header>
+
+<img src="img/iconeWpp.png" id="iconeWpp">
+
+<!-- <img src="img/iconeWpp.png" id="iconeWpp1"> -->
+
+<a target="_blank" href="https://api.whatsapp.com/send?phone=5515997931650&text=Olá, desejo entrar em contato, sobre o site Manulá Baby"><div id="espacoWpp1">
+
+    <span class="text-secondary fw-bold">CONTATO 1</span> <img src="img/iconeWpp.png" id="iconeWpp1">
+
+</div></a>
+
+<a target="_blank" href="https://api.whatsapp.com/send?phone=5515988122153&text=Olá, desejo entrar em contato, sobre o site Manulá Baby"><div id="espacoWpp2">
+
+    <span class="text-secondary fw-bold">CONTATO 2</span> <img src="img/iconeWpp.png" id="iconeWpp1">
+
+</div></a>
+
+<script>
+
+    $( "#iconeWpp" ).click(function() {
+        $( "#espacoWpp1" ).toggle( 50 );
+        $( "#espacoWpp2" ).toggle( 50 );
+    });
+
+</script>

@@ -68,7 +68,7 @@ $calcular04014 = $classeCompra->calcular_frete($cep, $peso, $altura, $largura, $
     ?>
 
     <span class="text-black-50"><?php echo $calcular04510[2]; ?></span><br><br>
-    <span class="text-info">Problemas para calcular o frete? contato@oscarjoias.com</span>
+    <span class="text-info">Problemas para calcular o frete? contato@manulababy.com</span>
 
     <?php
     

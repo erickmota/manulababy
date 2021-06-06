@@ -450,3 +450,55 @@
     padding: 10px 0px !important;
 
 }
+
+#iconeWpp{
+
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 60px;
+    z-index: 99;
+    cursor: pointer;
+
+}
+
+#espacoWpp1{
+
+    background-color: white;
+    width: auto;
+    height: auto;
+    position: fixed;
+    right: 20px;
+    bottom: 140px;
+    border-radius: 30px;
+    padding: 3px 15px;
+    border: 2px solid #2ECC71;
+    z-index: 99;
+    display: none;
+    cursor: pointer;
+
+}
+
+#espacoWpp2{
+
+    background-color: white;
+    width: auto;
+    height: auto;
+    position: fixed;
+    right: 20px;
+    bottom: 85px;
+    border-radius: 30px;
+    padding: 3px 15px;
+    border: 2px solid #2ECC71;
+    z-index: 99;
+    display: none;
+    cursor: pointer;
+
+}
+
+#iconeWpp1{
+
+    position: relative;
+    width: 35px;
+
+}

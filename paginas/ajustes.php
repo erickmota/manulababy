@@ -18,25 +18,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO Geral -->
-    <meta name="description" content="Compre jóias e acessórios com o melhor custo benefício do mercado, só aqui no Oscar Jóias.">
+    <meta name="description" content="Compre lindas roupas infantis com o melhor custo benefício do mercado, só aqui na Manulá Baby.">
     <meta name="author" content="erickmota.com">
     <meta name="robots" content="noindex">
 
     <!-- Google+ / Schema.org -->
-    <meta itemprop="name" content="Oscar Jóias">
-    <meta itemprop="description" content="Compre jóias e acessórios com o melhor custo benefício do mercado, só aqui no Oscar Jóias.">
+    <meta itemprop="name" content="Manulá Baby">
+    <meta itemprop="description" content="Compre lindas roupas infantis com o melhor custo benefício do mercado, só aqui na Manulá Baby.">
     <meta itemprop="image" content="img/apresentacao.jpg">
 
     <!-- Open Graph Facebook -->
-    <meta property="og:title" content="Oscar Jóias">
-    <meta property="og:description" content="Compre jóias e acessórios com o melhor custo benefício do mercado, só aqui no Oscar Jóias."/>
-    <meta property="og:site_name" content="Oscar Jóias"/>
+    <meta property="og:title" content="Manulá Baby">
+    <meta property="og:description" content="Compre lindas roupas infantis com o melhor custo benefício do mercado, só aqui na Manulá Baby."/>
+    <meta property="og:site_name" content="Manulá Baby"/>
     <meta property="og:type" content="website">
     <meta property="og:image" content="img/apresentacao.jpg">
 
     <!-- Twitter -->
-    <meta name="twitter:title" content="Oscar Jóias">
-    <meta name="twitter:description" content="Compre jóias e acessórios com o melhor custo benefício do mercado, só aqui no Oscar Jóias.">
+    <meta name="twitter:title" content="Manulá Baby">
+    <meta name="twitter:description" content="Compre lindas roupas infantis com o melhor custo benefício do mercado, só aqui na Manulá Baby.">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:image" content="img/apresentacao.jpg">
 

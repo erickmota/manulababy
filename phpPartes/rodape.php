@@ -18,7 +18,7 @@
                   <ul class="fw-bold" style="list-style: none; line-height: 27px;">
     
                     <li><a class="text-decoration-none text-white" href="">INICIO</a></li>
-                    <li><a class="text-decoration-none text-white" href="loja?pg=1">LOJA</a></li>
+                    <li><a class="text-decoration-none text-white" href="loja">LOJA</a></li>
                     <li><a class="text-decoration-none text-white" href="quem-somos">QUEM SOMOS</a></li>
                     <li><a class="text-decoration-none text-white" href="contato">CONTATO</a></li>
     
@@ -28,8 +28,8 @@
 
                 <div class="col-8 text-center mt-2">
     
-                  <img src="img/iconeFacebook2.png" width="40px">
-                  <img src="img/iconeInstagram2.png" width="40px"><br>
+                  <a target="_blank" href="https://www.facebook.com/Manul%C3%A1baby-100218561803287"><img src="img/iconeFacebook2.png" width="40px"></a>
+                  <a target="_blank" href="https://www.instagram.com/lojababymanula/?hl=pt-br"><img src="img/iconeInstagram2.png" width="40px"></a><br>
                   <span class="fst-italic fw-lighter">Não esqueça de seguir<br>nossas redes sociais!</span>
     
                 </div>

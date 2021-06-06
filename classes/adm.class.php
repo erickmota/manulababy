@@ -113,22 +113,22 @@ class adm{
         $texto = '<?xml version="1.0" encoding="UTF-8"?>'."\n"
         .'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'."\n"
             ."\t<url>\n"
-                ."\t\t<loc>https://oscarjoias.com</loc>\n"
+                ."\t\t<loc>https://manulababy.com</loc>\n"
                 ."\t\t<changefreq>weekly</changefreq>\n"
                 ."\t\t<priority>0.8</priority>\n"
             ."\t</url>\n"
             ."\t<url>\n"
-                ."\t\t<loc>https://oscarjoias.com/loja?pg=1</loc>\n"
+                ."\t\t<loc>https://manulababy.com/loja?pg=1</loc>\n"
                 ."\t\t<changefreq>weekly</changefreq>\n"
                 ."\t\t<priority>0.5</priority>\n"
             ."\t</url>\n"
             ."\t<url>\n"
-                ."\t\t<loc>https://oscarjoias.com/quem-somos</loc>\n"
+                ."\t\t<loc>https://manulababy.com/quem-somos</loc>\n"
                 ."\t\t<changefreq>weekly</changefreq>\n"
                 ."\t\t<priority>0.5</priority>\n"
             ."\t</url>\n"
             ."\t<url>\n"
-                ."\t\t<loc>https://oscarjoias.com/contato</loc>\n"
+                ."\t\t<loc>https://manulababy.com/contato</loc>\n"
                 ."\t\t<changefreq>weekly</changefreq>\n"
                 ."\t\t<priority>0.5</priority>\n"
             ."\t</url>\n";
@@ -147,7 +147,7 @@ class adm{
             $str6 = preg_replace('/[ç]/ui', 'c', $str5);
 
             $texto .= "\t<url>\n"
-                        ."\t\t<loc>https://oscarjoias.com/produto/{$str6}</loc>\n"
+                        ."\t\t<loc>https://manulababy.com/produto/{$str6}</loc>\n"
                         ."\t\t<changefreq>weekly</changefreq>\n"
                         ."\t\t<priority>0.9</priority>\n"
                     ."\t</url>\n";
@@ -205,6 +205,21 @@ class adm{
             return true;
 
         }
+
+    }
+
+    public function retorna_dados_pedido_referencia($referencia){
+
+        include 'conexao.class.php';
+
+        $sql = mysqli_query($conn, "SELECT cliente.nome AS nome_cliente, pedido.rua_entrega AS rua, pedido.numero_entrega AS numero, pedido.cidade_entrega AS cidade, pedido.estado_entrega AS uf, pedido.cep_entrega AS cep, produtos.nome AS nome_produto, item_pedido.quantidade AS quantidade, item_pedido.preco_produto_pedido AS preco, produtos.peso AS peso, pedido.cpf AS cpf, pedido.celular AS celular, pedido.bairro_entrega AS bairro, pedido.complemento_entrega AS complemento, pedido.detalhes_entrega AS detalhes FROM pedido INNER JOIN item_pedido ON pedido.id=item_pedido.id_pedido INNER JOIN cliente ON pedido.id_cliente=cliente.id INNER JOIN produtos ON item_pedido.id_produtos=produtos.id WHERE pedido.id=$referencia") or die("Erro retorna_dados_pedido_referencia");
+        while($linha = mysqli_fetch_assoc($sql)){
+
+            $array[] = $linha;
+
+        }
+
+        return $array;
 
     }
 

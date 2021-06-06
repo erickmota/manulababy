@@ -4,7 +4,7 @@ class email{
 
     public function confirmarcao_cadastro_cliente($emailDestino, $assunto){
 
-        $emailOrigem = "contato@oscarjoias.com"; /* Precisa Mudar */
+        $emailOrigem = "contato@manulababy.com";
 
         $emailCompactado = base64_encode($emailDestino);
 
@@ -23,7 +23,7 @@ class email{
 
     public function contato($emailOrigem, $nome, $assunto, $texto){
 
-        $emailDestino = "contato@oscarjoias.com";
+        $emailDestino = "contato@manulababy.com";
 
         $corpo = "<h1>Oscar Jóias</h1>"
         ."<p>De: <b>{$nome}</b></p>"
@@ -39,7 +39,7 @@ class email{
 
     public function lembrar_senha($emailDestino, $nome, $senha){
 
-        $emailOrigem = "contato@oscarjoias.com";
+        $emailOrigem = "contato@manulababy.com";
 
         $assunto = "Lembrete de senha";
 

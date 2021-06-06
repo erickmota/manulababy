@@ -16,31 +16,31 @@
     
     ?>
 
-    <title>Configurações - adm - Oscar Jóias</title>
+    <title>Configurações - adm - Manulá Baby</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO Geral -->
-    <meta name="description" content="Compre jóias e acessórios com o melhor custo benefício do mercado, só aqui no Oscar Jóias.">
+    <meta name="description" content="Compre lindas roupas infantis com o melhor custo benefício do mercado, só aqui na Manulá Baby.">
     <meta name="author" content="erickmota.com">
     <meta name="robots" content="noindex">
 
     <!-- Google+ / Schema.org -->
-    <meta itemprop="name" content="Oscar Jóias">
-    <meta itemprop="description" content="Compre jóias e acessórios com o melhor custo benefício do mercado, só aqui no Oscar Jóias.">
+    <meta itemprop="name" content="Manulá Baby">
+    <meta itemprop="description" content="Compre lindas roupas infantis com o melhor custo benefício do mercado, só aqui na Manulá Baby.">
     <meta itemprop="image" content="img/apresentacao.jpg">
 
     <!-- Open Graph Facebook -->
-    <meta property="og:title" content="Oscar Jóias">
-    <meta property="og:description" content="Compre jóias e acessórios com o melhor custo benefício do mercado, só aqui no Oscar Jóias."/>
-    <meta property="og:site_name" content="Oscar Jóias"/>
+    <meta property="og:title" content="Manulá Baby">
+    <meta property="og:description" content="Compre lindas roupas infantis com o melhor custo benefício do mercado, só aqui na Manulá Baby."/>
+    <meta property="og:site_name" content="Manulá Baby"/>
     <meta property="og:type" content="website">
     <meta property="og:image" content="img/apresentacao.jpg">
 
     <!-- Twitter -->
-    <meta name="twitter:title" content="Oscar Jóias">
-    <meta name="twitter:description" content="Compre jóias e acessórios com o melhor custo benefício do mercado, só aqui no Oscar Jóias.">
+    <meta name="twitter:title" content="Manulá Baby">
+    <meta name="twitter:description" content="Compre lindas roupas infantis com o melhor custo benefício do mercado, só aqui na Manulá Baby.">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:image" content="img/apresentacao.jpg">
 
@@ -167,7 +167,7 @@
 
                     <div class="col text-secondary">
 
-                      <img id="iconeMenu" class="float-start mt-1 me-3 d-block d-md-none" src="img/iconeMenu2.png" width="30px"><h1>Configurações</h1>
+                      <img id="iconeMenu" style="cursor: pointer;" class="float-start mt-1 me-3 d-block d-md-none" src="img/menu.png" width="30px"><h1>Configurações</h1>
 
                     </div>
 
@@ -179,10 +179,10 @@
 
                     <div class="col text-secondary">
 
-                        <h2>Ajuste de preços</h2>
+                        <h2>Promoções</h2>
                         <p>
 
-                            Ajuste os preços dos produtos todos de uma vez. Selecione a porcentagem da alteração e o tipo do produto!
+                            Gerencie as promoções disponíveis no site
 
                         </p>
 
@@ -192,72 +192,340 @@
 
                 <div class="row mt-2">
 
-                    <div class="col-7">
+                    <div class="col-12 col-md-6">
 
-                        <form method="POST" action="php/adm_atualizar_preco_geral.php">
+                        <h5 class="text-secondary">Nova promoção</h5>
 
-                            <!-- <input type="text" class="form-control" onchange="mudarExemplosPreco(this.value)"> -->
+                        <div class="row">
 
-                            <div class="input-group mb-3">
-                              <select id="selectSinal" class="btn btn-success" aria-expanded="false" onchange="alterarSinalPorcentagem(this.value)">
-                                <option value="mais">+</option>
-                                <option value="menos">-</option>
-                              </select>
-                              <input type="hidden" id="hiddenSinal" value="mais" name="sinal">
-                              <span class="input-group-text">%</span>
-                              <input type="text" id="campoPorcentagem" autocomplete="off" class="form-control" name="porcentagem" required>
+                            <div class="col">
+
+                                <form method="POST" action="php/adm_cadastrar_promocao.php">
+
+                                <input type="text" maxlength="25" placeholder="Nome" class="form-control" name="nome" required>
+
                             </div>
 
-                            <script>
+                        </div>
 
-                            $('#campoPorcentagem').keyup(function(){
-                                var valor_bruto = $('#campoPorcentagem').val().replace(/[^\d]/g, '');
-                                var valor = parseInt(0 + valor_bruto);
-                                var novoValor = pad(valor, 3);
-                                $('#campoPorcentagem').val(novoValor);
+                        <div class="row mt-3">
 
-                                mudarExemplosPreco($('#campoPorcentagem').val())
-                            });
+                            <div class="col">
 
+                                <input type="number" placeholder="Quantidade produtos" class="form-control" name="quantidade" required>
+                                <div class="form-text">Quantidade de produtos necessários para validar a promoção, no carrinho.</div>
 
-                            $(document).ready(function() {
-                                $('#campoPorcentagem').focus(function() { $(this).select(); } );
-                            });
+                            </div>
 
-                            function pad (str, max) {
-                              str = str.toString();
-                              str = str.length < max ? pad("0" + str, max) : str; // zero à esquerda
-                              str = str.length > max ? str.substr(0,max) : str; // máximo de caracteres
-                              return str;
-                            }
+                            <div class="col">
 
-                            </script>
+                              <input type="number" placeholder="Preço promoção" step=".01" class="form-control" name="preco" required>
+                              <div class="form-text">Quando o cliente validar a promoção, o pedido ficará esse preço.</div>
 
-                            <p class="mt-3 text-secondary">
-                              
-                              <b>Exemplos:</b><br>
-                              R$100,00 > <span id="amostra100">R$100,00</span><br>
-                              R$500,00 > <span id="amostra500">R$500,00</span><br>
-                              R$1000,00 > <span id="amostra1000">R$1000,00</span><br>
-                              R$2000,00 > <span id="amostra2000">R$2000,00</span>
-                            
-                            </p>
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-3">
+
+                            <div class="col">
+
+                                <textarea class="form-control" rows="3" placeholder="Descrição" maxlength="80" name="descricao" required></textarea>
+                                <div class="form-text">Crie uma descrição para sua promoção. Obs: NÃO é necessário informar nesse campo, formas de validação, como,
+                                  quantidade e preço, pois o sistema mostrará essas informação automaticamente.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-3">
+
+                          <div class="col">
+
+                              <button type="submit" class="form-control btn btn-success">CADASTRAR</button>
+
+                              </form>
+
+                          </div>
+
+                      </div>
 
                     </div>
 
-                    <div class="col-5">
+                    <div class="col-12 col-md-6">
 
-                          <select class="form-select" name="tipo" required>
+                        <h5 class="text-secondary d-none d-md-block">Minhas promoções</h5>
+                        <h5 class="text-secondary d-block d-md-none mt-3">Minhas promoções</h5>
 
-                              <option disabled selected hidden value="">Tipo</option>
-                              <option value="ouro">Ouro</option>
-                              <option value="prata">Prata</option>
+                        <small class="text-secondary">Clique sobre alguma promoção, para editar ou incluir produtos</small>
 
-                          </select>
+                        <?php
+                        
+                        $funcRetornaListaPromocoes = $classeProdutos->retorna_lista_promocoes();
 
-                          <button type="submit" onclick="if(window.confirm('Essa ação não poderá ser revertida! deseja continuar?')){}else{return false;}" class="btn btn-primary mt-3 form-control">AJUSTAR</button>
+                        if($funcRetornaListaPromocoes == false){
+                        
+                        ?>
 
-                        </form>
+                        <p class="text-center text-secondary mt-4 pt-1 pb-1 border-start border-end">NENHUMA PROMOÇÃO CADASTRADA</p>
+
+                        <?php
+                        
+                        }else{
+                        
+                        ?>
+
+                        <ol class="list-group list-group-flush" id="corpoListaPromocoes">
+
+                            <?php
+                            
+                            foreach($funcRetornaListaPromocoes as $arrPromocoes){
+                            
+                            ?>
+
+                            <li class="list-group-item d-flex list-group-item-action justify-content-between align-items-start" data-bs-toggle="modal" data-bs-target="#modalPromocao<?php echo $arrPromocoes["id"] ?>">
+                              <div class="ms-2 me-auto">
+                                <div class="fw-bold"><?php echo $arrPromocoes["nome"] ?></div>
+                                <?php echo $arrPromocoes["qtd_pecas"] ?> Produto(s) - R$<?php echo number_format($arrPromocoes["preco"], 2, ",", "") ?>
+                              </div>
+                            </li>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="modalPromocao<?php echo $arrPromocoes["id"] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel"><?php echo $arrPromocoes["nome"] ?></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+
+                                      <h5 class="text-secondary">Editar promoção</h5>
+
+                                      <img src="img/remover.png" onclick="if(window.confirm('Tem certeza que deseja excluir essa promoção?')){window.location='php/adm_remover_promocao.php?id=<?php echo $arrPromocoes["id"] ?>'}else{}" id="iconeRemoverPromocao">
+
+                                      <div class="row mt-3">
+
+                                        <div class="col">
+
+                                            <form method="POST" action="php/adm_atualizar_promocao.php">
+            
+                                            <label class="form-label">Nome</label>
+                                            <input type="text" maxlength="20" placeholder="Nome" class="form-control" name="nome" value="<?php echo $arrPromocoes["nome"] ?>">
+                                            <input type="hidden" name="id" value="<?php echo $arrPromocoes["id"] ?>">
+            
+                                        </div>
+            
+                                      </div>
+            
+                                      <div class="row mt-3">
+              
+                                          <div class="col">
+              
+                                              <label class="form-label">Quantidade produtos</label>
+                                              <input type="number" placeholder="Quantidade produtos" class="form-control" name="quantidade" value="<?php echo $arrPromocoes["qtd_pecas"] ?>">
+              
+                                          </div>
+              
+                                          <div class="col">
+
+                                            <label class="form-label">Preço promoção</label>
+                                            <input type="number" placeholder="Preço promoção" class="form-control" step=".01" name="preco" value="<?php echo $arrPromocoes["preco"] ?>">
+              
+                                          </div>
+              
+                                      </div>
+            
+                                      <div class="row mt-3">
+              
+                                          <div class="col">
+              
+                                              <label class="form-label">Descrição</label>
+                                              <textarea class="form-control" rows="3" placeholder="Descrição" name="descricao"><?php echo $arrPromocoes["descricao"] ?></textarea>
+              
+                                          </div>
+              
+                                      </div>
+            
+                                      <div class="row mt-3">
+              
+                                        <div class="col">
+              
+                                            <button type="submit" class="form-control btn btn-success">ATUALIZAR</button>
+
+                                            </form>
+              
+                                        </div>
+              
+                                      </div>
+
+                                      <h5 class="text-secondary mt-3" id="nomeAssociados">Produtos associados</h5>
+
+                                      <div id="espacoProdutosAssociados<?php echo $arrPromocoes["id"] ?>"></div>
+
+                                      <label class="text-secondary mt-4"><span id="maisNomeAssociar" class="me-2">+</span> Associar produtos</label>
+                                      <input autocomplete="off" id="campoBuscaProdutoPromocao<?php echo $arrPromocoes["id"] ?>" type="text" class="form-control" placeholder="Buscar produtos">
+                                      <div class="form-text">Digite o nome do produto, e clique em INCLUIR para associar um novo produto a promoção.</div>
+
+                                      <div id="espacoProdutosBusca<?php echo $arrPromocoes["id"] ?>">
+                                    
+                                          
+                                    
+                                      </div>
+                                    
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                  </div>
+
+                                  <script>
+
+                                    function buscar_produto_promocao<?php echo $arrPromocoes["id"] ?>(nome, id_promocao) {
+        
+                                      $.ajax({
+              
+                                          type: "POST",
+                                          dataType: "html",
+              
+                                          url: "ajax/adm_mostrar_produtos_configuracao.php",
+              
+                                          beforeSend: function () {
+              
+                                              $("#espacoProdutosBusca<?php echo $arrPromocoes["id"] ?>").html("<p class='text-center mt-3'><img style='width:80px' src='img/carregando3.gif'></p>");
+              
+                                          },
+              
+                                          data: {nome: nome, id_promocao: id_promocao},
+              
+                                          success: function (msg) {
+              
+                                              $("#espacoProdutosBusca<?php echo $arrPromocoes["id"] ?>").html(msg);
+              
+                                          }
+              
+                                      });
+              
+                                    }
+
+                                    $("#campoBuscaProdutoPromocao<?php echo $arrPromocoes["id"] ?>").keyup(function(event){
+
+                                        var nomeProduto = document.getElementById("campoBuscaProdutoPromocao<?php echo $arrPromocoes["id"] ?>").value;
+
+                                        buscar_produto_promocao<?php echo $arrPromocoes["id"] ?>(nomeProduto, <?php echo $arrPromocoes["id"] ?>);
+
+                                    })
+
+                                  </script>
+
+                                  <script>
+
+                                  function mostrar_produtos_listados<?php echo $arrPromocoes["id"] ?>(id_promocao) {
+
+                                      $.ajax({
+
+                                          type: "POST",
+                                          dataType: "html",
+
+                                          url: "ajax/adm_lista_produtos_associados.php",
+
+                                          beforeSend: function () {
+              
+                                              $("#espacoProdutosAssociados<?php echo $arrPromocoes["id"] ?>").html("<p class='text-center mt-3'><img style='width:80px' src='img/carregando3.gif'></p>");
+
+                                          },
+
+                                          data: {id_promocao: id_promocao},
+
+                                          success: function (msg) {
+
+                                              $("#espacoProdutosAssociados<?php echo $arrPromocoes["id"] ?>").html(msg);
+
+                                          }
+
+                                      });
+
+                                  }
+
+                                  function incluir_produto_promocao<?php echo $arrPromocoes["id"] ?>(id_promocao, id_produto) {
+
+                                      $.ajax({
+
+                                          type: "POST",
+                                          dataType: "html",
+
+                                          url: "php/adm_adicionar_produto_promocao.php",
+
+                                          data: {id_promocao: id_promocao, id_produto: id_produto},
+
+                                          success: function (msg) {
+
+                                              mostrar_produtos_listados<?php echo $arrPromocoes["id"] ?>(<?php echo $arrPromocoes["id"] ?>);
+
+                                          }
+
+                                      });
+
+                                  }
+
+                                  function apagar_produto_promocao<?php echo $arrPromocoes["id"] ?>(id_promocao, id_produto) {
+
+                                      $.ajax({
+
+                                          type: "POST",
+                                          dataType: "html",
+
+                                          url: "php/adm_apagar_produto_promocao.php",
+
+                                          data: {id_promocao: id_promocao, id_produto: id_produto},
+
+                                          success: function (msg) {
+
+                                              mostrar_produtos_listados<?php echo $arrPromocoes["id"] ?>(<?php echo $arrPromocoes["id"] ?>);
+
+                                          }
+
+                                      });
+
+                                  }
+
+                                  function chamarAjax<?php echo $arrPromocoes["id"] ?>(id_produto, id_promocao){
+
+                                      incluir_produto_promocao<?php echo $arrPromocoes["id"] ?>(id_promocao, id_produto);
+
+                                  }
+
+                                  function chamarAjaxApagar<?php echo $arrPromocoes["id"] ?>(id_produto, id_promocao){
+
+                                      apagar_produto_promocao<?php echo $arrPromocoes["id"] ?>(id_promocao, id_produto);
+
+                                  }
+
+                                  $(document).ready(function(){
+    
+                                      mostrar_produtos_listados<?php echo $arrPromocoes["id"] ?>(<?php echo $arrPromocoes["id"] ?>);
+
+                                  });
+
+                                  </script>
+
+                                </div>
+                              </div>
+                            </div>
+
+                            <?php
+                            
+                            }
+                            
+                            ?>
+
+                        </ol>
+
+                        <?php
+                        
+                        }
+                        
+                        ?>
 
                     </div>
 

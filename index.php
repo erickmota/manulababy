@@ -155,6 +155,10 @@ if(isset($_GET["url"])){
 
         }
   
+    }else{
+
+        include "paginas/404.php";
+
     }
 
 }else{

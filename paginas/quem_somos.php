@@ -14,19 +14,19 @@
     <meta name="robots" content="index">
 
     <!-- Google+ / Schema.org -->
-    <meta itemprop="name" content="Oscar Jóias">
+    <meta itemprop="name" content="Manulá Baby">
     <meta itemprop="description" content="Conhece um pouco mais da nossa história.">
     <meta itemprop="image" content="img/apresentacao.jpg">
 
     <!-- Open Graph Facebook -->
-    <meta property="og:title" content="Quem Somos - Oscar Jóias">
+    <meta property="og:title" content="Quem Somos - Manulá Baby">
     <meta property="og:description" content="Conhece um pouco mais da nossa história."/>
-    <meta property="og:site_name" content="Oscar Jóias"/>
+    <meta property="og:site_name" content="Manulá Baby"/>
     <meta property="og:type" content="website">
     <meta property="og:image" content="img/apresentacao.jpg">
 
     <!-- Twitter -->
-    <meta name="twitter:title" content="Oscar Jóias">
+    <meta name="twitter:title" content="Manulá Baby">
     <meta name="twitter:description" content="Conhece um pouco mais da nossa história.">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:image" content="img/apresentacao.jpg">

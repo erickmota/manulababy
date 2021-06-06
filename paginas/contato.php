@@ -3,31 +3,31 @@
 
 <head>
 
-    <title>Contato - Oscar Jóias</title>
+    <title>Contato - Manulá Baby</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO Geral -->
-    <meta name="description" content="Entre em contato com a equipe Oscar Jóias.">
+    <meta name="description" content="Entre em contato com a equipe Manulá Baby.">
     <meta name="author" content="erickmota.com">
     <meta name="robots" content="index">
 
     <!-- Google+ / Schema.org -->
-    <meta itemprop="name" content="Oscar Jóias">
-    <meta itemprop="description" content="Entre em contato com a equipe Oscar Jóias.">
+    <meta itemprop="name" content="Manulá Baby">
+    <meta itemprop="description" content="Entre em contato com a equipe Manulá Baby.">
     <meta itemprop="image" content="img/apresentacao.jpg">
 
     <!-- Open Graph Facebook -->
-    <meta property="og:title" content="Contato - Oscar Jóias">
-    <meta property="og:description" content="Entre em contato com a equipe Oscar Jóias."/>
-    <meta property="og:site_name" content="Oscar Jóias"/>
+    <meta property="og:title" content="Contato - Manulá Baby">
+    <meta property="og:description" content="Entre em contato com a equipe Manulá Baby."/>
+    <meta property="og:site_name" content="Manulá Baby"/>
     <meta property="og:type" content="website">
     <meta property="og:image" content="img/apresentacao.jpg">
 
     <!-- Twitter -->
-    <meta name="twitter:title" content="Oscar Jóias">
-    <meta name="twitter:description" content="Entre em contato com a equipe Oscar Jóias.">
+    <meta name="twitter:title" content="Manulá Baby">
+    <meta name="twitter:description" content="Entre em contato com a equipe Manulá Baby.">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:image" content="img/apresentacao.jpg">
 

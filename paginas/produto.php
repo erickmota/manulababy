@@ -15,12 +15,35 @@
     
     foreach($classeProdutos->retorna_dados_pelo_nome() as $arrProduto){
 
-        echo $arrProduto["nome"]." - Oscar Jóias";
+        echo $arrProduto["nome"]." - Manulá Baby";
     
     ?></title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Geral -->
+    <meta name="description" content="<?php echo $arrProduto["descricao"]; ?>">
+    <meta name="author" content="erickmota.com">
+    <meta name="robots" content="index">
+
+    <!-- Google+ / Schema.org -->
+    <meta itemprop="name" content="<?php echo $arrProduto["nome"]." - Manulá Baby"; ?>">
+    <meta itemprop="description" content="<?php echo $arrProduto["descricao"]; ?>">
+    <meta itemprop="image" content="img/produtos/<?php echo $arrProduto["foto"]; ?>">
+
+    <!-- Open Graph Facebook -->
+    <meta property="og:title" content="<?php echo $arrProduto["nome"]." - Manulá Baby"; ?>">
+    <meta property="og:description" content="<?php echo $arrProduto["descricao"]; ?>"/>
+    <meta property="og:site_name" content="Manulá Baby"/>
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="img/produtos/<?php echo $arrProduto["foto"]; ?>">
+
+    <!-- Twitter -->
+    <meta name="twitter:title" content="<?php echo $arrProduto["nome"]." - Manulá Baby"; ?>">
+    <meta name="twitter:description" content="<?php echo $arrProduto["descricao"]; ?>">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="img/produtos/<?php echo $arrProduto["foto"]; ?>">
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>

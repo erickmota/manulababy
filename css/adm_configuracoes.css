@@ -3,3 +3,52 @@
     color: rgb(54, 165, 3);
 
 }
+
+#corpoListaPromocoes{
+
+    max-height: 325px;
+    overflow-x: auto;
+
+}
+
+#corpoListaPromocoes li{
+
+    cursor: pointer;
+
+}
+
+#iconeRemoverPromocao{
+
+    width: 25px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+
+}
+
+#iconeRemoverProdutoPromocao{
+
+    width: 25px;
+    position: absolute;
+    top: 25px;
+    right: 15px;
+    cursor: pointer;
+
+}
+
+#imgProdutosPromocao{
+
+    width: 50px;
+    height: 60px;
+    object-fit: cover;
+    object-position: center;
+
+}
+
+#maisNomeAssociar{
+
+    color: rgb(54, 165, 3);
+    font-size: 40px;
+
+}
